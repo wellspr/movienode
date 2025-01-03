@@ -1,5 +1,20 @@
 {
-    "Movie": {
-        "release_date": "Release"
+    "MovieDetails": {
+        "release_date": "Release",
+        "country": "{count, plural, =1 {Country} other {Countries}}",
+        "image_gallery": "Image Gallery"
+    },
+    "MovieCredits": {
+        "cast": "Cast"
+    },
+    "MoviesListPagination": {
+        "previous": "Previous",
+        "next": "Next"
+    },
+    "HeaderNav": {
+        "popular": "Popular",
+        "now_playing": "Now Playing",
+        "top_rated": "Top Rated",
+        "upcoming": "Upcoming"
     }
 }

@@ -1,6 +1,6 @@
 import { regions } from "@/i18n/config";
 import { Locale } from "@/i18n/types";
-import { MovieDetails } from "@/types";
+import { MovieCreditsType, MovieDetailsType } from "@/types";
 
 const options = {
 	method: 'GET',
@@ -54,5 +54,18 @@ export const getMovieDetails = async (locale: Locale, movieId: string) => {
 
     const movieDetails = await response.json();
 
-    return movieDetails as MovieDetails;
+    return movieDetails as MovieDetailsType;
+}
+
+export const getMovieCredits = async (locale: Locale, movieId: string) => {
+	const movieCreditsURL = `${baseMovieURL}/${movieId}/credits?language=${locale}`;
+
+	const response = await fetch(movieCreditsURL, {
+		cache: 'no-store',
+		...options
+	});
+
+	const movieCredits = await response.json();
+
+	return movieCredits as MovieCreditsType;
 }

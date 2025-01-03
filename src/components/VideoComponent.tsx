@@ -1,10 +1,6 @@
-export default function VideoComponent({videoKey}:{videoKey: string}) {
+import { YouTubeEmbed } from "@next/third-parties/google";
 
-    const src = `https://www.youtube.com/embed/${videoKey}`;
+export default function VideoComponent({videoKey}:{videoKey: string}) {
     
-    return (
-        <iframe width="420" height="315" allowFullScreen
-            src={src}>
-        </iframe>
-    );
+    return <YouTubeEmbed videoid={videoKey} width={420} height={315} params="controls=1&allowFullScreen" />;
 }

@@ -2,32 +2,22 @@
 
 import { baseImageUrl } from "@/config";
 import { useScroll } from "@/hooks/useScroll";
-import { Images } from "@/types";
+import { BackdropType, ImagesType } from "@/types";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type Backdrop = {
-    aspect_ratio: number;
-    height: number;
-    iso_639_1: string;
-    file_path: string;
-    vote_average: number;
-    vote_count: number;
-    width: number;
-}
-
-export const DetailsImages = ({ movieImages }: { movieImages: Images }) => {
+export const DetailsImages = ({ movieImages }: { movieImages: ImagesType }) => {
 
     const { containerRef } = useScroll();
 
     const query = useSearchParams();
 
     const [selected, setSelected] = useState<{
-        previous: Backdrop | null,
-        current: Backdrop | null,
-        next: Backdrop | null,
+        previous: BackdropType | null,
+        current: BackdropType | null,
+        next: BackdropType | null,
     }>({ previous: null, current: movieImages.backdrops[0], next: movieImages.backdrops[1] || null });
 
     useEffect(() => {

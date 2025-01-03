@@ -1,5 +1,20 @@
 {
-    "Movie": {
-        "release_date": "Lançamento"
+    "MovieDetails": {
+        "release_date": "Lançamento",
+        "country": "{count, plural, =1 {País} other {Países}} de Origem",
+        "image_gallery": "Galeria de Imagens"
+    },
+    "MovieCredits": {
+        "cast": "Elenco"
+    },
+    "MoviesListPagination": {
+        "previous": "Anterior",
+        "next": "Próxima"
+    },
+    "HeaderNav": {
+        "popular": "Popular",
+        "now_playing": "Nos Cinemas",
+        "top_rated": "Melhor Avaliado",
+        "upcoming": "Em breve"
     }
 }

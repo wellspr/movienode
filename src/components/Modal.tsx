@@ -10,7 +10,6 @@ export const Modal = ({ children }: { children: React.ReactNode }) => {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-
         const currentContainer = ref.current;
 
         const handleKeyDown = (event: KeyboardEvent) => {

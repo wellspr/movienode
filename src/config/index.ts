@@ -12,8 +12,8 @@ export const paths = {
 }
 
 export const navLinks = [
-    {id: 1, name: "Popular", url: "/popular"},
-    {id: 2, name: "Now Playing", url: "/now_playing"},
-    {id: 3, name: "Top Rated", url: "/top_rated"},
-    {id: 4, name: "Upcoming", url: "/upcoming"},
+    {id: 1, name: "Popular", url: "/popular", translation: "popular"},
+    {id: 2, name: "Now Playing", url: "/now_playing", translation: "now_playing"},
+    {id: 3, name: "Top Rated", url: "/top_rated", translation: "top_rated"},
+    {id: 4, name: "Upcoming", url: "/upcoming", translation: "upcoming"},
 ];
