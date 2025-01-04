@@ -23,7 +23,7 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
             <div className="movie__header"></div>
 
             <div className="movie__main">
-                <section className="row">
+                <section className="primary">
                     <div className="movie-image">
                         <div className="movie-image__wrapper">
                             <Image src={baseImageUrl(500) + movie.poster_path} alt={movie.title} fill />
@@ -50,7 +50,7 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
                     </div>
                 </section>
 
-                <section className="column">
+                <section className="secondary">
                     <Credits movieCredits={movie.credits as MovieCreditsType} />
                     <div className="movie-production-countries">
                         <h4>{t('country', { count: movie.production_countries.length })}</h4>
