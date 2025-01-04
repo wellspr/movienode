@@ -2,7 +2,7 @@ import { navLinks } from "@/config";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
+import { useParams, useSelectedLayoutSegment } from "next/navigation";
 
 export const HeaderNav = () => {
 
@@ -11,13 +11,17 @@ export const HeaderNav = () => {
 
     const t = useTranslations("HeaderNav");
 
+    const segment = useSelectedLayoutSegment();
+
+
     return (
         <nav className="nav">
             {
                 navLinks.map(link => {
                     return (
-                        <Link className="link" key={link.id} locale={locale} href={link.url}>
-                            {t(link.translation)}
+                        <Link className={segment === link.translation ? "link--active" : "link"}
+                            key={link.id} locale={locale} href={link.url}>
+                            {t(`${link.translation}`)}
                         </Link>
                     );
                 })
