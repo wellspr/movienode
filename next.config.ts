@@ -17,6 +17,15 @@ const nextConfig: NextConfig = {
                 pathname: '/assets/**',
             }
         ]
+    },
+    async redirects() {
+        return [
+            {
+                source: `/:locale`,
+                destination: `/:locale/popular`,
+                permanent: false,
+            },
+        ]
     }
 };
 
