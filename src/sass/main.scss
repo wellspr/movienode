@@ -270,16 +270,14 @@ ul {
     //&__footer {}
 }
 
-.movie-image {
+.movie-poster {
     display: flex;
     justify-content: center;
 
     &__wrapper {
         display: block;
         position: relative;
-        width: 40rem;
-        height: 50rem;
-
+    
         img {
             border-radius: 0.4rem;
             object-fit: contain;
@@ -287,33 +285,28 @@ ul {
     }
 
     @media screen and (max-width: 640px) {
-        width: 100%;
         padding: 0 2rem;
-        flex-grow: 1;
 
         &__wrapper {
-            width: 100%;
-            height: 50rem;
-
-            img {
-                object-fit: contain;
-            }
+            width: 40rem;
+            height: 40rem;
         }
     }
 
     @media screen and (min-width: 641px) and (max-width: 768px) {
-        width: 100%;
         padding: 0 2rem;
-        flex-grow: 1;
 
         &__wrapper {
             width: 100%;
-            height: 80rem;
-
-            img {
-                object-fit: contain;
-            }
+            height: 50rem;
         }
+    }
+
+    @media screen and (min-width: 769px) {
+        &__wrapper {
+            width: 40rem;
+            height: 50rem;
+        }     
     }
 }
 
@@ -338,7 +331,7 @@ ul {
 
     &__release-date {
         font-size: 1.4rem;
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
     }
 
     &__link {
@@ -483,9 +476,7 @@ ul {
             position: relative;
 
             @media screen and (max-width: 768px) {
-                min-width: 15rem;
-                height: auto;
-                min-height: 12rem;
+                min-width: 25rem;
             }
 
             img {
@@ -500,9 +491,19 @@ ul {
 
 .movie-videos {
     margin: 3rem;
-
+    
     &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 5rem;
+
         &__item {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
             &__frame {
                 width: 100%;
                 display: flex;
