@@ -1,3 +1,14 @@
-export default function Layout({children}:{children: React.ReactNode}) {
-    return <>{children}</>
+export default function Layout({
+    children,
+    recommendations,
+}: {
+    children: React.ReactNode,
+    recommendations: React.ReactNode,
+}) {
+    return (
+        <>
+            {children}
+            {recommendations}
+        </>
+    );
 }
