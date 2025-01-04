@@ -158,4 +158,37 @@ export type VideosType = {
     }[]
 }
 
-export type Category = "popular" | "top_rated" | "upcoming" | "now_playing";
+export type CategoryType = "popular" | "top_rated" | "upcoming" | "now_playing";
+
+export type MovieRecommendationsType = {
+    page: number
+    results: MovieType[]
+    total_pages: number
+    total_results: number
+}
+
+export type SimilarMoviesType = {
+    page: number
+    results: MovieType[]
+    total_pages: number
+    total_results: number
+}
+
+export type WatchProvidersType = {
+    id: number
+    results: {
+        [key: string]: {
+            link: string
+            buy: ProviderType[]
+            flatrate: ProviderType[]
+            rent: ProviderType[]
+        }
+    }
+}
+
+export type ProviderType = {
+    logo_path: string
+    provider_id: number
+    provider_name: string
+    display_priority: number
+}
