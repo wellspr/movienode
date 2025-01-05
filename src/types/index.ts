@@ -44,6 +44,7 @@ export type MovieDetailsType = {
     images?: ImagesType
     videos?: VideosType
     credits?: MovieCreditsType
+    watch_providers?: WatchProvidersType
 }
 
 export type MovieGenresType = {
@@ -94,13 +95,13 @@ export type MovieCrew = {
     adult: boolean
     gender: number
     id: number
-    known_: string
+    known_for_department: string
     name: string
-    origin: string
-    popula: number
-    profil: string
-    credit: string
-    depart: string
+    original_name: string
+    popularity: number
+    profile_path: string
+    credit_id: string
+    department: string
     job: string
 }[]
 

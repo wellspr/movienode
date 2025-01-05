@@ -87,6 +87,20 @@ ul {
     }
 }
 
+.button {
+    padding: 0.8rem 1.6rem;
+    border: 0.1rem solid;
+    background-color: #aaa;
+    color: #111;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        background-color: #eee;
+    }
+}
+
 .header {
     width: 100%;
     padding: 2rem 0;
@@ -230,6 +244,7 @@ ul {
 .primary {
     display: flex;
     gap: 3rem;
+    margin-bottom: 3rem;
 
     @media screen and (max-width: 768px) {
         flex-direction: column;
@@ -350,7 +365,33 @@ ul {
         flex-wrap: wrap;
         font-size: 1.4rem;
         gap: 1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    &__watch-now {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
+
+        &__options {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 5rem;
+
+            &__option {
+
+                margin-top: 1rem;
+                
+                &__providers {
+                    margin-top: 1rem;
+                    display: flex;
+                    gap: 1rem;
+                }
+            }
+        }
     }
 
     @media screen and (max-width: 768px) {
@@ -471,8 +512,7 @@ ul {
 
         &__item {
             min-width: 30rem;
-            height: auto;
-            min-height: 20rem;
+            min-height: 15rem;
             position: relative;
 
             @media screen and (max-width: 768px) {
@@ -514,10 +554,11 @@ ul {
 }
 
 .movie-credits {
-    position: relative;
-    margin-top: 2rem;
-    margin-bottom: 3rem;
-    margin: 2rem 3rem;
+
+    &__cast, &__crew {
+        position: relative;
+        margin: 3rem;
+    }
 
     &__list {
         display: flex;
@@ -528,19 +569,25 @@ ul {
         &__item {
             &__profile-pic-wrapper {
                 width: 10rem;
-                height: 20rem;
+                height: 12rem;
                 position: relative;
 
                 img {
-                    object-fit: contain;
+                    object-fit: cover;
+                    object-position: top;
+                    border-radius: .6rem;
                 }
             }
 
             &__name {
                 font-size: 1.6rem;
+                margin-top: 1rem;
             }
             &__character {
-                font-size: 1.4rem;
+                font-size: 1.2rem;
+            }
+            &__job {
+                font-size: 1.2rem;
             }
         }
     }
@@ -548,9 +595,18 @@ ul {
 
 .movie-details__images {
     //margin: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
 
     &__selected-outer {
         position: relative;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     &__nav-button {
@@ -576,13 +632,13 @@ ul {
 
     &__selected {
         position: relative;
-        min-width: 50rem;
-        min-height: 50rem;
+        width: 90vw;
+        height: 65vh;
 
         margin-bottom: 1rem;
 
         img {
-            width: 30rem;
+            width: 100%;
             height: auto;
             object-fit: contain;
         }

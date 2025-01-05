@@ -4,8 +4,18 @@
         "country": "{count, plural, =1 {Country} other {Countries}}",
         "image_gallery": "Image Gallery"
     },
+    "MovieWatchProviders": {
+        "heading": "Watch Now",
+        "watch_now": {
+            "link": "Watch Now",
+            "buy": "Buy",
+            "rent": "Rent",
+            "flatrate": "Stream"
+        }
+    },
     "MovieCredits": {
-        "cast": "Cast"
+        "cast": "Cast",
+        "crew": "Crew"
     },
     "MoviesListPagination": {
         "previous": "Previous",

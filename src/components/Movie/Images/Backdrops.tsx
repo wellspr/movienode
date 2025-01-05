@@ -15,6 +15,8 @@ export const Backdrops = ({ backdrops }: { backdrops?: BackdropsType }) => {
 
     const { movieId, locale } = useParams();
 
+    console.log(backdrops);
+
     return (
         <>
             {

@@ -12,10 +12,13 @@ import { ProductionCountries } from "./ProductionCountries";
 import { ProductionCompanies } from "./ProductionCompanies";
 import { Poster } from "./Poster";
 import { Backdrops } from "./Images/Backdrops";
+import { WatchProviders } from "./WatchProviders";
 
 export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Locale }) => {
 
     const t = useTranslations("MovieDetails");
+
+    console.log(movie.vote_average, movie.vote_count);
 
     return (
         <div className="movie">
@@ -46,7 +49,28 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
                                 <Genres movieGenres={movie.genres} />
                             </div>
                         }
+                        {
+                            movie.watch_providers && 
+                            movie.watch_providers.results &&
+                            movie.watch_providers.results[locale.split('-')[1]] &&
+                            <WatchProviders
+                                locale={locale}
+                                watchProviders={movie.watch_providers}
+                            />
+                        }
                     </div>
+                </section>
+
+                <section className="recommendations">
+                    <Link className="button" href={`/details/${movie.id}/recommendations`}>
+                        Recommendations
+                    </Link>
+                </section>
+
+                <section className="similar">
+                    <Link className="button" href={`/details/${movie.id}/similar`}>
+                        Similar
+                    </Link>
                 </section>
 
                 <section className="secondary">
