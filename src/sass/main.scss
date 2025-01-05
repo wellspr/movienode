@@ -244,11 +244,10 @@ ul {
 .primary {
     display: flex;
     gap: 3rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
 
     @media screen and (max-width: 768px) {
         flex-direction: column;
-        
     }
 }
 
@@ -256,6 +255,13 @@ ul {
     display: flex;
     flex-direction: column;
     gap: 3rem;
+}
+
+.recommendations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0 2rem;
 }
 
 .movie {
@@ -292,7 +298,7 @@ ul {
     &__wrapper {
         display: block;
         position: relative;
-    
+
         img {
             border-radius: 0.4rem;
             object-fit: contain;
@@ -321,7 +327,7 @@ ul {
         &__wrapper {
             width: 40rem;
             height: 50rem;
-        }     
+        }
     }
 }
 
@@ -382,9 +388,8 @@ ul {
             gap: 5rem;
 
             &__option {
-
                 margin-top: 1rem;
-                
+
                 &__providers {
                     margin-top: 1rem;
                     display: flex;
@@ -416,7 +421,7 @@ ul {
 }
 
 .movie-production-countries {
-    margin: 0 3rem;
+    margin: 0 2rem;
 
     &__list {
         display: flex;
@@ -432,7 +437,7 @@ ul {
 }
 
 .movie-production-companies {
-    margin: 3rem;
+    margin: 2rem;
     background-color: #ddd;
     max-width: 100%;
     overflow: hidden;
@@ -478,7 +483,7 @@ ul {
 }
 
 .movie-images {
-    margin: 3rem;
+    margin: 2rem;
     max-width: 100%;
     position: relative;
     overflow: hidden;
@@ -530,15 +535,16 @@ ul {
 }
 
 .movie-videos {
-    margin: 3rem;
-    
+    margin: 2rem;
+
     &__list {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
         gap: 5rem;
 
         &__item {
-            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -554,10 +560,10 @@ ul {
 }
 
 .movie-credits {
-
-    &__cast, &__crew {
+    &__cast,
+    &__crew {
         position: relative;
-        margin: 3rem;
+        margin: 2rem;
     }
 
     &__list {
@@ -575,7 +581,7 @@ ul {
                 img {
                     object-fit: cover;
                     object-position: top;
-                    border-radius: .6rem;
+                    border-radius: 0.6rem;
                 }
             }
 

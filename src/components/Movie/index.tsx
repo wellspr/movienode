@@ -65,9 +65,6 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
                     <Link className="button" href={`/details/${movie.id}/recommendations`}>
                         Recommendations
                     </Link>
-                </section>
-
-                <section className="similar">
                     <Link className="button" href={`/details/${movie.id}/similar`}>
                         Similar
                     </Link>
