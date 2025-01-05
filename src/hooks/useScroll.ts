@@ -25,15 +25,28 @@ export const useScroll = () => {
             }
         });
 
+        const onWheel = (e: WheelEvent) => {
+            if (e.deltaY === 0) return;
+
+            e.preventDefault();
+
+            containerRef.current?.scrollBy({
+                left: 2 * e.deltaY,
+                behavior: "smooth",
+            });
+        }
+
         const container = containerRef.current;
 
         if (container) {
             resize.observe(container);
+            container.addEventListener("wheel", onWheel);
         }
 
         return () => {
             if (container) {
                 resize.unobserve(container);
+                container.removeEventListener("wheel", onWheel);
             }
         }
     }, []);
