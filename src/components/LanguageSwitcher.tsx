@@ -1,36 +1,38 @@
 import { flags, locales, regions } from "@/i18n/config";
-import { useRouter } from "@/i18n/routing";
+import { usePathname } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import Image from "next/image";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
 export const LanguageSwitcher = () => {
 
     const params = useParams();
-    const router = useRouter();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     const locale = params.locale as Locale;
 
-
     const changeLocale = useCallback((locale: Locale) => {
 
-        let currentPathname = "";
+        const query: { [key: string]: string } = {};
 
-        if (pathname.startsWith("/en-US")) {
-            currentPathname = pathname.split("/en-US")[1] || "/";
-        }
+        searchParams.forEach((value, key) => {
+            query[key] = value;
+        });
 
-        if (pathname.startsWith("/pt-BR")) {
-            currentPathname = pathname.split("/pt-BR")[1] || "/";
-        }
+        const urlSearchParams = new URLSearchParams(query);
 
-        // @ts-expect-error -- TypeScript will validate that only known `params`
-        // are used in combination with a given `pathname`. Since the two will
-        // always match for the current route, we can skip runtime checks.
-        router.replace({ pathname: currentPathname, params }, { locale });
-    }, [params, pathname, router]);
+        const url = new URL(`/${locale}${pathname}`, window.location.origin);
+
+        urlSearchParams.forEach((value, key) => {
+            url.searchParams.set(key, value);
+        });
+
+        window.history.replaceState(null, "", url.href);
+        window.location.reload();
+
+    }, [pathname, searchParams]);
 
     return (
         <div className="language-switcher">

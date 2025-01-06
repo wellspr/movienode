@@ -2,5 +2,9 @@
     "marscode.codeCompletionPro": {
         "enableCodeCompletionPro": false
     },
-    "marscode.enableInlineCommand": true
+    "marscode.enableInlineCommand": true,
+    "i18n-ally.localesPaths": [
+        "src/i18n",
+        "src/messages"
+    ]
 }

@@ -6,6 +6,9 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 export const Credits = ({ movieCredits }: { movieCredits: MovieCreditsType }) => {
+
+    console.log(movieCredits);
+
     return (
         <div className="movie-credits">
 
@@ -25,7 +28,7 @@ const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
 
     return (
         <div className="movie-credits__cast">
-            <h4>{t('cast')}</h4>
+            <h4>{t("cast")}</h4>
 
             {
                 isOverflown &&
@@ -36,11 +39,14 @@ const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
             }
             <ul className="movie-credits__list" ref={containerRef}>
                 {
-                    cast.map(entry => {
+                    cast.map((entry, index) => {
                         return (
-                            <li key={entry.id} className="movie-credits__list__item">
+                            <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
                                 <div className="movie-credits__list__item__profile-pic-wrapper">
-                                    <Image src={baseImageUrl(500) + entry.profile_path} alt={entry.name} fill />
+                                    {
+                                        entry.profile_path &&
+                                        <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill />
+                                    }
                                 </div>
                                 <h3 className="movie-credits__list__item__name">{entry.name}</h3>
                                 <p className="movie-credits__list__item__character">({entry.character})</p>
@@ -79,11 +85,14 @@ const Crew = ({ crew }: { crew: MovieCreditsType['crew'] }) => {
             }
             <ul className="movie-credits__list" ref={containerRef}>
                 {
-                    crew.map(entry => {
+                    crew.map((entry, index) => {
                         return (
-                            <li key={entry.id + "-" + entry.job} className="movie-credits__list__item">
+                            <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
                                 <div className="movie-credits__list__item__profile-pic-wrapper">
-                                    <Image src={baseImageUrl(500) + entry.profile_path} alt={entry.name} fill />
+                                    {
+                                        entry.profile_path &&
+                                        <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill />
+                                    }
                                 </div>
                                 <h3 className="movie-credits__list__item__name">{entry.name}</h3>
                                 <p className="movie-credits__list__item__job">{entry.job}</p>

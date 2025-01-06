@@ -1,7 +1,4 @@
-'use client'
-import { useEffect } from "react"
-
-// Error boundaries must be Client Components
+'use client' // Error boundaries must be Client Components
 
 export default function GlobalError({
     error,
@@ -11,10 +8,7 @@ export default function GlobalError({
     reset: () => void
 }) {
 
-    useEffect(() => {
-        console.log(error);
-    }, [error]);
-
+    console.log(error);
     return (
         // global-error must include html and body tags
         <html>
