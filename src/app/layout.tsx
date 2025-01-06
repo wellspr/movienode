@@ -1,4 +1,5 @@
 import "@/styles/index.css";
+import { getLocale } from "next-intl/server";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,8 +13,10 @@ export default async function RootLayout({
     children: React.ReactNode,
 }>) {
 
+    const locale = await getLocale();
+
     return (
-        <html lang={"pt-BR"}>
+        <html lang={locale}>
             <body>
                 {children}
             </body>
