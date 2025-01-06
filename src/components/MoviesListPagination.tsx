@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
-import { Category } from "@/types";
+import { CategoryType } from "@/types";
 import { useTranslations } from "next-intl";
 
 export const MoviesListPagination = ({
@@ -11,7 +11,7 @@ export const MoviesListPagination = ({
 }: {
     page: string,
     total_pages: number,
-    category?: Category,
+    category?: CategoryType,
     locale: Locale
 }) => {
 

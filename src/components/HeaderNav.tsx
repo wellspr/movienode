@@ -21,7 +21,7 @@ export const HeaderNav = () => {
                     return (
                         <Link className={segment === link.translation ? "link--active" : "link"}
                             key={link.id} locale={locale} href={link.url}>
-                            {t(`${link.translation}`)}
+                            {t(link.translation as 'popular' | 'now_playing' | 'top_rated' | 'upcoming')}
                         </Link>
                     );
                 })

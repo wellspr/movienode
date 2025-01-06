@@ -26,7 +26,7 @@ export const WatchProviders = ({
                             if (key !== 'link') {
                                 return (
                                     <div className="movie-info__watch-now__options__option" key={key}>
-                                        <h5>{t(`watch_now.${key}`)}</h5>
+                                        <h5>{t(`watch_now.${key as 'link' | 'buy' | 'rent' | 'flatrate'}`)}</h5>
                                         <ul className="movie-info__watch-now__options__option__providers">
                                             {
                                                 Object.values(value).map((provider, index) => (
