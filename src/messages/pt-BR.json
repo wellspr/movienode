@@ -1,30 +1,34 @@
 {
-    "MovieDetails": {
-        "release_date": "Lançamento",
-        "country": "{count, plural, =1 {País} other {Países}} de Origem",
-        "image_gallery": "Galeria de Imagens"
-    },
-    "MovieWatchProviders": {
-        "heading": "Assista Agora",
-        "watch_now": {
-            "link": "Assista Agora",
-            "buy": "Comprar",
-            "rent": "Alugar",
-            "flatrate": "Streaming"
-        }
-    },
-    "MovieCredits": {
-        "cast": "Elenco",
-        "crew": "Equipe"
-    },
-    "MoviesListPagination": {
-        "previous": "Anterior",
-        "next": "Próxima"
-    },
-    "HeaderNav": {
-        "popular": "Popular",
-        "now_playing": "Nos Cinemas",
-        "top_rated": "Melhor Avaliado",
-        "upcoming": "Em breve"
+  "MovieDetails": {
+    "release_date": "Lançamento",
+    "country": "{count, plural, =1 {País} other {Países}} de Origem",
+    "image_gallery": "Galeria de Imagens"
+  },
+  "MovieWatchProviders": {
+    "heading": "Assista Agora",
+    "watch_now": {
+      "link": "Assista Agora",
+      "buy": "Comprar",
+      "rent": "Alugar",
+      "flatrate": "Streaming"
     }
+  },
+  "MovieCredits": {
+    "cast": "Elenco",
+    "crew": "Equipe"
+  },
+  "MoviesListPagination": {
+    "previous": "Anterior",
+    "next": "Próxima"
+  },
+  "HeaderNav": {
+    "popular": "Popular",
+    "now_playing": "Nos Cinemas",
+    "top_rated": "Melhor Avaliado",
+    "upcoming": "Em breve"
+  },
+  "Search": {
+    "placeholder": "Buscar filme",
+    "search": "Buscar"
+  }
 }

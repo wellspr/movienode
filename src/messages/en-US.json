@@ -1,30 +1,34 @@
 {
-    "MovieDetails": {
-        "release_date": "Release",
-        "country": "{count, plural, =1 {Country} other {Countries}}",
-        "image_gallery": "Image Gallery"
-    },
-    "MovieWatchProviders": {
-        "heading": "Watch Now",
-        "watch_now": {
-            "link": "Watch Now",
-            "buy": "Buy",
-            "rent": "Rent",
-            "flatrate": "Stream"
-        }
-    },
-    "MovieCredits": {
-        "cast": "Cast",
-        "crew": "Crew"
-    },
-    "MoviesListPagination": {
-        "previous": "Previous",
-        "next": "Next"
-    },
-    "HeaderNav": {
-        "popular": "Popular",
-        "now_playing": "Now Playing",
-        "top_rated": "Top Rated",
-        "upcoming": "Upcoming"
+  "MovieDetails": {
+    "release_date": "Release",
+    "country": "{count, plural, =1 {Country} other {Countries}}",
+    "image_gallery": "Image Gallery"
+  },
+  "MovieWatchProviders": {
+    "heading": "Watch Now",
+    "watch_now": {
+      "link": "Watch Now",
+      "buy": "Buy",
+      "rent": "Rent",
+      "flatrate": "Stream"
     }
+  },
+  "MovieCredits": {
+    "cast": "Cast",
+    "crew": "Crew"
+  },
+  "MoviesListPagination": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "HeaderNav": {
+    "popular": "Popular",
+    "now_playing": "Now Playing",
+    "top_rated": "Top Rated",
+    "upcoming": "Upcoming"
+  },
+  "Search": {
+    "placeholder": "",
+    "search": "Search"
+  }
 }

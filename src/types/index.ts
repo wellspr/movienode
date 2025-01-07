@@ -199,9 +199,8 @@ export type SearchResultsType = {
     results: {
         adult: boolean
         backdrop_path: string
-        genre_ids: {
-            id: number
-        }
+        genre_ids: number[] 
+        id: number
         original_language: string
         original_title: string
         overview: string
@@ -212,7 +211,7 @@ export type SearchResultsType = {
         video: boolean
         vote_average: number
         vote_count: number
-    }
+    }[]
     total_pages: number
     total_results: number
 }
