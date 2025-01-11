@@ -1,25 +1,32 @@
 {
-  "MovieDetails": {
+  "Movie": {
     "release_date": "Lançamento",
     "country": "{count, plural, =1 {País} other {Países}} de Origem",
-    "image_gallery": "Galeria de Imagens"
-  },
-  "MovieWatchProviders": {
-    "heading": "Assista Agora",
-    "watch_now": {
-      "link": "Assista Agora",
-      "buy": "Comprar",
-      "rent": "Alugar",
-      "flatrate": "Streaming"
+    "image_gallery": "Galeria de Imagens",
+    "recommendations": "Recomendações",
+    "similar": "Similares",
+    "WatchProviders": {
+      "heading": "Assista Agora",
+      "info": "Os dados abaixo são fornecidos pela JustWatch. Ao clicar nos links abaixo você será levado à página no TMDB",
+      "watch_now": {
+        "link": "Assista Agora",
+        "ads": "Propaganda",
+        "free": "Gratuito",
+        "buy": "Comprar",
+        "rent": "Alugar",
+        "flatrate": "Streaming"
+      }
+    },
+    "Credits": {
+      "cast": "Elenco",
+      "crew": "Equipe"
     }
   },
-  "MovieCredits": {
-    "cast": "Elenco",
-    "crew": "Equipe"
-  },
-  "MoviesListPagination": {
-    "previous": "Anterior",
-    "next": "Próxima"
+  "Movies": {
+    "ListPagination": {
+      "previous": "Anterior",
+      "next": "Próxima"
+    }
   },
   "HeaderNav": {
     "popular": "Popular",
@@ -27,7 +34,7 @@
     "top_rated": "Melhor Avaliado",
     "upcoming": "Em breve"
   },
-  "Search": {
+  "MovieSearch": {
     "placeholder": "Buscar filme",
     "search": "Buscar"
   }

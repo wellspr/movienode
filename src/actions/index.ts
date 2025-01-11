@@ -2,8 +2,11 @@ import { regions } from "@/i18n/config";
 import { Locale } from "@/i18n/types";
 import {
 	CategoryType,
+	FilteringType,
 	MovieCreditsType,
 	MovieDetailsType,
+	MovieGenresType,
+	MovieGenreType,
 	MovieRecommendationsType,
 	SearchResultsType,
 	SimilarMoviesType,
@@ -143,4 +146,52 @@ export const searchMovie = async (locale: Locale, query: string, page?: string) 
 	const searchResults = await response.json();
 
 	return searchResults as SearchResultsType;
+};
+
+export const discoverMovie = async (locale: Locale, queryList: FilteringType, page?: string) => {
+
+	let url = `${baseMovieURL}/discover/movie?language=${locale}`;
+
+	if (page) {
+		url = url + `&page=${page}`;
+	}
+
+	Object.entries(queryList).forEach(([key, value]) => {
+		url = url + `&${key}=${value}`;
+	});
+
+	console.log(url);
+
+	const response = await fetch(url, {
+		cache: 'no-cache',
+		...options,
+	});
+
+	const results = await response.json();
+
+	return results;
+};
+
+export const getMovieGenreList = async (locale: Locale) => {
+	const url = `${baseMovieURL}/genre/movie/list?language=${locale}`;
+
+	const response = await fetch(url, {
+		cache: 'default',
+		...options
+	});
+
+	const { genres } = await response.json();
+
+	return genres as MovieGenresType;
+};
+
+export const getMovieGenre = async (locale: Locale, id: string) => {
+
+	const genres = await getMovieGenreList(locale);
+
+	const genre = genres.filter(genre => {
+		return String(genre.id) === id;
+	})[0];
+
+	return genre as MovieGenreType;
 };

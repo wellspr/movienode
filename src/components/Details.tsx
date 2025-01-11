@@ -1,4 +1,4 @@
-import { getMovieCredits, getMovieDetails, getWatchProviders } from "@/actions";
+import { getMovieCredits, getMovieDetails, getMovieRecommendations, getSimilarMovies, getWatchProviders } from "@/actions";
 import { Movie } from "./Movie";
 import { Locale } from "@/i18n/types";
 
@@ -9,6 +9,19 @@ export const Details = async ({ movieId, locale }: { movieId: string, locale: Lo
     const credits = await getMovieCredits(locale, movieId);
 
     const watchProviders = await getWatchProviders(locale, movieId);
-    
-    return <Movie movie={{ ...movie, credits, watch_providers: watchProviders }} locale={locale} />;
+
+    const recommendations = await getMovieRecommendations(locale, movieId);
+
+    const similar = await getSimilarMovies(locale, movieId);
+
+    return <Movie
+        movie={{
+            ...movie,
+            credits,
+            watch_providers: watchProviders,
+            recommendations,
+            similar
+        }}
+        locale={locale}
+    />;
 };

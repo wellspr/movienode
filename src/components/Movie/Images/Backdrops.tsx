@@ -11,17 +11,16 @@ import { useParams } from "next/navigation";
 
 export const Backdrops = ({ backdrops }: { backdrops?: BackdropsType }) => {
 
-    const { scrollLeft, scrollRight, containerRef, isOverflown } = useScroll();
+    const { scrollLeft, scrollRight, containerRef, buttonLeftRef, buttonRightRef, isOverflown } = useScroll();
 
     const { movieId, locale } = useParams();
-
-    console.log(backdrops);
 
     return (
         <>
             {
                 isOverflown &&
                 <button className="icon movie-images__nav-button movie-images__nav-button--left"
+                    ref={buttonLeftRef}
                     onClick={scrollLeft}>
                     <IconChevronLeft size={30} />
                 </button>
@@ -48,6 +47,7 @@ export const Backdrops = ({ backdrops }: { backdrops?: BackdropsType }) => {
             {
                 isOverflown &&
                 <button className="icon movie-images__nav-button movie-images__nav-button--right"
+                    ref={buttonRightRef}
                     onClick={scrollRight}>
                     <IconChevronRight size={30} />
                 </button>

@@ -45,12 +45,16 @@ export type MovieDetailsType = {
     videos?: VideosType
     credits?: MovieCreditsType
     watch_providers?: WatchProvidersType
+    recommendations?: MovieRecommendationsType
+    similar?: SimilarMoviesType
 }
 
-export type MovieGenresType = {
+export type MovieGenreType = {
     id: number,
     name: string
-}[]
+}
+
+export type MovieGenresType = MovieGenreType[]
 
 export type MovieProductionCompaniesType = {
     id: number
@@ -180,12 +184,17 @@ export type WatchProvidersType = {
     results: {
         [key: string]: {
             link: string
+            ads?: ProviderType[]
+            free?: ProviderType[]
             buy: ProviderType[]
             flatrate: ProviderType[]
             rent: ProviderType[]
         }
     }
 }
+
+export type WatchProvidersMod = 
+'link' | 'ads' | 'free' | 'buy' | 'flatrate' | 'rent'
 
 export type ProviderType = {
     logo_path: string
@@ -214,4 +223,31 @@ export type SearchResultsType = {
     }[]
     total_pages: number
     total_results: number
+}
+
+export type FilteringType = {
+    include_adult?: boolean
+    include_video?: boolean
+    language?: string
+    page?: number
+    primary_release_year?: number
+    region?: string
+    sort_by?: string
+    watch_region?: string
+    with_cast?: string
+    with_companies?: string
+    with_crew?: string
+    with_genres?: string
+    with_keywords?: string
+    with_origin_country?: string
+    with_original_language?: string
+    with_people?: string
+    with_release_type?: number /* possible values are: [1, 2, 3, 4, 5, 6] can be a comma (AND) or pipe (OR) separated query, can be used in conjunction with region */
+    with_watch_monetization_types?: string /* possible values are: [flatrate, free, ads, rent, buy] use in conjunction with watch_region, can be a comma (AND) or pipe (OR) separated query */
+    with_watch_providers?: string /* use in conjunction with watch_region, can be a comma (AND) or pipe (OR) separated query */
+    without_companies?: string
+    without_genres?: string
+    without_keywords?: string
+    without_watch_providers?: string
+    year?: number
 }

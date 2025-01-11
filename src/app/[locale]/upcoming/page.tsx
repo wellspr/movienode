@@ -23,7 +23,7 @@ export default async function Page({
 	return (
 		<div className="movies">
 			<MoviesList results={results} locale={locale} />
-			<MoviesListPagination page={page} total_pages={total_pages} category="upcoming" locale={locale} />
+			<MoviesListPagination page={page} total_pages={total_pages} locale={locale} />
 		</div>
 	);
 }

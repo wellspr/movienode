@@ -2,11 +2,54 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const useScroll = () => {
+type Config = { wheelScroll: boolean }
+
+export const useScroll = (config?: Config) => {
 
     const containerRef = useRef<HTMLUListElement>(null);
+    const buttonLeftRef = useRef<HTMLButtonElement>(null);
+    const buttonRightRef = useRef<HTMLButtonElement>(null);
 
     const [isOverflown, setIsOverflown] = useState<boolean>(false);
+
+    useEffect(() => {
+        const container = containerRef.current;
+
+        const handleScroll = (e: Event) => {
+            const buttonLeft = buttonLeftRef.current;
+            const buttonRight = buttonRightRef.current;
+            const target = e.target as Element;
+
+            if (buttonLeft) {
+                if (target.scrollLeft > 100) {
+                    buttonLeft.classList.add("show")
+                } else {
+                    buttonLeft.classList.remove("show")
+                }
+            }
+
+            if (buttonRight) {
+                if (container) {
+                    if (target.scrollWidth - target.scrollLeft - container.getBoundingClientRect().width < 100) {
+                        buttonRight.classList.add("hide");
+                    } else {
+                        buttonRight.classList.remove("hide");
+                    }
+                }
+            }
+        }
+
+        if (container) {
+            container.addEventListener("scroll", handleScroll);
+        }
+
+        return () => {
+            if (container) {
+                container.removeEventListener("scroll", handleScroll);
+            }
+        }
+
+    }, [containerRef, buttonLeftRef, buttonRightRef]);
 
     useEffect(() => {
         const resize = new ResizeObserver(() => {
@@ -40,16 +83,21 @@ export const useScroll = () => {
 
         if (container) {
             resize.observe(container);
-            container.addEventListener("wheel", onWheel);
+
+            if (config && config.wheelScroll) {
+                container.addEventListener("wheel", onWheel);
+            }
         }
 
         return () => {
             if (container) {
                 resize.unobserve(container);
-                container.removeEventListener("wheel", onWheel);
+                if (config && config.wheelScroll) {
+                    container.removeEventListener("wheel", onWheel);
+                }
             }
         }
-    }, []);
+    }, [config]);
 
     const scrollLeft = useCallback(() => {
         containerRef.current?.scrollBy({
@@ -69,6 +117,8 @@ export const useScroll = () => {
         scrollLeft,
         scrollRight,
         containerRef,
+        buttonLeftRef,
+        buttonRightRef,
         isOverflown,
     };
 };

@@ -17,3 +17,5 @@ export const navLinks = [
     {id: 3, name: "Top Rated", url: "/top_rated", translation: "top_rated"},
     {id: 4, name: "Upcoming", url: "/upcoming", translation: "upcoming"},
 ];
+
+export const appName = "MovieNode";

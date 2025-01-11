@@ -1,4 +1,5 @@
-import { Header } from "@/components/Header";
+import { Footer } from "@/components/Layout/Footer";
+import { Header } from "@/components/Layout/Header";
 import { routing } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { NextIntlClientProvider } from "next-intl";
@@ -26,6 +27,7 @@ export default async function Layout({
 			<Header />
 			{modal}
 			{children}
+			<Footer />
 		</NextIntlClientProvider>
 	);
 }

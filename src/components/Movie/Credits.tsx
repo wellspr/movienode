@@ -7,8 +7,6 @@ import Image from "next/image";
 
 export const Credits = ({ movieCredits }: { movieCredits: MovieCreditsType }) => {
 
-    console.log(movieCredits);
-
     return (
         <div className="movie-credits">
 
@@ -22,9 +20,9 @@ export const Credits = ({ movieCredits }: { movieCredits: MovieCreditsType }) =>
 
 const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
 
-    const { containerRef, isOverflown, scrollLeft, scrollRight } = useScroll();
+    const { containerRef, buttonLeftRef, buttonRightRef, isOverflown, scrollLeft, scrollRight } = useScroll();
 
-    const t = useTranslations('MovieCredits');
+    const t = useTranslations('Movie.Credits');
 
     return (
         <div className="movie-credits__cast">
@@ -33,6 +31,7 @@ const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
             {
                 isOverflown &&
                 <button className="icon circle-button circle-button--left"
+                    ref={buttonLeftRef}
                     onClick={scrollLeft}>
                     <IconChevronLeft size={30} />
                 </button>
@@ -44,12 +43,18 @@ const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
                             <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
                                 <div className="movie-credits__list__item__profile-pic-wrapper">
                                     {
-                                        entry.profile_path &&
-                                        <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill />
+                                        entry.profile_path ?
+                                            <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill /> :
+                                            <div className="movie-credits__list__item__profile-pic-no-image">
+                                                {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]} 
+                                                {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
+                                            </div>
                                     }
                                 </div>
                                 <h3 className="movie-credits__list__item__name">{entry.name}</h3>
-                                <p className="movie-credits__list__item__character">({entry.character})</p>
+                                <p className="movie-credits__list__item__character">
+                                    <span>(</span> {entry.character} <span>)</span>
+                                </p>
                             </li>
                         );
                     })
@@ -58,6 +63,7 @@ const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
             {
                 isOverflown &&
                 <button className="icon circle-button circle-button--right"
+                    ref={buttonRightRef}
                     onClick={scrollRight}>
                     <IconChevronRight size={30} />
                 </button>
@@ -68,9 +74,9 @@ const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
 
 const Crew = ({ crew }: { crew: MovieCreditsType['crew'] }) => {
 
-    const { containerRef, isOverflown, scrollLeft, scrollRight } = useScroll();
+    const { containerRef, buttonLeftRef, buttonRightRef, isOverflown, scrollLeft, scrollRight } = useScroll();
 
-    const t = useTranslations('MovieCredits');
+    const t = useTranslations('Movie.Credits');
 
     return (
         <div className="movie-credits__crew">
@@ -79,6 +85,7 @@ const Crew = ({ crew }: { crew: MovieCreditsType['crew'] }) => {
             {
                 isOverflown &&
                 <button className="icon circle-button circle-button--left"
+                    ref={buttonLeftRef}
                     onClick={scrollLeft}>
                     <IconChevronLeft size={30} />
                 </button>
@@ -90,8 +97,12 @@ const Crew = ({ crew }: { crew: MovieCreditsType['crew'] }) => {
                             <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
                                 <div className="movie-credits__list__item__profile-pic-wrapper">
                                     {
-                                        entry.profile_path &&
-                                        <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill />
+                                        entry.profile_path ?
+                                            <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill /> :
+                                            <div className="movie-credits__list__item__profile-pic-no-image">
+                                                {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]} 
+                                                {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
+                                            </div>
                                     }
                                 </div>
                                 <h3 className="movie-credits__list__item__name">{entry.name}</h3>
@@ -104,10 +115,11 @@ const Crew = ({ crew }: { crew: MovieCreditsType['crew'] }) => {
             {
                 isOverflown &&
                 <button className="icon circle-button circle-button--right"
+                    ref={buttonRightRef}
                     onClick={scrollRight}>
                     <IconChevronRight size={30} />
                 </button>
             }
         </div>
     );
-}
+};

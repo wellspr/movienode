@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 export const DetailsImages = ({ movieImages }: { movieImages: ImagesType }) => {
 
-    const { containerRef } = useScroll();
+    const { containerRef } = useScroll({wheelScroll: true});
 
     const query = useSearchParams();
 
@@ -35,7 +35,7 @@ export const DetailsImages = ({ movieImages }: { movieImages: ImagesType }) => {
     }, [movieImages.backdrops, query]);
 
     useEffect(() => {
-        document.getElementById(selected.current?.file_path as string)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+        document.getElementById(selected.current?.file_path as string)?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
     }, [selected]);
 
     useEffect(() => {
@@ -63,7 +63,7 @@ export const DetailsImages = ({ movieImages }: { movieImages: ImagesType }) => {
         <div className="movie-details__images">
             <div className="movie-details__images__selected-outer">
                 {
-                    movieImages.backdrops.length > 1 &&
+                    movieImages.backdrops.length > 1 && selected.previous &&
                     <button className="icon movie-details__images__nav-button movie-details__images__nav-button--left"
                         onClick={() => {
                             movieImages.backdrops.forEach((image, index) => {
@@ -87,7 +87,7 @@ export const DetailsImages = ({ movieImages }: { movieImages: ImagesType }) => {
                     />
                 </div>
                 {
-                    movieImages.backdrops.length > 1 &&
+                    movieImages.backdrops.length > 1 && selected.next &&
                     <button className="icon movie-details__images__nav-button movie-details__images__nav-button--right"
                         onClick={() => {
                             movieImages.backdrops.forEach((image, index) => {

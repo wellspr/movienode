@@ -1,34 +1,41 @@
 {
-  "MovieDetails": {
-    "release_date": "Release",
-    "country": "{count, plural, =1 {Country} other {Countries}}",
-    "image_gallery": "Image Gallery"
-  },
-  "MovieWatchProviders": {
-    "heading": "Watch Now",
-    "watch_now": {
-      "link": "Watch Now",
-      "buy": "Buy",
-      "rent": "Rent",
-      "flatrate": "Stream"
-    }
-  },
-  "MovieCredits": {
-    "cast": "Cast",
-    "crew": "Crew"
-  },
-  "MoviesListPagination": {
-    "previous": "Previous",
-    "next": "Next"
-  },
-  "HeaderNav": {
-    "popular": "Popular",
-    "now_playing": "Now Playing",
-    "top_rated": "Top Rated",
-    "upcoming": "Upcoming"
-  },
-  "Search": {
-    "placeholder": "",
-    "search": "Search"
-  }
+	"Movie": {
+		"release_date": "Release",
+		"country": "{count, plural, =1 {Country} other {Countries}}",
+		"image_gallery": "Image Gallery",
+		"recommendations": "Recommendations",
+		"similar": "Similar",
+		"WatchProviders": {
+			"heading": "Watch Now",
+			"info": "The data below is provided by JustWatch. Clicking on the links below will lead to a page at TMDB",
+			"watch_now": {
+				"link": "Watch Now",
+				"free": "Free",
+				"ads": "Ads",
+				"buy": "Buy",
+				"rent": "Rent",
+				"flatrate": "Stream"
+			}
+		},
+		"Credits": {
+			"cast": "Cast",
+			"crew": "Crew"
+		}
+	},
+	"Movies": {
+		"ListPagination": {
+			"previous": "Previous",
+			"next": "Next"
+		}
+	},
+	"HeaderNav": {
+		"popular": "Popular",
+		"now_playing": "Now Playing",
+		"top_rated": "Top Rated",
+		"upcoming": "Upcoming"
+	},
+	"MovieSearch": {
+		"placeholder": "Search Movie",
+		"search": "Search"
+	}
 }
