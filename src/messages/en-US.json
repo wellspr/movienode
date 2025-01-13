@@ -7,7 +7,10 @@
 		"similar": "Similar",
 		"WatchProviders": {
 			"heading": "Watch Now",
-			"info": "The data below is provided by JustWatch. Clicking on the links below will lead to a page at TMDB",
+			"info": {
+				"line_1": "The data below is provided by",
+				"line_2": "Follow the links below for detailed info"
+			},
 			"watch_now": {
 				"link": "Watch Now",
 				"free": "Free",
@@ -20,7 +23,10 @@
 		"Credits": {
 			"cast": "Cast",
 			"crew": "Crew"
-		}
+		},
+		"Certification": {
+      "classification": "Age rating"
+    }
 	},
 	"Movies": {
 		"ListPagination": {

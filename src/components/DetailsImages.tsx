@@ -2,22 +2,22 @@
 
 import { baseImageUrl } from "@/config";
 import { useScroll } from "@/hooks/useScroll";
-import { BackdropType, ImagesType } from "@/types";
+import { ImageType, MovieImagesType } from "@/types";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export const DetailsImages = ({ movieImages }: { movieImages: ImagesType }) => {
+export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType }) => {
 
     const { containerRef } = useScroll({wheelScroll: true});
 
     const query = useSearchParams();
 
     const [selected, setSelected] = useState<{
-        previous: BackdropType | null,
-        current: BackdropType | null,
-        next: BackdropType | null,
+        previous: ImageType | null,
+        current: ImageType | null,
+        next: ImageType | null,
     }>({ previous: null, current: movieImages.backdrops[0], next: movieImages.backdrops[1] || null });
 
     useEffect(() => {
@@ -63,8 +63,8 @@ export const DetailsImages = ({ movieImages }: { movieImages: ImagesType }) => {
         <div className="movie-details__images">
             <div className="movie-details__images__selected-outer">
                 {
-                    movieImages.backdrops.length > 1 && selected.previous &&
-                    <button className="icon movie-details__images__nav-button movie-details__images__nav-button--left"
+                    movieImages.backdrops.length > 1 &&
+                    <button className={selected.previous ? "icon movie-details__images__nav-button movie-details__images__nav-button--left" : "hide"}
                         onClick={() => {
                             movieImages.backdrops.forEach((image, index) => {
                                 if (image.file_path === selected.current?.file_path) {
@@ -84,11 +84,12 @@ export const DetailsImages = ({ movieImages }: { movieImages: ImagesType }) => {
                         src={baseImageUrl() + selected.current?.file_path}
                         alt={selected.current?.file_path as string}
                         fill
+                        draggable={false}
                     />
                 </div>
                 {
-                    movieImages.backdrops.length > 1 && selected.next &&
-                    <button className="icon movie-details__images__nav-button movie-details__images__nav-button--right"
+                    movieImages.backdrops.length > 1 && 
+                    <button className={selected.next ? "icon movie-details__images__nav-button movie-details__images__nav-button--right" : "hide"}
                         onClick={() => {
                             movieImages.backdrops.forEach((image, index) => {
                                 if (image.file_path === selected.current?.file_path) {
@@ -123,6 +124,7 @@ export const DetailsImages = ({ movieImages }: { movieImages: ImagesType }) => {
                                     src={baseImageUrl(500) + image.file_path}
                                     alt={image.file_path}
                                     fill
+                                    draggable={false}
                                 />
                             </li>
                         );

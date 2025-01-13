@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Layout/Footer";
 import { Header } from "@/components/Layout/Header";
+import { Main } from "@/components/Layout/Main";
 import { routing } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { NextIntlClientProvider } from "next-intl";
@@ -25,8 +26,10 @@ export default async function Layout({
 	return (
 		<NextIntlClientProvider messages={messages}>
 			<Header />
-			{modal}
-			{children}
+			<Main>
+				{modal}
+				{children}
+			</Main>
 			<Footer />
 		</NextIntlClientProvider>
 	);

@@ -1,24 +1,30 @@
 import { baseImageUrl } from "@/config";
 import { useScroll } from "@/hooks/useScroll";
-import type { MovieCreditsType } from "@/types";
+import { Link } from "@/i18n/routing";
+import type { MovieCast, MovieCrew } from "@/types";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-export const Credits = ({ movieCredits }: { movieCredits: MovieCreditsType }) => {
-
+export const Credits = ({ movieCredits }: {
+    movieCredits: {
+        id: string,
+        cast: MovieCast,
+        crew: MovieCrew,
+    }
+}) => {
     return (
         <div className="movie-credits">
 
-            <Cast cast={movieCredits.cast} />
+            {movieCredits.cast && <Cast cast={movieCredits.cast} />}
 
-            <Crew crew={movieCredits.crew} />
+            {movieCredits.crew && <Crew crew={movieCredits.crew} />}
 
         </div>
     );
 };
 
-const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
+const Cast = ({ cast }: { cast: MovieCast }) => {
 
     const { containerRef, buttonLeftRef, buttonRightRef, isOverflown, scrollLeft, scrollRight } = useScroll();
 
@@ -41,20 +47,22 @@ const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
                     cast.map((entry, index) => {
                         return (
                             <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
-                                <div className="movie-credits__list__item__profile-pic-wrapper">
-                                    {
-                                        entry.profile_path ?
-                                            <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill /> :
-                                            <div className="movie-credits__list__item__profile-pic-no-image">
-                                                {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]} 
-                                                {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
-                                            </div>
-                                    }
-                                </div>
-                                <h3 className="movie-credits__list__item__name">{entry.name}</h3>
-                                <p className="movie-credits__list__item__character">
-                                    <span>(</span> {entry.character} <span>)</span>
-                                </p>
+                                <Link href={`/person/${entry.id}`} draggable={false}>
+                                    <div className="movie-credits__list__item__profile-pic-wrapper">
+                                        {
+                                            entry.profile_path ?
+                                                <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill draggable={false} /> :
+                                                <div className="movie-credits__list__item__profile-pic-no-image">
+                                                    {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]}
+                                                    {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
+                                                </div>
+                                        }
+                                    </div>
+                                    <h3 className="movie-credits__list__item__name">{entry.name}</h3>
+                                    <p className="movie-credits__list__item__character">
+                                        <span>(</span> {entry.character} <span>)</span>
+                                    </p>
+                                </Link>
                             </li>
                         );
                     })
@@ -72,7 +80,7 @@ const Cast = ({ cast }: { cast: MovieCreditsType['cast'] }) => {
     );
 };
 
-const Crew = ({ crew }: { crew: MovieCreditsType['crew'] }) => {
+const Crew = ({ crew }: { crew: MovieCrew }) => {
 
     const { containerRef, buttonLeftRef, buttonRightRef, isOverflown, scrollLeft, scrollRight } = useScroll();
 
@@ -95,18 +103,20 @@ const Crew = ({ crew }: { crew: MovieCreditsType['crew'] }) => {
                     crew.map((entry, index) => {
                         return (
                             <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
-                                <div className="movie-credits__list__item__profile-pic-wrapper">
-                                    {
-                                        entry.profile_path ?
-                                            <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill /> :
-                                            <div className="movie-credits__list__item__profile-pic-no-image">
-                                                {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]} 
-                                                {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
-                                            </div>
-                                    }
-                                </div>
-                                <h3 className="movie-credits__list__item__name">{entry.name}</h3>
-                                <p className="movie-credits__list__item__job">{entry.job}</p>
+                                <Link href={`/person/${entry.id}`} draggable={false} >
+                                    <div className="movie-credits__list__item__profile-pic-wrapper">
+                                        {
+                                            entry.profile_path ?
+                                                <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill draggable={false} /> :
+                                                <div className="movie-credits__list__item__profile-pic-no-image">
+                                                    {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]}
+                                                    {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
+                                                </div>
+                                        }
+                                    </div>
+                                    <h3 className="movie-credits__list__item__name">{entry.name}</h3>
+                                    <p className="movie-credits__list__item__job">{entry.job}</p>
+                                </Link>
                             </li>
                         );
                     })

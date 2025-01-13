@@ -10,11 +10,11 @@ export const Results = ({ results }: { results: MovieType[] }) => {
                 results.map((result) => {
                     return (
                         <li key={result.id} className="search-results__list__item">
-                            <Link href={`/details/${result.id}`}>
+                            <Link href={`/details/${result.id}`} draggable={false}>
                                 <div className="movie-poster">
                                     {
                                         result.poster_path ?
-                                            <Image src={baseImageUrl() + result.poster_path} alt={result.title} width={200} height={300} /> :
+                                            <Image src={baseImageUrl() + result.poster_path} alt={result.title} width={200} height={300} draggable={false}/> :
                                             <div className="movie-poster__placeholder">
                                                 {result.title}
                                             </div>

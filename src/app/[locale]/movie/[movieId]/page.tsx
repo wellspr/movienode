@@ -1,5 +1,4 @@
 import { Details } from "@/components/Details";
-import {  } from "@/components/Movie/";
 import { Locale } from "@/i18n/types";
 
 export default async function Page({

@@ -18,8 +18,6 @@ export const MoviesListPagination = ({
 
     const path = usePathname();
 
-    console.log(path);
-
     return (
         <div className="movies__list__pagination">
             {

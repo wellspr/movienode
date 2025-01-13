@@ -2,6 +2,7 @@ import { baseImageUrl } from "@/config";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { WatchProvidersMod, WatchProvidersType } from "@/types";
+import { IconExternalLink } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
@@ -19,7 +20,16 @@ export const WatchProviders = ({
         <div className="watch-providers">
             <div className="movie-info__watch-now">
                 <h4>{t('heading')}</h4>
-                <p>{t('info')}</p>
+                <p>
+                    {t('info.line_1')} {" "}
+                    <Link className="link inline-link" href="https://www.justwatch.com/" target="_blank">
+                        JustWatch
+                        <IconExternalLink size={20} />
+                    </Link>
+                    {". "}
+                    {t('info.line_2')}.
+                </p>
+
 
                 <div className="movie-info__watch-now__options">
                     {

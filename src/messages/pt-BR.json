@@ -7,7 +7,10 @@
     "similar": "Similares",
     "WatchProviders": {
       "heading": "Assista Agora",
-      "info": "Os dados abaixo são fornecidos pela JustWatch. Ao clicar nos links abaixo você será levado à página no TMDB",
+      "info": {
+        "line_1": "Os dados abaixo são fornecidos pela",
+        "line_2": "Clique nos links abaixo para mais informações"
+      },
       "watch_now": {
         "link": "Assista Agora",
         "ads": "Propaganda",
@@ -20,6 +23,9 @@
     "Credits": {
       "cast": "Elenco",
       "crew": "Equipe"
+    },
+    "Certification": {
+      "classification": "Classificação"
     }
   },
   "Movies": {

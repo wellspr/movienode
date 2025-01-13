@@ -41,12 +41,32 @@ export type MovieDetailsType = {
     video: boolean
     vote_average: number
     vote_count: number
-    images?: ImagesType
+    images?: MovieImagesType
     videos?: VideosType
-    credits?: MovieCreditsType
+    credits?: {
+        id: string
+        cast: MovieCast
+        crew: MovieCrew
+    }
     watch_providers?: WatchProvidersType
     recommendations?: MovieRecommendationsType
     similar?: SimilarMoviesType
+    release_dates?: ReleaseDatesType
+}
+
+export type ReleaseDatesType = {
+    id: number
+    results: {
+        iso_3166_1: RegionsType
+        release_dates: {
+            certification: string
+            descriptors: []
+            iso_639_1: string
+            note: string
+            release_date: string
+            type: number
+        }[]
+    }[]
 }
 
 export type MovieGenreType = {
@@ -73,12 +93,6 @@ export type MovieSpokenLanguages = {
     iso_639_1: string
     name: string
 }[]
-
-export type MovieCreditsType = {
-    id: number
-    cast: MovieCast
-    crew: MovieCrew
-}
 
 export type MovieCast = {
     adult: boolean
@@ -109,14 +123,14 @@ export type MovieCrew = {
     job: string
 }[]
 
-export type ImagesType = {
-    backdrops: BackdropsType
+export type MovieImagesType = {
+    backdrops: ImageType[]
     id: number
-    logos: LogosType
-    posters: PostersType
+    logos: ImageType[]
+    posters: ImageType[]
 }
 
-export type BackdropType = {
+export type ImageType = {
     aspect_ratio: number
     height: number
     iso_639_1: string
@@ -125,28 +139,6 @@ export type BackdropType = {
     vote_count: number
     width: number
 }
-
-export type BackdropsType = BackdropType[]
-
-export type LogosType = {
-    aspect_ratio: number
-    height: number
-    iso_639_1: string
-    file_path: string
-    vote_average: number
-    vote_count: number
-    width: number
-}[]
-
-export type PostersType = {
-    aspect_ratio: number
-    height: number
-    iso_639_1: string
-    file_path: string
-    vote_average: number
-    vote_count: number
-    width: number
-}[]
 
 export type VideosType = {
     results: {
@@ -193,8 +185,8 @@ export type WatchProvidersType = {
     }
 }
 
-export type WatchProvidersMod = 
-'link' | 'ads' | 'free' | 'buy' | 'flatrate' | 'rent'
+export type WatchProvidersMod =
+    'link' | 'ads' | 'free' | 'buy' | 'flatrate' | 'rent'
 
 export type ProviderType = {
     logo_path: string
@@ -208,7 +200,7 @@ export type SearchResultsType = {
     results: {
         adult: boolean
         backdrop_path: string
-        genre_ids: number[] 
+        genre_ids: number[]
         id: number
         original_language: string
         original_title: string
@@ -251,3 +243,365 @@ export type FilteringType = {
     without_watch_providers?: string
     year?: number
 }
+
+export type CreditDetailsType = {
+    credit_type: string
+    department: string
+    job: string
+    media: {
+        adult: boolean
+        backdrop_path: string
+        id: number
+        name: string
+        original_language: string
+        original_name: string
+        overview: string
+        poster_path: string
+        media_type: string
+        genre_ids: number[]
+        popularity: number
+        first_air_date: string
+        vote_average: number
+        vote_count: number
+        origin_country: string[]
+        character: string
+        episodes: []
+        seasons: {
+            air_date: string
+            episode_count: number
+            id: number
+            name: string
+            overview: string
+            poster_path: string
+            season_number: number
+            show_id: number
+        }[]
+    }
+    media_type: string
+    id: string
+    person: {
+        adult: boolean
+        id: number
+        name: string
+        original_name: string
+        media_type: string
+        popularity: number
+        gender: number
+        known_for_department: string
+        profile_path: string
+    }
+}
+
+export type PersonDetailsType = {
+    adult: boolean
+    also_known_as: string[]
+    biography: string
+    birthday: string
+    deathday: string
+    gender: number
+    homepage: string
+    id: number
+    imdb_id: string
+    known_for_department: string
+    name: string
+    place_of_birth: string
+    popularity: number
+    profile_path: string
+    images?: {
+        profiles: ImageType[]
+    }
+    movie_credits?: MovieCreditsType
+}
+
+export type MovieCreditsType = {
+    cast: {
+        adult: boolean
+        backdrop_path: string
+        genre_ids: number[]
+        id: number
+        original_language: string
+        original_title: string
+        overview: string
+        popularity: number
+        poster_path: string
+        release_date: string
+        title: string
+        video: boolean
+        vote_average: number
+        vote_count: number
+        character: string
+        credit_id: string
+        order: number
+    }[]
+    crew: {
+        adult: boolean
+        backdrop_path: string
+        genre_ids: number[]
+        id: number
+        original_language: string
+        original_title: string
+        overview: string
+        popularity: number
+        poster_path: string
+        release_date: string
+        title: string
+        video: boolean
+        vote_average: number
+        vote_count: number
+        credit_id: string
+        department: string
+        job: string
+    }[]
+    id: number
+}
+
+export type RegionsType =
+    'AD' |
+    'AE' |
+    'AF' |
+    'AG' |
+    'AI' |
+    'AL' |
+    'AM' |
+    'AO' |
+    'AQ' |
+    'AR' |
+    'AS' |
+    'AT' |
+    'AU' |
+    'AW' |
+    'AX' |
+    'AZ' |
+    'BA' |
+    'BB' |
+    'BD' |
+    'BE' |
+    'BF' |
+    'BG' |
+    'BH' |
+    'BI' |
+    'BJ' |
+    'BL' |
+    'BM' |
+    'BN' |
+    'BO' |
+    'BQ' |
+    'BR' |
+    'BS' |
+    'BT' |
+    'BV' |
+    'BW' |
+    'BY' |
+    'BZ' |
+    'CA' |
+    'CC' |
+    'CD' |
+    'CF' |
+    'CG' |
+    'CH' |
+    'CI' |
+    'CK' |
+    'CL' |
+    'CM' |
+    'CN' |
+    'CO' |
+    'CR' |
+    'CU' |
+    'CV' |
+    'CW' |
+    'CX' |
+    'CY' |
+    'CZ' |
+    'DE' |
+    'DJ' |
+    'DK' |
+    'DM' |
+    'DO' |
+    'DZ' |
+    'EC' |
+    'EE' |
+    'EG' |
+    'EH' |
+    'ER' |
+    'ES' |
+    'ET' |
+    'FI' |
+    'FJ' |
+    'FK' |
+    'FM' |
+    'FO' |
+    'FR' |
+    'GA' |
+    'GB' |
+    'GD' |
+    'GE' |
+    'GF' |
+    'GG' |
+    'GH' |
+    'GI' |
+    'GL' |
+    'GM' |
+    'GN' |
+    'GP' |
+    'GQ' |
+    'GR' |
+    'GS' |
+    'GT' |
+    'GU' |
+    'GW' |
+    'GY' |
+    'HK' |
+    'HM' |
+    'HN' |
+    'HR' |
+    'HT' |
+    'HU' |
+    'ID' |
+    'IE' |
+    'IL' |
+    'IM' |
+    'IN' |
+    'IO' |
+    'IQ' |
+    'IR' |
+    'IS' |
+    'IT' |
+    'JE' |
+    'JM' |
+    'JO' |
+    'JP' |
+    'KE' |
+    'KG' |
+    'KH' |
+    'KI' |
+    'KM' |
+    'KN' |
+    'KP' |
+    'KR' |
+    'KW' |
+    'KY' |
+    'KZ' |
+    'LA' |
+    'LB' |
+    'LC' |
+    'LI' |
+    'LK' |
+    'LR' |
+    'LS' |
+    'LT' |
+    'LU' |
+    'LV' |
+    'LY' |
+    'MA' |
+    'MC' |
+    'MD' |
+    'ME' |
+    'MF' |
+    'MG' |
+    'MH' |
+    'MK' |
+    'ML' |
+    'MM' |
+    'MN' |
+    'MO' |
+    'MP' |
+    'MQ' |
+    'MR' |
+    'MS' |
+    'MT' |
+    'MU' |
+    'MV' |
+    'MW' |
+    'MX' |
+    'MY' |
+    'MZ' |
+    'NA' |
+    'NC' |
+    'NE' |
+    'NF' |
+    'NG' |
+    'NI' |
+    'NL' |
+    'NO' |
+    'NP' |
+    'NR' |
+    'NU' |
+    'NZ' |
+    'OM' |
+    'PA' |
+    'PE' |
+    'PF' |
+    'PG' |
+    'PH' |
+    'PK' |
+    'PL' |
+    'PM' |
+    'PN' |
+    'PR' |
+    'PS' |
+    'PT' |
+    'PW' |
+    'PY' |
+    'QA' |
+    'RE' |
+    'RO' |
+    'RS' |
+    'RU' |
+    'RW' |
+    'SA' |
+    'SB' |
+    'SC' |
+    'SD' |
+    'SE' |
+    'SG' |
+    'SH' |
+    'SI' |
+    'SJ' |
+    'SK' |
+    'SL' |
+    'SM' |
+    'SN' |
+    'SO' |
+    'SR' |
+    'SS' |
+    'ST' |
+    'SV' |
+    'SX' |
+    'SY' |
+    'SZ' |
+    'TC' |
+    'TD' |
+    'TF' |
+    'TG' |
+    'TH' |
+    'TJ' |
+    'TK' |
+    'TL' |
+    'TM' |
+    'TN' |
+    'TO' |
+    'TR' |
+    'TT' |
+    'TV' |
+    'TW' |
+    'TZ' |
+    'UA' |
+    'UG' |
+    'UM' |
+    'US' |
+    'UY' |
+    'UZ' |
+    'VA' |
+    'VC' |
+    'VE' |
+    'VG' |
+    'VI' |
+    'VN' |
+    'VU' |
+    'WF' |
+    'WS' |
+    'YE' |
+    'YT' |
+    'ZA' |
+    'ZM' |
+    'ZW'

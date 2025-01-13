@@ -16,8 +16,6 @@ export async function search(
 
     const results = await searchMovie(locale, query, page) as SearchResultsType | null;
 
-    console.log(locale, query, page, results);
-
     return {
         locale,
         query,

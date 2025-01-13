@@ -2,12 +2,16 @@ import { regions } from "@/i18n/config";
 import { Locale } from "@/i18n/types";
 import {
 	CategoryType,
+	CreditDetailsType,
 	FilteringType,
-	MovieCreditsType,
+	MovieCast,
+	MovieCrew,
 	MovieDetailsType,
 	MovieGenresType,
 	MovieGenreType,
 	MovieRecommendationsType,
+	PersonDetailsType,
+	ReleaseDatesType,
 	SearchResultsType,
 	SimilarMoviesType,
 	WatchProvidersType,
@@ -52,7 +56,7 @@ export const getMovies = async (locale: Locale, category: CategoryType, page?: s
 
 
 export const getMovieDetails = async (locale: Locale, movieId: string) => {
-	const movieDetailsURL = `${baseMovieURL}/movie/${movieId}?language=${locale}&region=${regions[locale]}&append_to_response=images,videos&include_image_language=${locale},null`;
+	const movieDetailsURL = `${baseMovieURL}/movie/${movieId}?language=${locale}&region=${regions[locale]}&append_to_response=images,videos, release_dates&include_image_language=${locale},null`;
 
 	const response = await fetch(movieDetailsURL, {
 		cache: 'no-store',
@@ -74,7 +78,7 @@ export const getMovieCredits = async (locale: Locale, movieId: string) => {
 
 	const movieCredits = await response.json();
 
-	return movieCredits as MovieCreditsType;
+	return movieCredits as { id: string, cast: MovieCast, crew: MovieCrew };
 };
 
 export const getMovieRecommendations = async (locale: Locale, movieId: string, page?: string) => {
@@ -160,8 +164,6 @@ export const discoverMovie = async (locale: Locale, queryList: FilteringType, pa
 		url = url + `&${key}=${value}`;
 	});
 
-	console.log(url);
-
 	const response = await fetch(url, {
 		cache: 'no-cache',
 		...options,
@@ -195,3 +197,43 @@ export const getMovieGenre = async (locale: Locale, id: string) => {
 
 	return genre as MovieGenreType;
 };
+
+export const getCreditDetails = async (locale: Locale, creditId: string) => {
+	const url = `${baseMovieURL}/credit/${creditId}`;
+
+	const response = await fetch(url, {
+		cache: 'default',
+		...options
+	});
+
+	const creditsDetails = await response.json();
+
+	return creditsDetails as CreditDetailsType;
+};
+
+export const getPersonDetails = async (locale: Locale, personId: string) => {
+	const url = `${baseMovieURL}/person/${personId}?language=${locale}&region=${regions[locale]}&append_to_response=images,movie_credits&include_image_language=${locale},null`;
+
+	const response = await fetch(url, {
+		cache: 'default',
+		...options
+	});
+
+	const personDetails =  await response.json();
+
+	return personDetails as PersonDetailsType;
+};
+
+export const getReleaseDates = async (locale: Locale, movieId: string) => {
+
+	const url = `${baseMovieURL}/movie/${movieId}/release_dates?language=${locale}`;
+
+	const response = await fetch(url, {
+		cache: 'default',
+		...options
+	});
+
+	const releaseDates = await response.json();
+
+	return releaseDates as ReleaseDatesType;
+}

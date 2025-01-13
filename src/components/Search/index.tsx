@@ -32,6 +32,7 @@ export const Search = ({ locale, genres }: { locale: Locale, genres: MovieGenres
                         className="search__form__group__input"
                         value={query}
                         onChange={e => setQuery(e.target.value)}
+                        autoFocus
                     />
                     <button className="icon search__form__group__icon"
                         disabled={query.length === 0}

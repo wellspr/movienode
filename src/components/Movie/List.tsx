@@ -49,14 +49,19 @@ export const List = ({ results, row }: { results: MovieType[], row?: boolean }) 
                 {
                     results.map((movie) => {
                         return (
-                            <Link key={movie.id} href={`/movie/${movie.id}`} locale={locale}
+                            <li key={movie.id}
                                 className={row ? `movie-list-horizontal__item` : `movie-list__item`}>
 
                                 <div className={row ? `movie-list-horizontal__item__image` : `movie-list__item__image`}
                                     onMouseOver={handleMouseOver}>
                                     {
                                         movie.poster_path ?
-                                            <Image src={baseImageUrl(500) + movie.poster_path} alt={movie.title} fill /> :
+                                            <Image
+                                                src={baseImageUrl(500) + movie.poster_path}
+                                                alt={movie.title}
+                                                fill
+                                                draggable={false}
+                                            /> :
                                             <div className={row ? `movie-list-horizontal__item__image__placeholder` : `movie-list__item__image__placeholder`}>
                                                 {movie.title}
                                                 <IconMovie size={40} />
@@ -65,18 +70,35 @@ export const List = ({ results, row }: { results: MovieType[], row?: boolean }) 
                                 </div>
 
                                 <div className={row ? `movie-list-horizontal__item__info` : `movie-list__item__info`}>
-                                    <h3 className={row ? `movie-list-horizontal__item__info__title` : `movie-list__item__info__title`}>
-                                        {movie.title}
-                                    </h3>
-                                    <p className={row ? `movie-list-horizontal__item__info__release-date` : `movie-list__item__info__release-date`}>
-                                        {movie.release_date.split('-')[0]}
+                                    <div className="movie-list-horizontal__item__info__background-image">
+                                        <Image
+                                            src={baseImageUrl(500) + movie.backdrop_path}
+                                            alt={movie.title}
+                                            fill
+                                            draggable={false}
+                                        />
+                                    </div>
 
-                                    </p>
-                                    <p className={row ? `movie-list-horizontal__item__info__overview` : `movie-list__item__info__overview`}>
-                                        {movie.overview}
-                                    </p>
+                                    <div className="movie-list-horizontal__item__info__overlay">
+                                        <h3 className="movie-list-horizontal__item__info__overlay__title">
+                                            {movie.title}
+                                        </h3>
+                                        <p className="movie-list-horizontal__item__info__overlay__release-date">
+                                            {movie.release_date.split('-')[0]}
+
+                                        </p>
+                                        <p className="movie-list-horizontal__item__info__overlay__overview">
+                                            {movie.overview}
+                                        </p>
+                                    </div>
+
+                                    <Link href={`/movie/${movie.id}`} locale={locale}
+                                        className="movie-list-horizontal__item__info__link">
+                                        View
+                                    </Link>
+
                                 </div>
-                            </Link>
+                            </li>
                         );
                     })
                 }

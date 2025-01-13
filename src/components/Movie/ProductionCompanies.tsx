@@ -22,6 +22,7 @@ export const ProductionCompanies = ({
                                             src={baseImageUrl() + company.logo_path}
                                             alt={company.name}
                                             fill
+                                            draggable={false}
                                         /> :
                                         <div className="movie-production-companies__list__item__logo__company-name">
                                             {company.name}

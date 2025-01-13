@@ -51,6 +51,7 @@ export const LanguageSwitcher = () => {
                                     src={`/assets/icons/flags/${flags[l]}`}
                                     alt={regions[l]}
                                     fill
+                                    draggable={false}
                                 />
                             </div>
                         </button>

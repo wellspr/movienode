@@ -2,6 +2,7 @@ import { baseImageUrl } from "@/config";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { MovieType } from "@/types";
+import { IconMovie } from "@tabler/icons-react";
 import Image from "next/image";
 
 export const MoviesList = ({ results, locale }: { results: MovieType[], locale: Locale }) => {
@@ -15,16 +16,26 @@ export const MoviesList = ({ results, locale }: { results: MovieType[], locale: 
                             locale={locale}
                             href={`/details/${movie.id}`}
                             className="movies__list__item__link"
-                        >
+                            draggable={false}>
                             <div className="movies__list__item">
                                 <div className="movies__list__item">
                                     <h2 className="movies__list__item__title">{movie.title}</h2>
                                     <div className="movies__list__item__image">
-                                        <Image
-                                            src={baseImageUrl(500) + movie.poster_path}
-                                            alt={movie.title}
-                                            fill
-                                        />
+                                        {
+                                            movie.poster_path ?
+                                            <Image
+                                                src={baseImageUrl(500) + movie.poster_path}
+                                                alt={movie.title}
+                                                fill
+                                                draggable={false}
+                                            /> :
+                                            <div className="movies__list__item__image__placeholder">
+                                                <div className="movies__list__item__image__placeholder__title">
+                                                    {movie.title}
+                                                </div>
+                                                <IconMovie size={40} />
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
