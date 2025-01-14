@@ -327,23 +327,12 @@ ul {
         justify-content: space-evenly;
         gap: 4rem;
         margin-top: 3rem;
-        //padding: 2rem;
 
         &__item {
             position: relative;
             width: 30rem;
             height: 50rem;
 
-            &:hover {
-                .movies__list__item__title {
-                    color: #777;
-                }
-                .movies__list__item__image {
-                    opacity: 0.7;
-                    transform: scale(1.02);
-                    transition: all 0.3s ease-in-out;
-                }
-            }
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -359,6 +348,15 @@ ul {
                 width: 30rem;
                 height: 50rem;
                 user-select: none;
+                opacity: 1;
+                transform: scale(1);
+                transition: all 0.2s ease-in-out;
+
+                &:hover {
+                    opacity: 0.7;
+                    transform: scale(1.02);
+                    transition: all 0.2s ease-in-out;
+                }
 
                 img {
                     border-radius: 0.4rem;
