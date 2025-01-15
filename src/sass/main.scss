@@ -1182,6 +1182,7 @@ ul {
             position: relative;
             transition: all .5s ease-in-out;
             -webkit-transition: all .5s ease-in-out;
+            padding: 1rem;
 
             &__background-image {
                 img {
@@ -1197,7 +1198,6 @@ ul {
             }
 
             &__overlay {
-                padding: 1rem;
                 color: #eee;
                 width: $card-width;
                 height: 100%;
