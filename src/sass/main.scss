@@ -1199,7 +1199,7 @@ ul {
 
             &__overlay {
                 color: #eee;
-                width: $card-width;
+                width: calc($card-width - 2rem);
                 height: 100%;
                 display: flex;
                 flex-direction: column;
