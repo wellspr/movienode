@@ -2,7 +2,7 @@
 
 import { Locale } from "@/i18n/types";
 import { MovieCast, MovieCrew, MovieDetailsType } from "@/types";
-import { IconExternalLink } from "@tabler/icons-react";
+import { IconCalendar, IconClock, IconExternalLink } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { Videos } from "./Videos";
@@ -49,7 +49,10 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
                             {
                                 /* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat */
                                 movie.release_date &&
-                                <p className="movie-info__release-date">{t('release_date')}: {new Intl.DateTimeFormat(locale).format(new Date(movie.release_date))}</p>
+                                <p className="movie-info__release-date">
+                                    <IconCalendar size={18} />
+                                    {t('release_date')}: {new Intl.DateTimeFormat(locale).format(new Date(movie.release_date))}
+                                </p>
                             }
                             {
                                 movie.homepage &&
@@ -62,11 +65,12 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
                                 <Certification locale={locale} releaseDates={movie.release_dates} />
                             }
                             {
-                                movie.runtime &&
+                                movie.runtime ?
                                 <div className="movie-info__runtime">
+                                    <IconClock size={18} />
                                     {movie.runtime}
                                     <span>min</span>
-                                </div>
+                                </div> : null
                             }
                             {
                                 movie.genres && movie.genres.length > 0 &&

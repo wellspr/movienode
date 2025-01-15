@@ -62,10 +62,10 @@ const useHeaderScroll = () => {
 
         const headerUp = () => {
             const header = ref.current;
-                if (header) {
-                    header.classList.remove("header__header-down");
-                    header.classList.add("header__header-up");
-                }
+            if (header) {
+                header.classList.remove("header__header-down");
+                header.classList.add("header__header-up");
+            }
         };
 
         const headerDown = () => {
@@ -77,25 +77,32 @@ const useHeaderScroll = () => {
             }
         };
 
-        document.body.onwheel = (e: WheelEvent) => {
-            const delta = e.deltaY;
 
-            if (delta < 0) {
-                headerDown();
-            } else {
-                headerUp();
+        document.body.onwheel = (e: WheelEvent) => {
+            if (document.body.scrollHeight > document.body.clientHeight) {
+                const delta = e.deltaY;
+
+                if (delta < 0) {
+                    headerDown();
+                } else {
+                    headerUp();
+                }
             }
         };
 
         document.body.onkeydown = (e: KeyboardEvent) => {
-            if (["arrowdown", "pagedown", "end"].includes(e.key.toLowerCase())) {
-                headerUp();
+            if (document.body.scrollHeight > document.body.clientHeight) {
+                if (["arrowdown", "pagedown", "end"].includes(e.key.toLowerCase())) {
+                    headerUp();
+                }
             }
         }
 
         document.body.onkeyup = (e: KeyboardEvent) => {
-            if (["arrowup", "pageup", "home"].includes(e.key.toLowerCase())) {
-                headerDown();
+            if (document.body.scrollHeight > document.body.clientHeight) {
+                if (["arrowup", "pageup", "home"].includes(e.key.toLowerCase())) {
+                    headerDown();
+                }
             }
         }
     }, []);
