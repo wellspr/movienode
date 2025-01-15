@@ -7,13 +7,35 @@ type Config = { wheelScroll: boolean }
 export const useScroll = (config?: Config) => {
 
     const containerRef = useRef<HTMLUListElement>(null);
+    const markerRef = useRef<HTMLDivElement>(null);
     const buttonLeftRef = useRef<HTMLButtonElement>(null);
     const buttonRightRef = useRef<HTMLButtonElement>(null);
 
     const [isOverflown, setIsOverflown] = useState<boolean>(false);
 
+    const [totalScrollPages, setTotalScrollPages] = useState<number>(0);
+    const [currentScrollPage, setCurrentScrollPage] = useState<number>(0);
+
+    const updateMarkers = (container: HTMLUListElement | null) => {
+        if (container) {
+
+            const total = Math.round(container.scrollWidth / container.clientWidth);
+            const position = Math.round((container.scrollLeft + container.clientWidth) / container.clientWidth);
+
+            console.log(container,
+                total,
+                position,
+            );
+
+            setTotalScrollPages(total);
+            setCurrentScrollPage(position);
+        };
+    };
+
     useEffect(() => {
         const container = containerRef.current;
+
+        updateMarkers(container);
 
         const handleScroll = (e: Event) => {
             const buttonLeft = buttonLeftRef.current;
@@ -35,6 +57,7 @@ export const useScroll = (config?: Config) => {
                     } else {
                         buttonRight.classList.remove("hide");
                     }
+                    updateMarkers(container);
                 }
             }
         }
@@ -52,6 +75,8 @@ export const useScroll = (config?: Config) => {
     }, [containerRef, buttonLeftRef, buttonRightRef]);
 
     useEffect(() => {
+        const container = containerRef.current;
+
         const resize = new ResizeObserver(() => {
 
             const props = {
@@ -66,6 +91,8 @@ export const useScroll = (config?: Config) => {
                     setIsOverflown(false);
                 }
             }
+
+            updateMarkers(container);
         });
 
         const onWheel = (e: WheelEvent) => {
@@ -78,8 +105,6 @@ export const useScroll = (config?: Config) => {
                 behavior: "smooth",
             });
         }
-
-        const container = containerRef.current;
 
         if (container) {
             resize.observe(container);
@@ -117,8 +142,11 @@ export const useScroll = (config?: Config) => {
         scrollLeft,
         scrollRight,
         containerRef,
+        markerRef,
         buttonLeftRef,
         buttonRightRef,
         isOverflown,
+        totalScrollPages,
+        currentScrollPage
     };
 };

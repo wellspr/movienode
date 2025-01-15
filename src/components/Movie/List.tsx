@@ -9,13 +9,25 @@ import { IconChevronLeft, IconChevronRight, IconMovie } from "@tabler/icons-reac
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useCallback } from "react";
+import { ListMarkers } from "../ListMarkers";
+import { Scroller } from "../Scroller";
 
 export const List = ({ results, row }: { results: MovieType[], row?: boolean }) => {
 
     const params = useParams();
     const locale = params.locale as Locale;
 
-    const { containerRef, buttonLeftRef, buttonRightRef, isOverflown, scrollLeft, scrollRight } = useScroll();
+    const {
+        containerRef,
+        markerRef,
+        buttonLeftRef,
+        buttonRightRef,
+        isOverflown,
+        scrollLeft,
+        scrollRight,
+        totalScrollPages,
+        currentScrollPage
+    } = useScroll();
 
     const handleMouseOver = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
         const target = e.target as Element;
@@ -37,80 +49,88 @@ export const List = ({ results, row }: { results: MovieType[], row?: boolean }) 
 
     return (
         <div className={row ? `movie-list-horizontal-container` : `movie-list-container`}>
-            {
-                isOverflown &&
-                <button className="icon circle-button circle-button--left"
-                    ref={buttonLeftRef}
-                    onClick={scrollLeft}>
-                    <IconChevronLeft size={30} />
-                </button>
-            }
-            <ul className={row ? `movie-list-horizontal` : `movie-list`} ref={containerRef}>
+            <Scroller>
                 {
-                    results.map((movie) => {
-                        return (
-                            <li key={movie.id}
-                                className={row ? `movie-list-horizontal__item` : `movie-list__item`}>
+                    isOverflown &&
+                    <button className="icon circle-button circle-button--left"
+                        ref={buttonLeftRef}
+                        onClick={scrollLeft}>
+                        <IconChevronLeft size={30} />
+                    </button>
+                }
+                <ul className={row ? `movie-list-horizontal` : `movie-list`} ref={containerRef}>
+                    {
+                        results.map((movie) => {
+                            return (
+                                <li key={movie.id}
+                                    className={row ? `movie-list-horizontal__item` : `movie-list__item`}>
 
-                                <div className={row ? `movie-list-horizontal__item__image` : `movie-list__item__image`}
-                                    onMouseOver={handleMouseOver}>
-                                    {
-                                        movie.poster_path ?
+                                    <div className={row ? `movie-list-horizontal__item__image` : `movie-list__item__image`}
+                                        onMouseOver={handleMouseOver}>
+                                        {
+                                            movie.poster_path ?
+                                                <Image
+                                                    src={baseImageUrl(500) + movie.poster_path}
+                                                    alt={movie.title}
+                                                    fill
+                                                    draggable={false}
+                                                /> :
+                                                <div className={row ? `movie-list-horizontal__item__image__placeholder` : `movie-list__item__image__placeholder`}>
+                                                    {movie.title}
+                                                    <IconMovie size={40} />
+                                                </div>
+                                        }
+                                    </div>
+
+                                    <div className={row ? `movie-list-horizontal__item__info` : `movie-list__item__info`}>
+                                        <div className="movie-list-horizontal__item__info__background-image">
                                             <Image
-                                                src={baseImageUrl(500) + movie.poster_path}
+                                                src={baseImageUrl(500) + movie.backdrop_path}
                                                 alt={movie.title}
                                                 fill
                                                 draggable={false}
-                                            /> :
-                                            <div className={row ? `movie-list-horizontal__item__image__placeholder` : `movie-list__item__image__placeholder`}>
+                                            />
+                                        </div>
+
+                                        <div className="movie-list-horizontal__item__info__overlay">
+                                            <h3 className="movie-list-horizontal__item__info__overlay__title">
                                                 {movie.title}
-                                                <IconMovie size={40} />
-                                            </div>
-                                    }
-                                </div>
+                                            </h3>
+                                            <p className="movie-list-horizontal__item__info__overlay__release-date">
+                                                {movie.release_date.split('-')[0]}
 
-                                <div className={row ? `movie-list-horizontal__item__info` : `movie-list__item__info`}>
-                                    <div className="movie-list-horizontal__item__info__background-image">
-                                        <Image
-                                            src={baseImageUrl(500) + movie.backdrop_path}
-                                            alt={movie.title}
-                                            fill
-                                            draggable={false}
-                                        />
+                                            </p>
+                                            <p className="movie-list-horizontal__item__info__overlay__overview">
+                                                {movie.overview}
+                                            </p>
+                                        </div>
+
+                                        <Link href={`/movie/${movie.id}`} locale={locale}
+                                            className="movie-list-horizontal__item__info__link">
+                                            View
+                                        </Link>
+
                                     </div>
-
-                                    <div className="movie-list-horizontal__item__info__overlay">
-                                        <h3 className="movie-list-horizontal__item__info__overlay__title">
-                                            {movie.title}
-                                        </h3>
-                                        <p className="movie-list-horizontal__item__info__overlay__release-date">
-                                            {movie.release_date.split('-')[0]}
-
-                                        </p>
-                                        <p className="movie-list-horizontal__item__info__overlay__overview">
-                                            {movie.overview}
-                                        </p>
-                                    </div>
-
-                                    <Link href={`/movie/${movie.id}`} locale={locale}
-                                        className="movie-list-horizontal__item__info__link">
-                                        View
-                                    </Link>
-
-                                </div>
-                            </li>
-                        );
-                    })
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
+                {
+                    isOverflown &&
+                    <button className="icon circle-button circle-button--right"
+                        ref={buttonRightRef}
+                        onClick={scrollRight}>
+                        <IconChevronRight size={30} />
+                    </button>
                 }
-            </ul>
-            {
-                isOverflown &&
-                <button className="icon circle-button circle-button--right"
-                    ref={buttonRightRef}
-                    onClick={scrollRight}>
-                    <IconChevronRight size={30} />
-                </button>
-            }
+            </Scroller>
+            <ListMarkers
+                currentScrollPage={currentScrollPage}
+                markerRef={markerRef}
+                totalScrollPages={totalScrollPages}
+                isOverflown={isOverflown}
+            />
         </div>
     );
 };
