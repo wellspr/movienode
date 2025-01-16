@@ -5,9 +5,5 @@ export default function Layout({
 }: {
     children: React.ReactNode,
 }) {
-    return (
-        <Modal>
-            {children}
-        </Modal>
-    );
+    return <Modal showCloseButton>{children}</Modal>;
 }

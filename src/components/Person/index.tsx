@@ -152,15 +152,9 @@ export const Person = ({ person, locale }: { person: PersonDetailsType, locale: 
                                                 <span>({entry.release_date.split('-')[0]})</span>
                                             }
                                         </h4>
-                                        {/* <p className="person__profile__work__list__item__info__overview">
-                                            {entry.overview}
-                                        </p> */}
                                         <p className="person__profile__work__list__item__info__job">
                                             {entry.job}
                                         </p>
-                                        {/* <p className="person__profile__work__list__item__info__department">
-                                            {entry.department}
-                                        </p> */}
                                         <Link className="person__profile__work__list__item__info__link inline-link"
                                             href={`/details/${entry.id}`} locale={locale}>
                                             Visit

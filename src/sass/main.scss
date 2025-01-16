@@ -933,16 +933,28 @@ ul {
         gap: 1rem;
         overflow-x: scroll;
         scroll-behavior: smooth;
-        padding-bottom: 2rem;
+        padding-bottom: 1rem;
 
         &__item {
             position: relative;
             min-width: 10rem;
             min-height: 6rem;
             user-select: none;
+            transform: scale(1);
+            transition: transform .1s ease-in-out;
+            cursor: pointer;
 
             img {
                 object-fit: contain;
+            }
+
+            &--current {
+                cursor: default;
+            }
+
+            &:hover:not(&--current){
+                transform: scale(1.02);
+                transition: transform .1s ease-in-out;
             }
         }
     }

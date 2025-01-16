@@ -22,8 +22,6 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
 
     const t = useTranslations("Movie");
 
-    console.log(movie.vote_average, movie.vote_count);
-
     return (
         <div className="movie">
             <div className="movie__header"></div>
@@ -78,8 +76,6 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
                                     <Genres movieGenres={movie.genres} />
                                 </div>
                             }
-
-
                         </div>
                     </div>
                 </section>

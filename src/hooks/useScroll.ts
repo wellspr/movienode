@@ -18,15 +18,8 @@ export const useScroll = (config?: Config) => {
 
     const updateMarkers = (container: HTMLUListElement | null) => {
         if (container) {
-
             const total = Math.round(container.scrollWidth / container.clientWidth);
             const position = Math.round((container.scrollLeft + container.clientWidth) / container.clientWidth);
-
-            console.log(container,
-                total,
-                position,
-            );
-
             setTotalScrollPages(total);
             setCurrentScrollPage(position);
         };

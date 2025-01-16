@@ -38,10 +38,6 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
         document.getElementById(selected.current?.file_path as string)?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
     }, [selected]);
 
-    useEffect(() => {
-        console.log(query.get("focusedImage"));
-    }, [query]);
-
     /*     useEffect(() => {
             const container = containerRef.current;
     
@@ -112,7 +108,10 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
                     movieImages?.backdrops.map((image, index) => {
                         return (
                             <li key={image.file_path}
-                                className="movie-details__images__list__item"
+                                className={
+                                    selected.current?.file_path === image.file_path ? 
+                                    "movie-details__images__list__item movie-details__images__list__item--current" : 
+                                    "movie-details__images__list__item"}
                                 style={selected.current?.file_path === image.file_path ? { border: "3px solid white" } : {}}
                                 onClick={() => {
                                     const previous = index - 1 >= 0 ? movieImages.backdrops[index - 1] : null;
