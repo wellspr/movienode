@@ -1,9 +1,9 @@
 import { IconLoader2 } from "@tabler/icons-react";
 
-export default function Loading() {
+export const Loader = () => {
     return (
         <div className="loading">
             <IconLoader2 size={30} />
         </div>
     );
-}
+};
