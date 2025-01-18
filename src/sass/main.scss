@@ -461,7 +461,7 @@ ul {
 .movie-poster {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 
     &__wrapper {
         display: block;
@@ -491,7 +491,8 @@ ul {
     @media screen and (max-width: $breakpoint-md) {
         &__wrapper {
             width: 100%;
-            height: 50rem;
+            display: flex;
+            justify-content: center;
 
             img {
                 object-position: center;
@@ -500,7 +501,8 @@ ul {
 
         &__placeholder {
             width: 30rem;
-            height: 30rem;
+            height: 40rem;
+            text-align: center;
         }
     }
 
@@ -517,6 +519,7 @@ ul {
         &__placeholder {
             width: 35rem;
             height: 50rem;
+            text-align: center;
         }
     }
 }
@@ -1216,7 +1219,7 @@ ul {
                 flex-direction: column;
 
                 &__title {
-                    font-size: 1.8rem;
+                    font-size: 1.4rem;
                     text-align: start;
                 }
 
@@ -1681,4 +1684,11 @@ ul {
             align-items: center;
         }
     }
+}
+
+.centered {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
