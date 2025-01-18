@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType }) => {
 
-    const { containerRef } = useScroll({wheelScroll: true});
+    const { containerRef, isOverflown } = useScroll({ wheelScroll: true });
 
     const query = useSearchParams();
 
@@ -18,10 +18,11 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
         previous: ImageType | null,
         current: ImageType | null,
         next: ImageType | null,
-    }>({ previous: null, current: movieImages.backdrops[0], next: movieImages.backdrops[1] || null });
+    }>();
 
     useEffect(() => {
         const focusedImageFilePath = query.get("focusedImage");
+        const initialImage = { previous: null, current: movieImages.backdrops[0], next: movieImages.backdrops[1] || null };
         if (focusedImageFilePath) {
             movieImages.backdrops.forEach((image, index) => {
                 if (image.file_path === focusedImageFilePath) {
@@ -30,12 +31,19 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
                     const next = index + 1 < movieImages.backdrops.length ? movieImages.backdrops[index + 1] : null;
                     setSelected({ previous, current, next });
                 }
-            })
+            });
+        } else {
+            setSelected(initialImage);
         }
     }, [movieImages.backdrops, query]);
 
     useEffect(() => {
-        document.getElementById(selected.current?.file_path as string)?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        if (selected && selected.current) {
+            const selectedImage = document.getElementById(selected.current?.file_path as string);
+            if (selectedImage) {
+                selectedImage.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+            }
+        }
     }, [selected]);
 
     /*     useEffect(() => {
@@ -54,6 +62,8 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
                 container?.removeEventListener("wheel", handleWheel);
             }
         }, [containerRef]); */
+
+    if (!selected) return null;
 
     return (
         <div className="movie-details__images">
@@ -84,7 +94,7 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
                     />
                 </div>
                 {
-                    movieImages.backdrops.length > 1 && 
+                    movieImages.backdrops.length > 1 &&
                     <button className={selected.next ? "icon movie-details__images__nav-button movie-details__images__nav-button--right" : "hide"}
                         onClick={() => {
                             movieImages.backdrops.forEach((image, index) => {
@@ -103,15 +113,15 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
                 }
             </div>
 
-            <ul className="movie-details__images__list" ref={containerRef}>
+            <ul className={isOverflown ? "movie-details__images__list" : "movie-details__images__list centered" } ref={containerRef}>
                 {
                     movieImages?.backdrops.map((image, index) => {
                         return (
                             <li key={image.file_path}
                                 className={
-                                    selected.current?.file_path === image.file_path ? 
-                                    "movie-details__images__list__item movie-details__images__list__item--current" : 
-                                    "movie-details__images__list__item"}
+                                    selected.current?.file_path === image.file_path ?
+                                        "movie-details__images__list__item movie-details__images__list__item--current" :
+                                        "movie-details__images__list__item"}
                                 style={selected.current?.file_path === image.file_path ? { border: "3px solid white" } : {}}
                                 onClick={() => {
                                     const previous = index - 1 >= 0 ? movieImages.backdrops[index - 1] : null;
