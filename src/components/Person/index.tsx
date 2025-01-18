@@ -1,3 +1,5 @@
+"use client";
+
 import { baseImageUrl } from "@/config";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
@@ -20,7 +22,6 @@ export const Person = ({ person, locale }: { person: PersonDetailsType, locale: 
 
     return (
         <div className="person">
-
             <div className="person__profile__main">
                 <div className="person__profile__main__col">
                     <h2 className="person__profile__main__name">{person.name}</h2>
@@ -108,7 +109,7 @@ export const Person = ({ person, locale }: { person: PersonDetailsType, locale: 
                                             {entry.vote_average}
                                         </p>
                                         <Link className="person__profile__work__list__item__info__link inline-link"
-                                            href={`/details/${entry.id}`} locale={locale}>
+                                            href={`/movie/${entry.id}`} locale={locale}>
                                             Visit
                                         </Link>
                                     </div>
@@ -156,7 +157,7 @@ export const Person = ({ person, locale }: { person: PersonDetailsType, locale: 
                                             {entry.job}
                                         </p>
                                         <Link className="person__profile__work__list__item__info__link inline-link"
-                                            href={`/details/${entry.id}`} locale={locale}>
+                                            href={`/movie/${entry.id}`} locale={locale}>
                                             Visit
                                         </Link>
                                     </div>

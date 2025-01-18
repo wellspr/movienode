@@ -14,5 +14,5 @@ export default async function Page({
 
     if (!movie.images) return null;
 
-    return <DetailsImages movieImages={movie.images} />
+    return <DetailsImages movieImages={movie.images} />;
 }

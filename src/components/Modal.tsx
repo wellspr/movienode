@@ -2,9 +2,16 @@
 
 import { IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import {
+    useEffect,
+    useRef
+} from "react";
 
-export const Modal = ({ children, showCloseButton, href }: { children: React.ReactNode, showCloseButton?: boolean, href?: string }) => {
+export const Modal = ({
+    children,
+}: {
+    children: React.ReactNode,
+}) => {
 
     const router = useRouter();
     const ref = useRef<HTMLDivElement>(null);
@@ -38,12 +45,10 @@ export const Modal = ({ children, showCloseButton, href }: { children: React.Rea
             <div className="modal__overlay">
                 <div className="modal__content" ref={ref}>
                     <div className="modal__content__header">
-                        {
-                            showCloseButton && (
-
-                                href ? <CloseButton href={href} /> : <CloseButton />
-                            )
-                        }
+                        <button className="icon modal__content__header__button-close"
+                            onClick={router.back}>
+                            <IconX />
+                        </button>
                     </div>
                     <div className="modal__content__main">
                         {children}
@@ -52,24 +57,5 @@ export const Modal = ({ children, showCloseButton, href }: { children: React.Rea
                 </div>
             </div>
         </div>
-    );
-};
-
-export const CloseButton = ({ href }: { href?: string }) => {
-
-    const router = useRouter();
-
-    return (
-        <button className="icon modal__content__header__button-close"
-            onClick={() => {
-                if (href) {
-                    router.push(href, { scroll: false });
-                    console.log(href);
-                } else {
-                    router.back();
-                }
-            }}>
-            <IconX />
-        </button>
     );
 };

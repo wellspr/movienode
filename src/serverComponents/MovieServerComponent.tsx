@@ -1,8 +1,14 @@
 import { getMovieCredits, getMovieDetails, getMovieRecommendations, getReleaseDates, getSimilarMovies, getWatchProviders } from "@/actions";
-import { Movie } from "./Movie";
+import { Movie } from "@/components/Movie";
 import { Locale } from "@/i18n/types";
 
-export const Details = async ({ movieId, locale }: { movieId: string, locale: Locale }) => {
+export const MovieServerComponent = async ({
+    locale,
+    movieId,
+}: {
+    locale: Locale,
+    movieId: string
+}) => {
 
     const movie = await getMovieDetails(locale, movieId);
 

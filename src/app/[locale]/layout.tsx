@@ -8,10 +8,10 @@ import { getLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 export default async function Layout({
-	modal,
+	imagesModal,
 	children,
 }: {
-	modal: React.ReactNode,
+	imagesModal: React.ReactNode,
 	children: React.ReactNode,
 }) {
 
@@ -27,7 +27,7 @@ export default async function Layout({
 		<NextIntlClientProvider messages={messages}>
 			<Header />
 			<Main>
-				{modal}
+				{imagesModal}
 				{children}
 			</Main>
 			<Footer />

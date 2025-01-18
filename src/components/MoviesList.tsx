@@ -14,10 +14,9 @@ export const MoviesList = ({ results, locale }: { results: MovieType[], locale: 
                         <Link
                             key={movie.id}
                             locale={locale}
-                            href={`/details/${movie.id}`}
+                            href={`/movie/${movie.id}`}
                             className="movies__list__item__link"
                             draggable={false}
-                            scroll={false}
                             >
                             <div className="movies__list__item">
                                 <div className="movies__list__item">

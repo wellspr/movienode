@@ -10,7 +10,7 @@ export const Results = ({ results }: { results: MovieType[] }) => {
                 results.map((result) => {
                     return (
                         <li key={result.id} className="search-results__list__item">
-                            <Link href={`/details/${result.id}`} draggable={false}>
+                            <Link href={`/movie/${result.id}`} draggable={false}>
                                 <div className="movie-poster">
                                     {
                                         result.poster_path ?
@@ -21,7 +21,6 @@ export const Results = ({ results }: { results: MovieType[] }) => {
                                     }
                                 </div>
                                 <div className="movie-info">
-
                                     <h3>{result.title} {result.release_date && result.release_date.split('-')[0]} </h3>
                                     {/* <p>{result.overview}</p> */}
                                 </div>

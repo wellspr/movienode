@@ -13,7 +13,7 @@ export const Poster = ({ movie }: { movie: MovieDetailsType }) => {
                         <Image
                             src={baseImageUrl(500) + movie.poster_path}
                             alt={movie.title}
-                            sizes="100vw, 50rem, 100%"
+                            //sizes="100%"
                             fill
                             draggable={false}
                         /> :

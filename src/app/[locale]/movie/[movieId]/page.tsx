@@ -1,5 +1,5 @@
-import { Details } from "@/components/Details";
 import { Locale } from "@/i18n/types";
+import { MovieServerComponent } from "@/serverComponents/MovieServerComponent";
 
 export default async function Page({
     params,
@@ -8,5 +8,5 @@ export default async function Page({
 }) {
     const { movieId, locale } = await params;
 
-    return <Details locale={locale as Locale} movieId={movieId} />;
+    return <MovieServerComponent locale={locale} movieId={movieId} />
 }

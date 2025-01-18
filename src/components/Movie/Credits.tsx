@@ -60,7 +60,7 @@ const Cast = ({ cast }: { cast: MovieCast }) => {
                         cast.map((entry, index) => {
                             return (
                                 <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
-                                    <Link href={`/person/${entry.id}`} draggable={false} scroll={false}>
+                                    <Link href={`/person/${entry.id}`} draggable={false}>
                                         <div className="movie-credits__list__item__profile-pic-wrapper">
                                             {
                                                 entry.profile_path ?
@@ -134,7 +134,7 @@ const Crew = ({ crew }: { crew: MovieCrew }) => {
                         crew.map((entry, index) => {
                             return (
                                 <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
-                                    <Link href={`/person/${entry.id}`} draggable={false} scroll={false}>
+                                    <Link href={`/person/${entry.id}`} draggable={false}>
                                         <div className="movie-credits__list__item__profile-pic-wrapper">
                                             {
                                                 entry.profile_path ?

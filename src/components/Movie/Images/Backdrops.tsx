@@ -46,7 +46,7 @@ export const Backdrops = ({ backdrops }: { backdrops?: ImageType[] }) => {
                                     className="movie-images__list__item"
                                     draggable={false}>
                                     <Link
-                                        href={`/details/${movieId}/images?focusedImage=${image.file_path}`}
+                                        href={`/movie/${movieId}/images?focusedImage=${image.file_path}`}
                                         locale={locale as Locale}
                                         draggable={false}>
                                         <Image
