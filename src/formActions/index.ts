@@ -1,25 +1,15 @@
 "use server";
 
-import { searchMovie } from "@/actions";
 import { Locale } from "@/i18n/types";
-import { SearchResultsType } from "@/types";
+import { SearchType } from "@/types";
+import { redirect } from "next/navigation";
 
-export async function search(
-    state: { locale: Locale, query: string, page: string, results: SearchResultsType | null },
-    formData: FormData
-) {
+export async function searchAction(formData: FormData) {
 
-    const { locale } = state;
-
+    const searchType = formData.get("searchType")?.toString() as SearchType;
+    const locale = formData.get("locale")?.toString() as Locale;
     const query = formData.get("query")?.toString() as string;
     const page = formData.get("page")?.toString() || '1' as string;
 
-    const results = await searchMovie(locale, query, page) as SearchResultsType | null;
-
-    return {
-        locale,
-        query,
-        page,
-        results,
-    };
+    redirect(`/${locale}/search?query=${query}&type=${searchType}&page=${page}`, );
 }

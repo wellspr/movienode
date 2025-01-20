@@ -12,7 +12,8 @@ import {
 	MovieRecommendationsType,
 	PersonDetailsType,
 	ReleaseDatesType,
-	SearchResultsType,
+	SearchMovieResultsType,
+	SearchPersonResultsType,
 	SimilarMoviesType,
 	WatchProvidersType,
 } from "@/types";
@@ -53,7 +54,6 @@ export const getMovies = async (locale: Locale, category: CategoryType, page?: s
 		total_results,
 	};
 };
-
 
 export const getMovieDetails = async (locale: Locale, movieId: string) => {
 	const movieDetailsURL = `${baseMovieURL}/movie/${movieId}?language=${locale}&region=${regions[locale]}&append_to_response=images,videos, release_dates&include_image_language=${locale},null`;
@@ -134,7 +134,7 @@ export const getWatchProviders = async (locale: Locale, movieId: string) => {
 };
 
 export const searchMovie = async (locale: Locale, query: string, page?: string) => {
-	const searchMovieURL = (page?: string) => {
+	const url = (page?: string) => {
 		if (!page) {
 			page = '1';
 		}
@@ -142,14 +142,33 @@ export const searchMovie = async (locale: Locale, query: string, page?: string) 
 		return `${baseMovieURL}/search/movie?language=${locale}&query=${query}&page=${page}`;
 	};
 
-	const response = await fetch(searchMovieURL(page), {
+	const response = await fetch(url(page), {
 		cache: 'no-store',
 		...options
 	});
 
 	const searchResults = await response.json();
 
-	return searchResults as SearchResultsType;
+	return searchResults as SearchMovieResultsType;
+};
+
+export const searchPerson = async (locale: Locale, query: string, page?: string) => {
+	const url = (page?: string) => {
+		if (!page) {
+			page = '1';
+		}
+
+		return `${baseMovieURL}/search/person?language=${locale}&query=${query}&page=${page}`;
+	};
+
+	const response = await fetch(url(page), {
+		cache: 'no-store',
+		...options
+	});
+
+	const searchResults = await response.json();
+
+	return searchResults as SearchPersonResultsType;
 };
 
 export const discoverMovie = async (locale: Locale, queryList: FilteringType, page?: string) => {
@@ -219,7 +238,7 @@ export const getPersonDetails = async (locale: Locale, personId: string) => {
 		...options
 	});
 
-	const personDetails =  await response.json();
+	const personDetails = await response.json();
 
 	return personDetails as PersonDetailsType;
 };

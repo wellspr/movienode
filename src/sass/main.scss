@@ -34,7 +34,7 @@ html {
     opacity: 0;
     animation-name: opacity-up;
     animation-duration: 1s;
-    animation-delay: .45s;
+    animation-delay: 0.45s;
     animation-fill-mode: forwards;
     animation-direction: normal;
 }
@@ -467,7 +467,7 @@ ul {
         display: block;
         position: relative;
         user-select: none;
- 
+
         img {
             object-fit: contain;
         }
@@ -490,7 +490,8 @@ ul {
 
     @media screen and (max-width: $breakpoint-md) {
         &__wrapper {
-            width: 100%;
+            width: 30rem;
+            height: 40rem;
             display: flex;
             justify-content: center;
 
@@ -876,6 +877,12 @@ ul {
     flex-direction: column;
     justify-content: space-between;
     min-height: 100%;
+
+    &__scroll-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     &__selected-outer {
         position: relative;
@@ -1270,6 +1277,20 @@ ul {
             align-items: center;
             border-radius: 0.6rem;
 
+            &__radio-input {
+                width: 100%;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                margin: 2rem;
+
+                &__option {
+                    display: flex;
+                    gap: 0.4rem;
+                    padding: 1rem;
+                }
+            }
+
             &__input {
                 flex-grow: 1;
                 font-size: 2.1rem;
@@ -1315,6 +1336,14 @@ ul {
                     height: 22rem;
                 }
 
+                &--clear {
+                    background-color: #eee;
+                    border-radius: 0;
+                    svg {
+                        color: #333;
+                    }
+                }
+
                 &:disabled {
                     color: #aaa;
                     cursor: default;
@@ -1332,6 +1361,12 @@ ul {
             outline: 0.2rem solid orangered;
         }
     }
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .button-search {

@@ -1,7 +1,7 @@
 import { discoverMovie, getMovieGenre, getMovieGenreList } from "@/actions";
 import { GenresList } from "@/components/Genres/GenresList";
 import { MoviesListPagination } from "@/components/MoviesListPagination";
-import { Results } from "@/components/Search/Results";
+import { MovieResults } from "@/components/Search/Results";
 import { Locale } from "@/i18n/types";
 
 export default async function Page({
@@ -17,6 +17,7 @@ export default async function Page({
 
     const genres = await getMovieGenreList(locale);
     const genre = await getMovieGenre(locale, genreId);
+    
     const { results, total_pages } = await discoverMovie(locale, {
         with_genres: String(genre.id)
     }, page);
@@ -29,7 +30,7 @@ export default async function Page({
                 <h2>{ genre.name }</h2>
             </div>
 
-            <Results results={results} />
+            <MovieResults results={results} />
 
             <MoviesListPagination locale={locale} page={page} total_pages={total_pages} />
         </div>

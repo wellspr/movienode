@@ -197,7 +197,8 @@ export type ProviderType = {
 
 export type SearchResultsType = {
     page: number
-    results: {
+    //results: MovieType[] | PersonDetailsType[]
+    /* {
         adult: boolean
         backdrop_path: string
         genre_ids: number[]
@@ -212,9 +213,24 @@ export type SearchResultsType = {
         video: boolean
         vote_average: number
         vote_count: number
-    }[]
+    }[] */
+
     total_pages: number
     total_results: number
+}
+
+export type SearchMovieResultsType = {
+    page: number,
+    results: MovieType[],
+    total_pages: number,
+    total_results: number,
+}
+
+export type SearchPersonResultsType = {
+    page: number,
+    results: PersonDetailsType[],
+    total_pages: number,
+    total_results: number,
 }
 
 export type FilteringType = {
@@ -354,6 +370,15 @@ export type MovieCreditsType = {
     }[]
     id: number
 }
+
+export type SearchType =
+    "collection" |
+    "company" |
+    "keyword" |
+    "movie" |
+    "multi" |
+    "person" |
+    "tv"
 
 export type RegionsType =
     'AD' |

@@ -23,6 +23,7 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
     useEffect(() => {
         const focusedImageFilePath = query.get("focusedImage");
         const initialImage = { previous: null, current: movieImages.backdrops[0], next: movieImages.backdrops[1] || null };
+
         if (focusedImageFilePath) {
             movieImages.backdrops.forEach((image, index) => {
                 if (image.file_path === focusedImageFilePath) {
@@ -113,33 +114,39 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
                 }
             </div>
 
-            <ul className={isOverflown ? "movie-details__images__list" : "movie-details__images__list centered" } ref={containerRef}>
-                {
-                    movieImages?.backdrops.map((image, index) => {
-                        return (
-                            <li key={image.file_path}
-                                className={
-                                    selected.current?.file_path === image.file_path ?
-                                        "movie-details__images__list__item movie-details__images__list__item--current" :
-                                        "movie-details__images__list__item"}
-                                style={selected.current?.file_path === image.file_path ? { border: "3px solid white" } : {}}
-                                onClick={() => {
-                                    const previous = index - 1 >= 0 ? movieImages.backdrops[index - 1] : null;
-                                    const next = index + 1 < movieImages.backdrops.length ? movieImages.backdrops[index + 1] : null
-                                    setSelected({ previous, current: image, next });
-                                }}>
-                                <Image
-                                    id={image.file_path}
-                                    src={baseImageUrl(500) + image.file_path}
-                                    alt={image.file_path}
-                                    fill
-                                    draggable={false}
-                                />
-                            </li>
-                        );
-                    })
-                }
-            </ul>
+            <div className="movie-details__images__scroll-area">
+                <ul
+                    className="movie-details__images__list"
+                    ref={containerRef}>
+                    {
+                        movieImages && movieImages.backdrops.map((image, index) => {
+                            console.log(isOverflown);
+                            return (
+                                <li key={image.file_path}
+                                    className={
+                                        selected.current && (selected.current.file_path === image.file_path) ?
+                                            "movie-details__images__list__item movie-details__images__list__item--current" :
+                                            "movie-details__images__list__item"
+                                    }
+                                    style={selected.current && (selected.current.file_path === image.file_path) ? { border: "3px solid white" } : {}}
+                                    onClick={() => {
+                                        const previous = index - 1 >= 0 ? movieImages.backdrops[index - 1] : null;
+                                        const next = index + 1 < movieImages.backdrops.length ? movieImages.backdrops[index + 1] : null
+                                        setSelected({ previous, current: image, next });
+                                    }}>
+                                    <Image
+                                        id={image.file_path}
+                                        src={baseImageUrl(500) + image.file_path}
+                                        alt={image.file_path}
+                                        fill
+                                        draggable={false}
+                                    />
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
+            </div>
         </div>
     );
 };
