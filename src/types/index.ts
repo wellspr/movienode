@@ -178,7 +178,11 @@ export type VideosType = {
     }[]
 }
 
-export type CategoryType = "popular" | "top_rated" | "upcoming" | "now_playing";
+export type MovieCategoryType =
+    "popular" |
+    "top_rated" |
+    "upcoming" |
+    "now_playing";
 
 export type MovieRecommendationsType = {
     page: number

@@ -17,7 +17,6 @@ export default async function Page({
 	const {
 		results,
 		total_pages,
-		//total_results 
 	} = await getMovies(locale, "popular", page);
 
 	return (

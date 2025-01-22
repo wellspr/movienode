@@ -1,4 +1,4 @@
-import { baseImageUrl } from "@/config";
+import { baseImageUrl, paths } from "@/config";
 import { Link } from "@/i18n/routing";
 import { MovieType, PersonDetailsType } from "@/types";
 import Image from "next/image";
@@ -10,7 +10,7 @@ export const MovieResults = ({ results }: { results: MovieType[] }) => {
                 results.map((result) => {
                     return (
                         <li key={result.id} className="search-results__list__item">
-                            <Link href={`/movie/${result.id}`} draggable={false}>
+                            <Link href={paths.movie(String(result.id))} draggable={false}>
                                 <div className="movie-poster">
                                     {
                                         result.poster_path ?
@@ -22,7 +22,6 @@ export const MovieResults = ({ results }: { results: MovieType[] }) => {
                                 </div>
                                 <div className="movie-info">
                                     <h3>{result.title} {result.release_date && result.release_date.split('-')[0]} </h3>
-                                    {/* <p>{result.overview}</p> */}
                                 </div>
                             </Link>
                         </li>
@@ -40,7 +39,7 @@ export const PersonResults = ({results}: {results: PersonDetailsType[]}) => {
                 results.map((result) => {
                     return (
                         <li key={result.id} className="search-results__list__item">
-                            <Link href={`/person/${result.id}`} draggable={false}>
+                            <Link href={paths.person(String(result.id))} draggable={false}>
                                 <div className="movie-poster">
                                     {
                                         result.profile_path ?
@@ -52,7 +51,6 @@ export const PersonResults = ({results}: {results: PersonDetailsType[]}) => {
                                 </div>
                                 <div className="movie-info">
                                     <h3>{result.name} {result.place_of_birth} </h3>
-                                    {/* <p>{result.overview}</p> */}
                                 </div>
                             </Link>
                         </li>

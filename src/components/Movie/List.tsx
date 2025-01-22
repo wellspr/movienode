@@ -1,6 +1,6 @@
 "use client";
 
-import { baseImageUrl } from "@/config";
+import { baseImageUrl, paths } from "@/config";
 import { useScroll } from "@/hooks/useScroll";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
@@ -105,7 +105,7 @@ export const List = ({ results }: { results: MovieType[] }) => {
                                             </p>
                                         </div>
 
-                                        <Link href={`/movie/${movie.id}`} locale={locale}
+                                        <Link href={paths.movie(String(movie.id))} locale={locale}
                                             className="movie-list-horizontal__item__info__link">
                                             View
                                         </Link>

@@ -1,4 +1,4 @@
-import { baseImageUrl } from "@/config";
+import { baseImageUrl, paths } from "@/config";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { MovieType } from "@/types";
@@ -14,7 +14,7 @@ export const MoviesList = ({ results, locale }: { results: MovieType[], locale: 
                         <Link
                             key={movie.id}
                             locale={locale}
-                            href={`/movie/${movie.id}`}
+                            href={paths.movie(String(movie.id))}
                             className="movies__list__item__link"
                             draggable={false}
                             >

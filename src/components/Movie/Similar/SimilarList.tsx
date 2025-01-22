@@ -4,6 +4,7 @@ import { Link } from "@/i18n/routing";
 import { MovieDetailsType } from "@/types";
 import { useTranslations } from "next-intl";
 import { List } from "../List";
+import { paths } from "@/config";
 
 export const SimilarList = ({
     movie,
@@ -21,7 +22,7 @@ export const SimilarList = ({
         <div className={`movie-similar`}>
             <div className={`movie-similar__header`}>
                 <h4>{t('similar')}</h4>
-                <Link className="link" href={`/similar/${movie.id}`}>
+                <Link className="link" href={paths.movie_similar(String(movie.id))}>
                     More
                 </Link>
             </div>

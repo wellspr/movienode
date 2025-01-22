@@ -1,5 +1,6 @@
 "use client";
 
+import { paths } from "@/config";
 import { useScroll } from "@/hooks/useScroll";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
@@ -29,7 +30,7 @@ export const GenresList = ({ genres, locale }: { genres: MovieGenresType, locale
                         genres.map(genre => {
                             return (
                                 <Link key={genre.id}
-                                    href={`/genres/${genre.id}`} locale={locale}
+                                    href={paths.genres(String(genre.id))} locale={locale}
                                     className="genres__list__item pillbox">
                                     {genre.name}
                                 </Link>

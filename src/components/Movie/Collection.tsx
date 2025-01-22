@@ -1,7 +1,7 @@
 "use server";
 
 import { getCollection } from "@/actions";
-import { baseImageUrl } from "@/config";
+import { baseImageUrl, paths } from "@/config";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { MovieDetailsType } from "@/types";
@@ -30,7 +30,7 @@ export const Collection = async ({
                     collection.parts.map(part => {
                         return (
                             <div key={part.id} className="collection__parts__part">
-                                <Link href={`/movie/${part.id}`}>
+                                <Link href={paths.movie(String(part.id))}>
                                     <div className="collection__parts__part__poster">
                                         <Image
                                             src={baseImageUrl() + part.poster_path}

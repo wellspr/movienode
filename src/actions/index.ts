@@ -1,7 +1,7 @@
 import { regions } from "@/i18n/config";
 import { Locale } from "@/i18n/types";
 import {
-	CategoryType,
+	MovieCategoryType,
 	CollectionType,
 	CreditDetailsType,
 	FilteringType,
@@ -30,7 +30,7 @@ const options = {
 
 const baseMovieURL = `https://api.themoviedb.org/3`;
 
-export const getMovies = async (locale: Locale, category: CategoryType, page?: string) => {
+export const getMovies = async (locale: Locale, category: MovieCategoryType, page?: string) => {
 	const moviesURL = (page?: string) => {
 		if (!page) {
 			page = '1';

@@ -6,7 +6,7 @@ import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { LanguageSwitcher } from "../LanguageSwitcher";
 import { HeaderNav } from "./HeaderNav";
 import { IconSearch } from "@tabler/icons-react";
-import { appName } from "@/config";
+import { appName, paths } from "@/config";
 import { useEffect, useRef } from "react";
 
 
@@ -29,7 +29,7 @@ export const Header = () => {
     return (
         <header className="header" ref={ref}>
             <div className="header__top">
-                <Link className="header__link" href={"/"} locale={locale}>
+                <Link className="header__link" href={paths.home()} locale={locale}>
                     <h1 className="header__link__text app-title">
                         {appName}
                     </h1>
@@ -39,7 +39,7 @@ export const Header = () => {
                     <HeaderNav />
                 </div>
 
-                <Link className="button-search" href={"/search"} locale={locale}>
+                <Link className="button-search" href={paths.search()} locale={locale}>
                     <IconSearch />
                 </Link>
 

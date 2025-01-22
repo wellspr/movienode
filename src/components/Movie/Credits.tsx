@@ -1,6 +1,6 @@
 "use client";
 
-import { baseImageUrl } from "@/config";
+import { baseImageUrl, paths } from "@/config";
 import { useScroll } from "@/hooks/useScroll";
 import { Link } from "@/i18n/routing";
 import type { MovieCast, MovieCrew, MovieDetailsType } from "@/types";
@@ -65,7 +65,7 @@ const Cast = ({ cast }: { cast: MovieCast }) => {
                         cast.map((entry, index) => {
                             return (
                                 <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
-                                    <Link href={`/person/${entry.id}`} draggable={false}>
+                                    <Link href={paths.person(String(entry.id))} draggable={false}>
                                         <div className="movie-credits__list__item__profile-pic-wrapper">
                                             {
                                                 entry.profile_path ?
@@ -139,7 +139,7 @@ const Crew = ({ crew }: { crew: MovieCrew }) => {
                         crew.map((entry, index) => {
                             return (
                                 <li key={entry.id + "-" + entry.credit_id + "-" + index} className="movie-credits__list__item">
-                                    <Link href={`/person/${entry.id}`} draggable={false}>
+                                    <Link href={paths.person(String(entry.id))} draggable={false}>
                                         <div className="movie-credits__list__item__profile-pic-wrapper">
                                             {
                                                 entry.profile_path ?

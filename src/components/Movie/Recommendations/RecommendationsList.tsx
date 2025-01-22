@@ -4,6 +4,7 @@ import { Link } from "@/i18n/routing";
 import { MovieDetailsType } from "@/types";
 import { List } from "../List";
 import { useTranslations } from "next-intl";
+import { paths } from "@/config";
 
 export const RecommendationsList = ({
     movie,
@@ -23,7 +24,7 @@ export const RecommendationsList = ({
                 <h4>{t('recommendations')}</h4>
                 <Link
                     className="link"
-                    href={`/recommendations/${movie.id}`}>
+                    href={paths.movie_recommendations(String(movie.id))}>
                     More
                 </Link>
             </div>

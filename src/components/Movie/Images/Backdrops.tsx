@@ -2,7 +2,7 @@
 
 import { ListMarkers } from "@/components/ListMarkers";
 import { Scroller } from "@/components/Scroller";
-import { baseImageUrl } from "@/config";
+import { baseImageUrl, paths } from "@/config";
 import { useScroll } from "@/hooks/useScroll";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
@@ -46,7 +46,7 @@ export const Backdrops = ({ backdrops }: { backdrops?: ImageType[] }) => {
                                     className="movie-images__list__item"
                                     draggable={false}>
                                     <Link
-                                        href={`/movie/${movieId}/images?focusedImage=${image.file_path}`}
+                                        href={`${paths.movie(String(movieId))}/images?focusedImage=${image.file_path}`}
                                         locale={locale as Locale}
                                         draggable={false}>
                                         <Image
