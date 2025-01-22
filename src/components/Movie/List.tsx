@@ -12,7 +12,7 @@ import { useCallback } from "react";
 import { ListMarkers } from "../ListMarkers";
 import { Scroller } from "../Scroller";
 
-export const List = ({ results, row }: { results: MovieType[], row?: boolean }) => {
+export const List = ({ results }: { results: MovieType[] }) => {
 
     const params = useParams();
     const locale = params.locale as Locale;
@@ -48,7 +48,7 @@ export const List = ({ results, row }: { results: MovieType[], row?: boolean }) 
     }, [containerRef]);
 
     return (
-        <div className={row ? `movie-list-horizontal-container` : `movie-list-container`}>
+        <div className={`movie-list-horizontal-container`}>
             <Scroller>
                 {
                     isOverflown &&
@@ -58,14 +58,14 @@ export const List = ({ results, row }: { results: MovieType[], row?: boolean }) 
                         <IconChevronLeft size={30} />
                     </button>
                 }
-                <ul className={row ? `movie-list-horizontal` : `movie-list`} ref={containerRef}>
+                <ul className={`movie-list-horizontal`} ref={containerRef}>
                     {
                         results.map((movie) => {
                             return (
                                 <li key={movie.id}
-                                    className={row ? `movie-list-horizontal__item` : `movie-list__item`}>
+                                    className={`movie-list-horizontal__item`}>
 
-                                    <div className={row ? `movie-list-horizontal__item__image` : `movie-list__item__image`}
+                                    <div className={`movie-list-horizontal__item__image`}
                                         onMouseOver={handleMouseOver}>
                                         {
                                             movie.poster_path ?
@@ -75,14 +75,14 @@ export const List = ({ results, row }: { results: MovieType[], row?: boolean }) 
                                                     fill
                                                     draggable={false}
                                                 /> :
-                                                <div className={row ? `movie-list-horizontal__item__image__placeholder` : `movie-list__item__image__placeholder`}>
+                                                <div className={`movie-list-horizontal__item__image__placeholder`}>
                                                     {movie.title}
                                                     <IconMovie size={40} />
                                                 </div>
                                         }
                                     </div>
 
-                                    <div className={row ? `movie-list-horizontal__item__info` : `movie-list__item__info`}>
+                                    <div className={`movie-list-horizontal__item__info`}>
                                         <div className="movie-list-horizontal__item__info__background-image">
                                             <Image
                                                 src={baseImageUrl(500) + movie.backdrop_path}
@@ -125,6 +125,7 @@ export const List = ({ results, row }: { results: MovieType[], row?: boolean }) 
                     </button>
                 }
             </Scroller>
+
             <ListMarkers
                 currentScrollPage={currentScrollPage}
                 markerRef={markerRef}

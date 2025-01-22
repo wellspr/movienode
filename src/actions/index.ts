@@ -2,6 +2,7 @@ import { regions } from "@/i18n/config";
 import { Locale } from "@/i18n/types";
 import {
 	CategoryType,
+	CollectionType,
 	CreditDetailsType,
 	FilteringType,
 	MovieCast,
@@ -15,6 +16,7 @@ import {
 	SearchMovieResultsType,
 	SearchPersonResultsType,
 	SimilarMoviesType,
+	TVSeriesCategoryType,
 	WatchProvidersType,
 } from "@/types";
 
@@ -55,8 +57,35 @@ export const getMovies = async (locale: Locale, category: CategoryType, page?: s
 	};
 };
 
+export const getTVSeries = async (locale: Locale, category: TVSeriesCategoryType, page?: string) => {
+	const url = (page?: string) => {
+		if (!page) {
+			page = '1';
+		}
+
+		return `${baseMovieURL}/tv/${category}?language=${locale}&region=${regions[locale]}&page=${page}`;
+	};
+
+	const response = await fetch(url(page), {
+		cache: 'no-store',
+		...options
+	});
+
+	const {
+		results,
+		total_pages,
+		total_results,
+	} = await response.json();
+
+	return {
+		results,
+		total_pages,
+		total_results,
+	};
+};
+
 export const getMovieDetails = async (locale: Locale, movieId: string) => {
-	const movieDetailsURL = `${baseMovieURL}/movie/${movieId}?language=${locale}&region=${regions[locale]}&append_to_response=images,videos, release_dates&include_image_language=${locale},null`;
+	const movieDetailsURL = `${baseMovieURL}/movie/${movieId}?language=${locale}&region=${regions[locale]}&append_to_response=images,videos,release_dates,translations&include_image_language=${locale},null`;
 
 	const response = await fetch(movieDetailsURL, {
 		cache: 'no-store',
@@ -244,7 +273,6 @@ export const getPersonDetails = async (locale: Locale, personId: string) => {
 };
 
 export const getReleaseDates = async (locale: Locale, movieId: string) => {
-
 	const url = `${baseMovieURL}/movie/${movieId}/release_dates?language=${locale}`;
 
 	const response = await fetch(url, {
@@ -255,4 +283,17 @@ export const getReleaseDates = async (locale: Locale, movieId: string) => {
 	const releaseDates = await response.json();
 
 	return releaseDates as ReleaseDatesType;
+}
+
+export const getCollection = async (locale: Locale, collectionId: string) => {
+	const url = `${baseMovieURL}/collection/${collectionId}?language=${locale}`;
+
+	const response = await fetch(url, {
+		cache: 'default',
+		...options
+	});
+
+	const collection = await response.json();
+
+	return collection as CollectionType;
 }

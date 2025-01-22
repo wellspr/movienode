@@ -1,20 +1,25 @@
+"use client";
+
 import { baseImageUrl } from "@/config";
 import { useScroll } from "@/hooks/useScroll";
 import { Link } from "@/i18n/routing";
-import type { MovieCast, MovieCrew } from "@/types";
+import type { MovieCast, MovieCrew, MovieDetailsType } from "@/types";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { ListMarkers } from "../ListMarkers";
 import { Scroller } from "../Scroller";
 
-export const Credits = ({ movieCredits }: {
-    movieCredits: {
-        id: string,
-        cast: MovieCast,
-        crew: MovieCrew,
-    }
-}) => {
+type MovieCredits = {
+    id: string,
+    cast: MovieCast,
+    crew: MovieCrew,
+}
+
+export const Credits = ({ movie }: { movie: MovieDetailsType }) => {
+
+    const movieCredits = movie.credits as MovieCredits;
+
     return (
         <div className="movie-credits">
 

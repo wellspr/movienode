@@ -29,7 +29,7 @@ export const Form = () => {
     const searchType = searchParams.get('type')?.toString() || "movie" as SearchType;
     const locale = params.locale as Locale;
 
-    const [query, setQuery] = useState(q);
+    const [query, setQuery] = useState(decodeURI(q));
 
     return (
         <form action={searchAction} className="search__form">

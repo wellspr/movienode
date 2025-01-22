@@ -1,24 +1,33 @@
 import { baseImageUrl } from "@/config";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
-import { WatchProvidersMod, WatchProvidersType } from "@/types";
+import { MovieDetailsType, WatchProvidersMod, WatchProvidersType } from "@/types";
 import { IconExternalLink } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 export const WatchProviders = ({
     locale,
-    watchProviders
+    movie,
+    className
 }: {
     locale: Locale,
-    watchProviders: WatchProvidersType
+    movie: MovieDetailsType,
+    className: string,
 }) => {
 
     const t = useTranslations("Movie.WatchProviders");
 
+    if (!movie.watch_providers) return null;
+    if (!movie.watch_providers.results) return null;
+    if (!movie.watch_providers.results[locale.split('-')[1]]) return null;
+
+    const watchProviders = movie.watch_providers as WatchProvidersType;
+    const watchProvidersOptions = movie.watch_providers.results[locale.split('-')[1]];
+
     return (
         <div className="watch-providers">
-            <div className="movie-info__watch-now">
+            <div className={className ? `${className}__watch-now` : "watch-now"}>
                 <h4>{t('heading')}</h4>
                 <p>
                     {t('info.line_1')} {" "}
@@ -31,14 +40,22 @@ export const WatchProviders = ({
                 </p>
 
 
-                <div className="movie-info__watch-now__options">
+                <div className={className ? `${className}__watch-now__options` : "watch-now__options"}>
                     {
-                        Object.entries(watchProviders.results[locale.split('-')[1]]).map(([key, value]) => {
+                        Object.entries(watchProvidersOptions).map(([key, value]) => {
                             if (key !== 'link') {
                                 return (
-                                    <div className="movie-info__watch-now__options__option" key={key}>
+                                    <div key={key}
+                                        className={
+                                            className ?
+                                                `${className}__watch-now__options__option` :
+                                                "watch-now__options__option"}>
                                         <h5>{t(`watch_now.${key as WatchProvidersMod}`)}</h5>
-                                        <ul className="movie-info__watch-now__options__option__providers">
+                                        <ul className={
+                                            className ?
+                                                `${className}__watch-now__options__option__providers` :
+                                                "watch-now__options__option__providers"
+                                        }>
                                             {
                                                 Object.values(value).map((provider, index) => (
                                                     <li key={index}>

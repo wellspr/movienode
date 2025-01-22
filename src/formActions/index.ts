@@ -11,5 +11,7 @@ export async function searchAction(formData: FormData) {
     const query = formData.get("query")?.toString() as string;
     const page = formData.get("page")?.toString() || '1' as string;
 
-    redirect(`/${locale}/search?query=${query}&type=${searchType}&page=${page}`, );
+    const redirectURL = encodeURI(`/${locale}/search?query=${query}&type=${searchType}&page=${page}`);
+    
+    redirect(redirectURL);
 }

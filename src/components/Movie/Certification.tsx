@@ -1,10 +1,20 @@
 import { Locale } from "@/i18n/types";
-import { ReleaseDatesType } from "@/types";
+import { MovieDetailsType, ReleaseDatesType } from "@/types";
 import { useTranslations } from "next-intl";
 
-export const Certification = ({ releaseDates, locale }: { releaseDates: ReleaseDatesType, locale: Locale }) => {
+export const Certification = ({
+    movie,
+    locale
+}: {
+    movie: MovieDetailsType
+    locale: Locale
+}) => {
 
     const t = useTranslations("Movie.Certification");
+
+    if (!movie.release_dates) return null;
+
+    const releaseDates = movie.release_dates as ReleaseDatesType;
 
     const result = releaseDates.results.filter(result => {
         return result.iso_3166_1 === locale.split('-')[1];
