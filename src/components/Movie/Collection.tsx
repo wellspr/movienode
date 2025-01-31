@@ -30,7 +30,7 @@ export const Collection = async ({
                     collection.parts.map(part => {
                         return (
                             <div key={part.id} className="collection__parts__part">
-                                <Link href={paths.movie(String(part.id))}>
+                                <Link href={paths.movies(String(part.id))}>
                                     <div className="collection__parts__part__poster">
                                         <Image
                                             src={baseImageUrl() + part.poster_path}

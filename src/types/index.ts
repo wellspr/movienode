@@ -25,7 +25,7 @@ export type MovieDetailsType = {
         backdrop_path: string,
     } | null
     budget: number
-    genres: MovieGenresType
+    genres: GenresType
     homepage: string
     id: number
     imdb_id: string
@@ -70,9 +70,10 @@ export type TranslationsType = {
         data: {
             homepage: string
             overview: string
-            runtime: number
+            runtime?: number
             tagline: string
-            title: string
+            title?: string
+            name?: string
         }
     }[]
 }
@@ -92,12 +93,12 @@ export type ReleaseDatesType = {
     }[]
 }
 
-export type MovieGenreType = {
+export type GenreType = {
     id: number,
     name: string
 }
 
-export type MovieGenresType = MovieGenreType[]
+export type GenresType = GenreType[]
 
 export type MovieProductionCompaniesType = {
     id: number
@@ -182,7 +183,8 @@ export type MovieCategoryType =
     "popular" |
     "top_rated" |
     "upcoming" |
-    "now_playing";
+    "now_playing" |
+    "trending"
 
 export type MovieRecommendationsType = {
     page: number
@@ -247,28 +249,6 @@ export type SearchCollectionResultsType = {
         original_name: string
         overview: string
         poster_path: string
-    }[]
-    total_pages: number
-    total_results: number
-}
-
-export type TVSearchResultsType = {
-    page: number
-    results: {
-        adult: boolean
-        backdrop_path: string
-        genre_ids: number[]
-        id: number
-        origin_country: string[]
-        original_language: string
-        original_name: string
-        overview: string
-        popularity: number
-        poster_path: string
-        first_air_date: string
-        name: string
-        vote_average: number
-        vote_count: number
     }[]
     total_pages: number
     total_results: number
@@ -369,6 +349,99 @@ export type PersonDetailsType = {
     }
     movie_credits?: MovieCreditsType
 }
+
+export type PeopleListType = {
+    page: number
+    results: PersonType[]
+    total_pages: number
+    total_results: number
+}
+
+export type PersonType = {
+    adult: boolean
+    gender: number
+    id: number
+    known_for: KnownFor
+    known_for_department: string
+    media_type?: string
+    name: string
+    original_name?: string
+    popularity: number
+    profile_path: string
+}
+
+export type KnownFor = {
+    adult: boolean
+    backdrop_path: string
+    genre_ids: number[]
+    id: number
+    media_type: string
+    original_language: string
+    original_title: string
+    overview: string
+    poster_path: string
+    popularity?: number
+    release_date: string
+    title: string
+    video: boolean
+    vote_average: number
+    vote_count: number
+}[]
+
+export type TrendingMoviesType = {
+    page: number
+    results: {
+        adult: boolean
+        backdrop_path: string
+        id: number
+        title: string
+        original_language: string
+        original_title: string
+        overview: string
+        poster_path: string
+        media_type: string
+        genre_ids: number[]
+        popularity: number
+        release_date: string
+        video: boolean
+        vote_average: number
+        vote_count: number
+    }[]
+    total_pages: number
+    total_results: number
+}
+
+export type TrendingTVSeriesType = {
+    page: number
+    results: {
+        adult: boolean
+        backdrop_path: string
+        id: number
+        name: string
+        original_language: string
+        original_name: string
+        overview: string
+        poster_path: string
+        media_type: string
+        genre_ids: number[]
+        popularity: number
+        first_air_date: string
+        vote_average: number
+        vote_count: number
+        origin_country: string[]
+    }[]
+    total_pages: number
+    total_results: number
+}
+
+export type TrendingPeopleType = {
+    page: number
+    results: PersonType[]
+    total_pages: number
+    total_results: number
+}
+
+export type PeopleCategoryType = "popular" | "trending"
 
 export type MovieCreditsType = {
     cast: {
@@ -490,10 +563,12 @@ export type ReviewsType = {
 }
 
 export type TVSeriesType = {
+    adult?: boolean
     backdrop_path: string
     first_air_date: string
     genre_ids: number[]
     id: number
+    media_type?: string
     name: string
     origin_country: string[]
     original_language: string
@@ -505,15 +580,290 @@ export type TVSeriesType = {
     vote_count: number
 }
 
+export type TVSeriesDetailsType = {
+    adult: boolean
+    backdrop_path: string
+    created_by: {
+        id: number
+        credit_id: string
+        name: string
+        gender: number
+        profile_path: string
+    }[]
+    episode_run_time: number[]
+    first_air_date: string
+    genres: {
+        id: number
+        name: string
+    }[]
+    homepage: string
+    id: number
+    in_production: boolean
+    languages: string[]
+    last_air_date: string
+    last_episode_to_air: {
+        id: number
+        name: string
+        overview: string
+        vote_average: number
+        vote_count: number
+        air_date: string
+        episode_number: number
+        production_code: string
+        runtime: number
+        season_number: number
+        show_id: number
+        still_path: string
+    }
+    name: string
+    next_episode_to_air: string
+    networks: {
+        id: number
+        logo_path: string
+        name: string
+        origin_country: string
+    }[]
+    number_of_episodes: number
+    number_of_seasons: number
+    origin_country: string[]
+    original_language: string
+    original_name: string
+    overview: string
+    popularity: number
+    poster_path: string
+    production_companies: {
+        id: number
+        logo_path: string
+        name: string
+        origin_country: string
+    }[]
+    production_countries: {
+        iso_3166_1: string
+        name: string
+    }[]
+    seasons: {
+        air_date: string
+        episode_count: number
+        id: number
+        name: string
+        overview: string
+        poster_path: string
+        season_number: number
+        vote_average: number
+    }[]
+    spoken_languages: {
+        english_name: string
+        iso_639_1: string
+        name: string
+    }[]
+    status: string
+    tagline: string
+    type: string
+    vote_average: number
+    vote_count: number
+    images?: MovieImagesType
+    videos?: VideosType
+    credits?: {
+        id: string
+        cast: TVSeriesCast
+        crew: TVSeriesCrew
+    }
+    watch_providers?: WatchProvidersType
+    recommendations?: TVSeriesRecommendationsType
+    similar?: SimilarTVSeriesType
+    release_dates?: ReleaseDatesType
+    translations?: TranslationsType
+}
+
 export type TVSeriesCategoryType =
     "airing_today" |
     "on_the_air" |
     "popular" |
-    "top_rated"
+    "top_rated" |
+    "trending"
 
+export type TVSeriesCreditsType = {
+    cast: {
+        adult: boolean
+        backdrop_path: string
+        genre_ids: number[]
+        id: number
+        origin_country: string[]
+        original_language: string
+        original_name: string
+        overview: string
+        popularity: number
+        poster_path: string
+        first_air_date: string
+        name: string
+        vote_average: number
+        vote_count: number
+        character: string
+        credit_id: string
+        episode_count: number
+    }[]
+    crew: {
+        adult: boolean
+        backdrop_path: string
+        genre_ids: number[]
+        id: number
+        origin_country: string[]
+        original_language: string
+        original_name: string
+        overview: string
+        popularity: number
+        poster_path: string
+        first_air_date: string
+        name: string
+        vote_average: number
+        vote_count: number
+        credit_id: string
+        department: string
+        episode_count: number
+        job: string
+    }[]
+    id: number
+}
 
-//export type TVSeasonsType = {}
-//export type TVEpisodesType = {}
+export type TVSeriesCast = {
+    adult: boolean
+    gender: number
+    id: number
+    known_for_department: string
+    name: string
+    original_name: string
+    popularity: number
+    profile_path: string
+    character: string
+    credit_id: string
+    order: number
+}[]
+
+export type TVSeriesCrew = {
+    adult: boolean
+    gender: number
+    id: number
+    known_for_department: string
+    name: string
+    original_name: string
+    popularity: number
+    profile_path: string
+    credit_id: string
+    department: string
+    job: string
+}[]
+
+export type TVSearchResultsType = {
+    page: number
+    results: TVSeriesType[]
+    total_pages: number
+    total_results: number
+}
+
+export type TVSeriesRecommendationsType = {
+    page: number
+    results: TVSeriesType[]
+    total_pages: number
+    total_results: number
+}
+
+export type SimilarTVSeriesType = {
+    page: number
+    results: TVSeriesType[]
+    total_pages: number
+    total_results: number
+}
+
+export type TVSeasonsType = {
+    _id: string
+    air_date: string
+    episodes: {
+        air_date: string
+        episode_number: number
+        id: number
+        name: string
+        overview: string
+        production_code: string
+        runtime: number
+        season_number: number
+        show_id: number
+        still_path: string
+        vote_average: number
+        vote_count: number
+        crew: {
+            department: string
+            job: string
+            credit_id: string
+            adult: boolean
+            gender: number
+            id: number
+            known_for_department: string
+            name: string
+            original_name: string
+            popularity: number
+            profile_path: string
+        }[]
+        guest_stars: {
+            character: string
+            credit_id: string
+            order: number
+            adult: boolean
+            gender: number
+            id: number
+            known_for_department: string
+            name: string
+            original_name: string
+            popularity: number
+            profile_path: string
+        }[]
+    }[]
+    name: string
+    overview: string
+    id: number
+    poster_path: string
+    season_number: number
+    vote_average: number
+}
+
+export type TVEpisodesType = {
+    air_date: string
+    crew: {
+        department: string
+        job: string
+        credit_id: string
+        adult: boolean
+        gender: number
+        id: number
+        known_for_department: string
+        name: string
+        original_name: string
+        popularity: number
+        profile_path: string
+    }[]
+    episode_number: number
+    guest_stars: {
+        character: string
+        credit_id: string
+        order: number
+        adult: boolean
+        gender: number
+        id: number
+        known_for_department: string
+        name: string
+        original_name: string
+        popularity: number
+        profile_path: string
+    }[]
+    name: string
+    overview: string
+    id: number
+    production_code: string
+    runtime: number
+    season_number: number
+    still_path: string
+    vote_average: number
+    vote_count: number
+}
 
 
 export type RegionsType =

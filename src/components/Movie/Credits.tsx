@@ -4,11 +4,11 @@ import { baseImageUrl, paths } from "@/config";
 import { useScroll } from "@/hooks/useScroll";
 import { Link } from "@/i18n/routing";
 import type { MovieCast, MovieCrew, MovieDetailsType } from "@/types";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { ListMarkers } from "../ListMarkers";
 import { Scroller } from "../Scroller";
+import { ListNavigationButtons } from "../ListNavigationButtons";
 
 type MovieCredits = {
     id: string,
@@ -33,34 +33,19 @@ export const Credits = ({ movie }: { movie: MovieDetailsType }) => {
 
 const Cast = ({ cast }: { cast: MovieCast }) => {
 
-    const {
-        containerRef,
-        buttonLeftRef,
-        buttonRightRef,
-        isOverflown,
-        scrollLeft,
-        scrollRight,
-        currentScrollPage,
-        totalScrollPages,
-        markerRef,
-    } = useScroll();
+    const scroll = useScroll();
 
     const t = useTranslations('Movie.Credits');
 
     return (
         <div className="movie-credits__cast">
-            <h4>{t("cast")}</h4>
+            <div className="movie-credits__cast__header">
+                <h4>{t("cast")}</h4>
+                <ListNavigationButtons scroll={scroll} />
+            </div>
 
             <Scroller>
-                {
-                    isOverflown &&
-                    <button className="icon circle-button circle-button--left"
-                        ref={buttonLeftRef}
-                        onClick={scrollLeft}>
-                        <IconChevronLeft size={30} />
-                    </button>
-                }
-                <ul className="movie-credits__list" ref={containerRef}>
+                <ul className="movie-credits__list" ref={scroll.containerRef}>
                     {
                         cast.map((entry, index) => {
                             return (
@@ -86,20 +71,12 @@ const Cast = ({ cast }: { cast: MovieCast }) => {
                         })
                     }
                 </ul>
-                {
-                    isOverflown &&
-                    <button className="icon circle-button circle-button--right"
-                        ref={buttonRightRef}
-                        onClick={scrollRight}>
-                        <IconChevronRight size={30} />
-                    </button>
-                }
             </Scroller>
             <ListMarkers
-                currentScrollPage={currentScrollPage}
-                markerRef={markerRef}
-                totalScrollPages={totalScrollPages}
-                isOverflown={isOverflown}
+                currentScrollPage={scroll.currentScrollPage}
+                markerRef={scroll.markerRef}
+                totalScrollPages={scroll.totalScrollPages}
+                isOverflown={scroll.isOverflown}
             />
         </div>
     );
@@ -107,34 +84,19 @@ const Cast = ({ cast }: { cast: MovieCast }) => {
 
 const Crew = ({ crew }: { crew: MovieCrew }) => {
 
-    const {
-        containerRef,
-        buttonLeftRef,
-        buttonRightRef,
-        isOverflown,
-        scrollLeft,
-        scrollRight,
-        currentScrollPage,
-        totalScrollPages,
-        markerRef
-    } = useScroll();
+    const scroll = useScroll();
 
     const t = useTranslations('Movie.Credits');
 
     return (
         <div className="movie-credits__crew">
-            <h4>{t('crew')}</h4>
+            <div className="movie-credits__crew__header">
+                <h4>{t('crew')}</h4>
+                <ListNavigationButtons scroll={scroll} />
+            </div>
 
             <Scroller>
-                {
-                    isOverflown &&
-                    <button className="icon circle-button circle-button--left"
-                        ref={buttonLeftRef}
-                        onClick={scrollLeft}>
-                        <IconChevronLeft size={30} />
-                    </button>
-                }
-                <ul className="movie-credits__list" ref={containerRef}>
+                <ul className="movie-credits__list" ref={scroll.containerRef}>
                     {
                         crew.map((entry, index) => {
                             return (
@@ -158,20 +120,12 @@ const Crew = ({ crew }: { crew: MovieCrew }) => {
                         })
                     }
                 </ul>
-                {
-                    isOverflown &&
-                    <button className="icon circle-button circle-button--right"
-                        ref={buttonRightRef}
-                        onClick={scrollRight}>
-                        <IconChevronRight size={30} />
-                    </button>
-                }
             </Scroller>
             <ListMarkers
-                currentScrollPage={currentScrollPage}
-                markerRef={markerRef}
-                totalScrollPages={totalScrollPages}
-                isOverflown={isOverflown}
+                currentScrollPage={scroll.currentScrollPage}
+                markerRef={scroll.markerRef}
+                totalScrollPages={scroll.totalScrollPages}
+                isOverflown={scroll.isOverflown}
             />
         </div>
     );

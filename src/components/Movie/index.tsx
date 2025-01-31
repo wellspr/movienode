@@ -27,6 +27,7 @@ import { OriginalTitle } from "./OriginalTitle";
 
 export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Locale }) => {
 
+    console.log("Adult: ", movie.adult, movie.release_dates);
     return (
         <div className="movie">
             <section className="primary">
@@ -49,6 +50,9 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
                         <Overview className="movie-info" movie={movie} />
                         <Homepage className="movie-info" movie={movie} />
                         <Certification locale={locale} movie={movie} />
+                        {
+                            movie.adult && <p>Adult { movie.adult }</p>
+                        }
                         {
                             <div className="movie-info__row">
                                 <ReleaseDate className="movie-info" movie={movie} />

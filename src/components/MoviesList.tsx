@@ -1,49 +1,25 @@
-import { baseImageUrl, paths } from "@/config";
-import { Link } from "@/i18n/routing";
+import { paths } from "@/config";
 import { Locale } from "@/i18n/types";
 import { MovieType } from "@/types";
-import { IconMovie } from "@tabler/icons-react";
-import Image from "next/image";
+import { Poster } from "./Poster";
 
 export const MoviesList = ({ results, locale }: { results: MovieType[], locale: Locale }) => {
     return (
-        <div className="movies__list">
+        <ul className="movies__list">
             {
                 results && results.map((movie: MovieType) => {
                     return (
-                        <Link
+                        <Poster
                             key={movie.id}
+                            baseClassName="movies"
                             locale={locale}
-                            href={paths.movie(String(movie.id))}
-                            className="movies__list__item__link"
-                            draggable={false}
-                            >
-                            <div className="movies__list__item">
-                                <div className="movies__list__item">
-                                    <h2 className="movies__list__item__title">{movie.title}</h2>
-                                    <div className="movies__list__item__image">
-                                        {
-                                            movie.poster_path ?
-                                            <Image
-                                                src={baseImageUrl(500) + movie.poster_path}
-                                                alt={movie.title}
-                                                fill
-                                                draggable={false}
-                                            /> :
-                                            <div className="movies__list__item__image__placeholder">
-                                                <div className="movies__list__item__image__placeholder__title">
-                                                    {movie.title}
-                                                </div>
-                                                <IconMovie size={40} />
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </Link>
+                            href={paths.movies(String(movie.id))}
+                            placeholder={movie.title}
+                            posterPath={movie.poster_path}
+                        />
                     );
                 })
             }
-        </div>
+        </ul>
     );
-}
+};

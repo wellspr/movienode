@@ -18,7 +18,7 @@ export const Pagination = ({
 
     console.log("Data: ", query, page, totalPages, searchType, locale);
     return (
-        <div className="pagination">
+        <div className="search-pagination">
             {
                 page > 1 &&
                 <PageLink label="Previous" locale={locale} page={page - 1} query={query} searchType={searchType} />

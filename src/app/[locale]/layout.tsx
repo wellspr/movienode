@@ -4,18 +4,20 @@ import { Main } from "@/components/Layout/Main";
 import { routing } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 export default async function Layout({
+	params,
 	imagesModal,
 	children,
 }: {
+	params: Promise<{ locale: Locale }>
 	imagesModal: React.ReactNode,
 	children: React.ReactNode,
 }) {
 
-	const locale = await getLocale() as Locale;
+	const { locale } = await params;
 
 	if (!routing.locales.includes(locale)) {
 		notFound();

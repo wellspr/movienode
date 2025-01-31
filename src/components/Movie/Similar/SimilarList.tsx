@@ -5,6 +5,9 @@ import { MovieDetailsType } from "@/types";
 import { useTranslations } from "next-intl";
 import { List } from "../List";
 import { paths } from "@/config";
+import { useScroll } from "@/hooks/useScroll";
+import { ListNavigationButtons } from "@/components/ListNavigationButtons";
+
 
 export const SimilarList = ({
     movie,
@@ -14,6 +17,8 @@ export const SimilarList = ({
 
     const t = useTranslations("Movie");
 
+    const scroll = useScroll();
+
     if (!movie.similar) return null;
     if (!movie.similar.results) return null;
     if (movie.similar.results.length === 0) return null;
@@ -22,12 +27,18 @@ export const SimilarList = ({
         <div className={`movie-similar`}>
             <div className={`movie-similar__header`}>
                 <h4>{t('similar')}</h4>
-                <Link className="link" href={paths.movie_similar(String(movie.id))}>
-                    More
-                </Link>
+                <ListNavigationButtons scroll={scroll} />
             </div>
 
-            <List results={movie.similar.results} />
+            <List
+                results={movie.similar.results}
+                scroll={scroll}
+                appendItem={
+                    <Link className="link" href={paths.movie_similar(String(movie.id))}>
+                        More
+                    </Link>
+                }
+            />
         </div>
     );
 };

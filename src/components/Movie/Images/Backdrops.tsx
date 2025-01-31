@@ -3,42 +3,21 @@
 import { ListMarkers } from "@/components/ListMarkers";
 import { Scroller } from "@/components/Scroller";
 import { baseImageUrl, paths } from "@/config";
-import { useScroll } from "@/hooks/useScroll";
+import { Scroll } from "@/hooks/useScroll";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { ImageType } from "@/types";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
-export const Backdrops = ({ backdrops }: { backdrops?: ImageType[] }) => {
-
-    const {
-        scrollLeft,
-        scrollRight,
-        containerRef,
-        buttonLeftRef,
-        buttonRightRef,
-        isOverflown,
-        currentScrollPage,
-        totalScrollPages,
-        markerRef,
-    } = useScroll();
+export const Backdrops = ({ backdrops, scroll }: { backdrops?: ImageType[], scroll: Scroll }) => {
 
     const { movieId, locale } = useParams();
 
     return (
         <div className="backdrops">
             <Scroller>
-                {
-                    isOverflown &&
-                    <button className="icon movie-images__nav-button movie-images__nav-button--left"
-                        ref={buttonLeftRef}
-                        onClick={scrollLeft}>
-                        <IconChevronLeft size={30} />
-                    </button>
-                }
-                <ul className="movie-images__list" ref={containerRef}>
+                <ul className="movie-images__list" ref={scroll.containerRef}>
                     {
                         backdrops && backdrops.map(image => {
                             return (
@@ -46,7 +25,7 @@ export const Backdrops = ({ backdrops }: { backdrops?: ImageType[] }) => {
                                     className="movie-images__list__item"
                                     draggable={false}>
                                     <Link
-                                        href={`${paths.movie(String(movieId))}/images?focusedImage=${image.file_path}`}
+                                        href={`${paths.movies(String(movieId))}/images?focusedImage=${image.file_path}`}
                                         locale={locale as Locale}
                                         draggable={false}>
                                         <Image
@@ -61,20 +40,12 @@ export const Backdrops = ({ backdrops }: { backdrops?: ImageType[] }) => {
                         })
                     }
                 </ul>
-                {
-                    isOverflown &&
-                    <button className="icon movie-images__nav-button movie-images__nav-button--right"
-                        ref={buttonRightRef}
-                        onClick={scrollRight}>
-                        <IconChevronRight size={30} />
-                    </button>
-                }
             </Scroller>
             <ListMarkers
-                currentScrollPage={currentScrollPage}
-                markerRef={markerRef}
-                totalScrollPages={totalScrollPages}
-                isOverflown={isOverflown}
+                currentScrollPage={scroll.currentScrollPage}
+                markerRef={scroll.markerRef}
+                totalScrollPages={scroll.totalScrollPages}
+                isOverflown={scroll.isOverflown}
             />
         </div>
     );

@@ -17,14 +17,11 @@ export default async function Page({
     const {
         results,
         total_pages,
-        total_results,
     } = await searchMovie(locale, query, page);
-
-    console.log(query, results, total_pages, total_results);
 
     return (
         <>
-            <MovieResults results={results} />
+            <MovieResults results={results} locale={locale} />
             <Pagination locale={locale} page={Number(page)} query={query} searchType="movie" totalPages={total_pages} />
         </>
     );

@@ -24,6 +24,9 @@ export const MoviesListPagination = ({
                 Number(page) > 1 &&
                 <Link locale={locale} href={`/${path}?page=${Number(page) - 1}`}>{t('previous')}</Link>
             }
+            <div>
+                { page } / {total_pages }
+            </div>
             {
                 Number(page) < total_pages &&
                 <Link locale={locale} href={`/${path}?page=${Number(page) + 1}`}>{t('next')}</Link>

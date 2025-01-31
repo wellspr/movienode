@@ -1,30 +1,24 @@
-import { baseImageUrl, paths } from "@/config";
-import { Link } from "@/i18n/routing";
-import { MovieType, PersonDetailsType } from "@/types";
-import Image from "next/image";
+import { paths } from "@/config";
+import { Locale } from "@/i18n/types";
+import { MovieType, PersonDetailsType, TVSeriesType } from "@/types";
+import { Poster } from "../Poster";
+import { Profile } from "../Profile";
 
-export const MovieResults = ({ results }: { results: MovieType[] }) => {
+export const MovieResults = ({ results, locale }: { results: MovieType[], locale: Locale }) => {
     return (
         <ul className="search-results__list">
             {
                 results.map((result) => {
                     return (
-                        <li key={result.id} className="search-results__list__item">
-                            <Link href={paths.movie(String(result.id))} draggable={false}>
-                                <div className="movie-poster">
-                                    {
-                                        result.poster_path ?
-                                            <Image src={baseImageUrl() + result.poster_path} alt={result.title} width={200} height={300} draggable={false}/> :
-                                            <div className="movie-poster__placeholder">
-                                                {result.title}
-                                            </div>
-                                    }
-                                </div>
-                                <div className="movie-info">
-                                    <h3>{result.title} {result.release_date && result.release_date.split('-')[0]} </h3>
-                                </div>
-                            </Link>
-                        </li>
+
+                        <Poster
+                            key={result.id}
+                            baseClassName="search-results"
+                            href={paths.movies(String(result.id))}
+                            locale={locale}
+                            placeholder={result.title}
+                            posterPath={result.poster_path}
+                        />
                     );
                 })
             }
@@ -32,28 +26,42 @@ export const MovieResults = ({ results }: { results: MovieType[] }) => {
     );
 };
 
-export const PersonResults = ({results}: {results: PersonDetailsType[]}) => {    
+export const TVSeriesResults = ({ results, locale }: { results: TVSeriesType[], locale: Locale }) => {
     return (
         <ul className="search-results__list">
             {
                 results.map((result) => {
                     return (
-                        <li key={result.id} className="search-results__list__item">
-                            <Link href={paths.person(String(result.id))} draggable={false}>
-                                <div className="movie-poster">
-                                    {
-                                        result.profile_path ?
-                                            <Image src={baseImageUrl() + result.profile_path} alt={result.name} width={200} height={300} draggable={false}/> :
-                                            <div className="movie-poster__placeholder">
-                                                {result.name}
-                                            </div>
-                                    }
-                                </div>
-                                <div className="movie-info">
-                                    <h3>{result.name} {result.place_of_birth} </h3>
-                                </div>
-                            </Link>
-                        </li>
+                        <Poster
+                            key={result.id}
+                            baseClassName="search-results"
+                            href={paths.tv(String(result.id))}
+                            locale={locale}
+                            placeholder={result.name}
+                            posterPath={result.poster_path}
+                        />
+                    );
+                })
+            }
+        </ul>
+    );
+};
+
+
+export const PersonResults = ({ results, locale }: { results: PersonDetailsType[], locale: Locale }) => {
+    return (
+        <ul className="person-results__list">
+            {
+                results.map((result) => {
+                    return (
+
+                        <Profile
+                            key={result.id}
+                            baseClassName="person-results"
+                            href={paths.person(String(result.id))}
+                            locale={locale}
+                            result={result}
+                        />
                     );
                 })
             }

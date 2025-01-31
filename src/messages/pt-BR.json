@@ -1,4 +1,24 @@
 {
+  "Homepage": {
+    "movies": {
+      "popular": "Filmes mais populares",
+      "now_playing": "Agora nos cinemas",
+      "top_rated": "Mais bem avaliados",
+      "upcoming": "Em breve",
+      "trending": "Filmes em alta"
+    },
+    "tv": {
+      "popular": "Séries mais populares",
+      "on_the_air": "Séries no ar",
+      "top_rated": "Séries mais bem avaliadas",
+      "airing_today": "Séries estreando",
+      "trending": "Séries em alta"
+    },
+    "people": {
+      "popular": "Pessoas populares",
+      "trending": "Pessoas em alta"
+    }
+  },
   "Movie": {
     "release_date": "Lançamento",
     "country": "{count, plural, =1 {País} other {Países}} de Origem",
@@ -34,11 +54,33 @@
       "next": "Próxima"
     }
   },
+  "Series": {
+    "Seasons": {
+      "info": {
+        "episodes": "{count, plural, =1 {Episódio} other {Episódios}}",
+        "seasons": "{count, plural, =1 {Temporada} other {Temporadas}}"
+      }
+    }
+  },
   "HeaderNav": {
-    "popular": "Popular",
-    "now_playing": "Nos Cinemas",
-    "top_rated": "Melhor Avaliado",
-    "upcoming": "Em breve"
+    "movies": {
+      "popular": "Popular",
+      "now_playing": "Nos Cinemas",
+      "top_rated": "Melhor Avaliado",
+      "upcoming": "Em breve",
+      "trending": "Em alta"
+    },
+    "tv": {
+      "popular": "Popular",
+      "on_the_air": "No ar",
+      "top_rated": "Melhor avaliado",
+      "airing_today": "Estreando",
+      "trending": "Em alta"
+    },
+    "main": {
+      "movies": "Filmes",
+      "tv": "Séries"
+    }
   },
   "MovieSearch": {
     "placeholder": "Buscar filme",

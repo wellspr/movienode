@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
         return [
             {
                 source: `/:locale`,
-                destination: `/:locale/movies/popular`,
+                destination: `/:locale/start`,
                 permanent: false,
             },
         ]

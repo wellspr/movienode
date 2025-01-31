@@ -15,7 +15,7 @@ export const searchTypes: { type: SearchType }[] = [
     { type: "movie" },
     /*  { type: "multi" }, */
     { type: "person" },
-    /*  { type: "tv" }, */
+    { type: "tv" },
 ];
 
 export const Form = () => {

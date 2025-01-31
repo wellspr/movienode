@@ -8,9 +8,9 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType }) => {
+export const DetailsImages = ({ images }: { images: MovieImagesType }) => {
 
-    const { containerRef, isOverflown } = useScroll({ wheelScroll: true });
+    const { containerRef } = useScroll();
 
     const query = useSearchParams();
 
@@ -22,21 +22,21 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
 
     useEffect(() => {
         const focusedImageFilePath = query.get("focusedImage");
-        const initialImage = { previous: null, current: movieImages.backdrops[0], next: movieImages.backdrops[1] || null };
+        const initialImage = { previous: null, current: images.backdrops[0], next: images.backdrops[1] || null };
 
         if (focusedImageFilePath) {
-            movieImages.backdrops.forEach((image, index) => {
+            images.backdrops.forEach((image, index) => {
                 if (image.file_path === focusedImageFilePath) {
-                    const previous = index - 1 >= 0 ? movieImages.backdrops[index - 1] : null;
-                    const current = movieImages.backdrops[index];
-                    const next = index + 1 < movieImages.backdrops.length ? movieImages.backdrops[index + 1] : null;
+                    const previous = index - 1 >= 0 ? images.backdrops[index - 1] : null;
+                    const current = images.backdrops[index];
+                    const next = index + 1 < images.backdrops.length ? images.backdrops[index + 1] : null;
                     setSelected({ previous, current, next });
                 }
             });
         } else {
             setSelected(initialImage);
         }
-    }, [movieImages.backdrops, query]);
+    }, [images.backdrops, query]);
 
     useEffect(() => {
         if (selected && selected.current) {
@@ -47,36 +47,19 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
         }
     }, [selected]);
 
-    /*     useEffect(() => {
-            const container = containerRef.current;
-    
-            const handleWheel = (event: WheelEvent) => {
-                if (container?.contains(event.target as Node)) {                
-                    console.log(event);
-                    document.body.style.position = "fixed";
-                }
-            };
-    
-            container?.addEventListener("wheel", handleWheel);
-    
-            return () => {
-                container?.removeEventListener("wheel", handleWheel);
-            }
-        }, [containerRef]); */
-
     if (!selected) return null;
 
     return (
         <div className="movie-details__images">
             <div className="movie-details__images__selected-outer">
                 {
-                    movieImages.backdrops.length > 1 &&
+                    images.backdrops.length > 1 &&
                     <button className={selected.previous ? "icon movie-details__images__nav-button movie-details__images__nav-button--left" : "hide"}
                         onClick={() => {
-                            movieImages.backdrops.forEach((image, index) => {
+                            images.backdrops.forEach((image, index) => {
                                 if (image.file_path === selected.current?.file_path) {
-                                    const previous = index - 2 >= 0 ? movieImages.backdrops[index - 2] : null;
-                                    const current = index - 1 >= 0 ? movieImages.backdrops[index - 1] : null;
+                                    const previous = index - 2 >= 0 ? images.backdrops[index - 2] : null;
+                                    const current = index - 1 >= 0 ? images.backdrops[index - 1] : null;
                                     if (index > 0) {
                                         setSelected({ previous, current, next: image });
                                     }
@@ -95,14 +78,14 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
                     />
                 </div>
                 {
-                    movieImages.backdrops.length > 1 &&
+                    images.backdrops.length > 1 &&
                     <button className={selected.next ? "icon movie-details__images__nav-button movie-details__images__nav-button--right" : "hide"}
                         onClick={() => {
-                            movieImages.backdrops.forEach((image, index) => {
+                            images.backdrops.forEach((image, index) => {
                                 if (image.file_path === selected.current?.file_path) {
-                                    const l = movieImages.backdrops.length;
-                                    const current = index + 1 < l ? movieImages.backdrops[index + 1] : null;
-                                    const next = index + 2 < l ? movieImages.backdrops[index + 2] : null;
+                                    const l = images.backdrops.length;
+                                    const current = index + 1 < l ? images.backdrops[index + 1] : null;
+                                    const next = index + 2 < l ? images.backdrops[index + 2] : null;
                                     if (current) {
                                         setSelected({ previous: image, current, next });
                                     }
@@ -119,8 +102,7 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
                     className="movie-details__images__list"
                     ref={containerRef}>
                     {
-                        movieImages && movieImages.backdrops.map((image, index) => {
-                            console.log(isOverflown);
+                        images && images.backdrops.map((image, index) => {
                             return (
                                 <li key={image.file_path}
                                     className={
@@ -130,8 +112,8 @@ export const DetailsImages = ({ movieImages }: { movieImages: MovieImagesType })
                                     }
                                     style={selected.current && (selected.current.file_path === image.file_path) ? { border: "3px solid white" } : {}}
                                     onClick={() => {
-                                        const previous = index - 1 >= 0 ? movieImages.backdrops[index - 1] : null;
-                                        const next = index + 1 < movieImages.backdrops.length ? movieImages.backdrops[index + 1] : null
+                                        const previous = index - 1 >= 0 ? images.backdrops[index - 1] : null;
+                                        const next = index + 1 < images.backdrops.length ? images.backdrops[index + 1] : null
                                         setSelected({ previous, current: image, next });
                                     }}>
                                     <Image

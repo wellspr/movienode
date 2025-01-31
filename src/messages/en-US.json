@@ -1,47 +1,89 @@
 {
-	"Movie": {
-		"release_date": "Release",
-		"country": "{count, plural, =1 {Country} other {Countries}}",
-		"image_gallery": "Image Gallery",
-		"recommendations": "Recommendations",
-		"similar": "Similar",
-		"WatchProviders": {
-			"heading": "Watch Now",
-			"info": {
-				"line_1": "The data below is provided by",
-				"line_2": "Follow the links below for detailed info"
-			},
-			"watch_now": {
-				"link": "Watch Now",
-				"free": "Free",
-				"ads": "Ads",
-				"buy": "Buy",
-				"rent": "Rent",
-				"flatrate": "Stream"
-			}
-		},
-		"Credits": {
-			"cast": "Cast",
-			"crew": "Crew"
-		},
-		"Certification": {
+  "Homepage": {
+    "movies": {
+      "popular": "Popular Movies",
+      "now_playing": "Now Playing Movies",
+      "top_rated": "Top Rated Movies",
+      "upcoming": "Upcoming Movies",
+      "trending": "Trending Movies"
+    },
+    "tv": {
+      "popular": "Popular Series",
+      "on_the_air": "Series on the air",
+      "top_rated": "Top rated Series",
+      "airing_today": "Series Airing today",
+      "trending": "Trending Series"
+    },
+    "people": {
+      "popular": "Polular people",
+      "trending": "Trending people"
+    }
+  },
+  "Movie": {
+    "release_date": "Release",
+    "country": "{count, plural, =1 {Country} other {Countries}}",
+    "image_gallery": "Image Gallery",
+    "recommendations": "Recommendations",
+    "similar": "Similar",
+    "WatchProviders": {
+      "heading": "Watch Now",
+      "info": {
+        "line_1": "The data below is provided by",
+        "line_2": "Follow the links below for detailed info"
+      },
+      "watch_now": {
+        "link": "Watch Now",
+        "free": "Free",
+        "ads": "Ads",
+        "buy": "Buy",
+        "rent": "Rent",
+        "flatrate": "Stream"
+      }
+    },
+    "Credits": {
+      "cast": "Cast",
+      "crew": "Crew"
+    },
+    "Certification": {
       "classification": "Age rating"
     }
-	},
-	"Movies": {
-		"ListPagination": {
-			"previous": "Previous",
-			"next": "Next"
-		}
-	},
-	"HeaderNav": {
-		"popular": "Popular",
-		"now_playing": "Now Playing",
-		"top_rated": "Top Rated",
-		"upcoming": "Upcoming"
-	},
-	"MovieSearch": {
-		"placeholder": "Search Movie",
-		"search": "Search"
-	}
+  },
+  "Movies": {
+    "ListPagination": {
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "Series": {
+    "Seasons": {
+      "info": {
+        "episodes": "{count, plural, =1 {Episode} other {Episodes}}",
+        "seasons": "{count, plural, =1 {Season} other {Seasons}}"
+      }
+    }
+  },
+  "HeaderNav": {
+    "movies": {
+      "popular": "Popular",
+      "now_playing": "Now Playing",
+      "top_rated": "Top Rated",
+      "upcoming": "Upcoming",
+      "trending":"Trending"
+    },
+    "tv": {
+      "popular": "Popular",
+      "on_the_air": "On the air",
+      "top_rated": "Top rated",
+      "airing_today": "Airing today",
+      "trending":"Trending"
+    },
+    "main": {
+      "movies": "Movies",
+      "tv": "Series"
+    }
+  },
+  "MovieSearch": {
+    "placeholder": "Search Movie",
+    "search": "Search"
+  }
 }

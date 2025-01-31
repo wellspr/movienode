@@ -5,6 +5,9 @@ import { MovieDetailsType } from "@/types";
 import { List } from "../List";
 import { useTranslations } from "next-intl";
 import { paths } from "@/config";
+import { useScroll } from "@/hooks/useScroll";
+import { ListNavigationButtons } from "@/components/ListNavigationButtons";
+
 
 export const RecommendationsList = ({
     movie,
@@ -14,6 +17,8 @@ export const RecommendationsList = ({
 
     const t = useTranslations("Movie");
 
+    const scroll = useScroll();
+
     if (!movie.recommendations) return null;
     if (!movie.recommendations.results) return null;
     if (movie.recommendations.results.length === 0) return null;
@@ -22,14 +27,20 @@ export const RecommendationsList = ({
         <div className={`movie-recommendations`}>
             <div className={`movie-recommendations__header`}>
                 <h4>{t('recommendations')}</h4>
-                <Link
-                    className="link"
-                    href={paths.movie_recommendations(String(movie.id))}>
-                    More
-                </Link>
+                <ListNavigationButtons scroll={scroll} />
             </div>
-            
-            <List results={movie.recommendations.results} />
+
+            <List
+                results={movie.recommendations.results}
+                scroll={scroll}
+                appendItem={
+                    <Link
+                        className="link"
+                        href={paths.movie_recommendations(String(movie.id))}>
+                        More
+                    </Link>
+                }
+            />
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import { paths } from "@/config";
 import { Link } from "@/i18n/routing";
-import { MovieDetailsType, MovieGenresType } from "@/types";
+import { MovieDetailsType, GenresType } from "@/types";
 
 export const Genres = ({
     movie,
@@ -13,7 +13,7 @@ export const Genres = ({
     if (!movie.genres) return null;
     if (movie.genres && movie.genres.length === 0) return null;
 
-    const movieGenres = movie.genres as MovieGenresType;
+    const movieGenres = movie.genres as GenresType;
 
     return (
         <div className={className ? `${className}__genres` : "genres"}>
@@ -22,7 +22,7 @@ export const Genres = ({
                     movieGenres.map((genre) => {
                         return (
                             <Link className="pillbox" key={genre.id}
-                                href={paths.genres(String(genre.id))}>
+                                href={paths.movies_genres(String(genre.id))}>
                                 {genre.name}
                             </Link>
                         );

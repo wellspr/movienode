@@ -5,9 +5,11 @@ import { useSearchParams } from "next/navigation";
 
 export const ShowResults = ({
     movie,
+    tv,
     person,
 }: {
     movie: React.ReactNode,
+    tv: React.ReactNode,
     person: React.ReactNode,
 }) => {
 
@@ -21,5 +23,9 @@ export const ShowResults = ({
 
     if (query && type == "person") {
         return <>{person}</>
+    }
+
+    if (query && type === "tv") {
+        return <>{tv}</>
     }
 };

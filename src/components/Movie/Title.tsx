@@ -17,11 +17,11 @@ export const Title = async ({ movie, className }: { movie: MovieDetailsType, cla
     console.log("Current: ", currentTranslation);
     console.log("English: ", englishTranslation);
 
-    if (currentTranslation) {
+    if (currentTranslation && currentTranslation.data.title) {
         if (currentTranslation.data.title.length > 0) {
             return <h2 className={className ? `${className}__title` : "title"}>{currentTranslation.data.title}</h2>;
         }
-    } else if (englishTranslation) {
+    } else if (englishTranslation && englishTranslation.data.title) {
         if (englishTranslation.data.title.length > 0) {
             return <h2 className={className ? `${className}__title` : "title"}>{englishTranslation.data.title}</h2>;
         }

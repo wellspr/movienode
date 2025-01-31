@@ -2,7 +2,23 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type Config = { wheelScroll: boolean }
+type Config = {
+    wheelScroll?: boolean
+}
+
+export type Scroll = {
+    scrollLeft: () => void
+    scrollRight: () => void
+    containerRef: React.RefObject<HTMLUListElement | null>
+    markerRef: React.RefObject<HTMLDivElement | null>
+    buttonLeftRef: React.RefObject<HTMLButtonElement | null>
+    buttonRightRef: React.RefObject<HTMLButtonElement | null>
+    isOverflown: boolean
+    totalScrollPages: number
+    currentScrollPage: number
+    buttonLeftDisabled: boolean
+    buttonRightDisabled: boolean
+}
 
 export const useScroll = (config?: Config) => {
 
@@ -16,42 +32,46 @@ export const useScroll = (config?: Config) => {
     const [totalScrollPages, setTotalScrollPages] = useState<number>(0);
     const [currentScrollPage, setCurrentScrollPage] = useState<number>(0);
 
-    const updateMarkers = (container: HTMLUListElement | null) => {
+    const [buttonLeftDisabled, setButtonLeftDisabled] = useState<boolean>(false);
+    const [buttonRightDisabled, setButtonRightDisabled] = useState<boolean>(false);
+
+    const updateMarkers = useCallback((container: HTMLUListElement | null) => {
+        const date = Date.now();
         if (container) {
-            const total = Math.round(container.scrollWidth / container.clientWidth);
-            const position = Math.round((container.scrollLeft + container.clientWidth) / container.clientWidth);
-            setTotalScrollPages(total);
-            setCurrentScrollPage(position);
+            const total = container.scrollWidth / container.clientWidth;
+            const position = (container.scrollLeft + container.clientWidth) / container.clientWidth;
+            setTotalScrollPages(Math.ceil(total));
+            setCurrentScrollPage(Math.ceil(position));
+            console.log("Time: ",  Date.now() - date);
         };
-    };
+    }, []);
 
     useEffect(() => {
         const container = containerRef.current;
 
         updateMarkers(container);
 
-        const handleScroll = (e: Event) => {
-            const buttonLeft = buttonLeftRef.current;
-            const buttonRight = buttonRightRef.current;
-            const target = e.target as Element;
-
-            if (buttonLeft) {
-                if (target.scrollLeft > 100) {
-                    buttonLeft.classList.add("show")
-                } else {
-                    buttonLeft.classList.remove("show")
-                }
+        const manageButtons = (container: HTMLUListElement) => {
+            if (container.scrollLeft > 10) {
+                setButtonLeftDisabled(false);
+            } else {
+                setButtonLeftDisabled(true);
             }
+            if (container.scrollWidth - container.scrollLeft - container.getBoundingClientRect().width < 10) {
+                setButtonRightDisabled(true);
+            } else {
+                setButtonRightDisabled(false);
+            }
+        }
 
-            if (buttonRight) {
-                if (container) {
-                    if (target.scrollWidth - target.scrollLeft - container.getBoundingClientRect().width < 100) {
-                        buttonRight.classList.add("hide");
-                    } else {
-                        buttonRight.classList.remove("hide");
-                    }
-                    updateMarkers(container);
-                }
+        if (container) {
+            manageButtons(container);
+        }
+
+        const handleScroll = () => {
+            if (container) {
+                manageButtons(container);
+                updateMarkers(container);
             }
         }
 
@@ -65,8 +85,10 @@ export const useScroll = (config?: Config) => {
             }
         }
 
-    }, [containerRef, buttonLeftRef, buttonRightRef]);
+    }, [containerRef, buttonLeftRef, buttonRightRef, updateMarkers]);
 
+
+    /* Manage resizes */
     useEffect(() => {
         const container = containerRef.current;
 
@@ -85,13 +107,48 @@ export const useScroll = (config?: Config) => {
                 }
             }
 
+            if (container) {
+                const elements = container.childNodes;
+
+                const node = Object.values(elements).find(element => {
+                    const node = element as HTMLElement;
+                    const left = node.getBoundingClientRect().left;
+                    if (left > 0) {
+                        return node;
+                    }
+                }) as HTMLElement;
+
+                if (node) {
+                    const nodeLeft = node.getBoundingClientRect().left;
+                    
+                    container.scrollBy({
+                        behavior: "instant",
+                        left: nodeLeft - container.getBoundingClientRect().left - 15,
+                    });
+                }
+            }
+
             updateMarkers(container);
         });
 
+        if (container) {
+            resize.observe(container);
+        }
+
+        return () => {
+            if (container) {
+                resize.unobserve(container);
+            }
+        }
+    }, [config, updateMarkers]);
+
+
+    /* Managing wheel scrolling */
+    useEffect(() => {
+        const container = containerRef.current;
+
         const onWheel = (e: WheelEvent) => {
             if (e.deltaY === 0) return;
-
-            e.preventDefault();
 
             containerRef.current?.scrollBy({
                 left: 2 * e.deltaY,
@@ -100,8 +157,6 @@ export const useScroll = (config?: Config) => {
         }
 
         if (container) {
-            resize.observe(container);
-
             if (config && config.wheelScroll) {
                 container.addEventListener("wheel", onWheel);
             }
@@ -109,7 +164,6 @@ export const useScroll = (config?: Config) => {
 
         return () => {
             if (container) {
-                resize.unobserve(container);
                 if (config && config.wheelScroll) {
                     container.removeEventListener("wheel", onWheel);
                 }
@@ -118,17 +172,23 @@ export const useScroll = (config?: Config) => {
     }, [config]);
 
     const scrollLeft = useCallback(() => {
-        containerRef.current?.scrollBy({
-            left: -containerRef.current.clientWidth,
-            behavior: "smooth",
-        });
+        const container = containerRef.current;
+        if (container) {
+            container.scrollBy({
+                left: -container.clientWidth,
+                behavior: "smooth",
+            });
+        }
     }, []);
 
     const scrollRight = useCallback(() => {
-        containerRef.current?.scrollBy({
-            left: containerRef.current.clientWidth,
-            behavior: "smooth",
-        });
+        const container = containerRef.current;
+        if (container) {
+            container.scrollBy({
+                left: container.clientWidth,
+                behavior: "smooth",
+            });
+        }
     }, []);
 
     return {
@@ -140,6 +200,8 @@ export const useScroll = (config?: Config) => {
         buttonRightRef,
         isOverflown,
         totalScrollPages,
-        currentScrollPage
+        currentScrollPage,
+        buttonLeftDisabled,
+        buttonRightDisabled,
     };
 };

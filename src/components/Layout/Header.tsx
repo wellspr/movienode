@@ -2,9 +2,9 @@
 
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useParams, useSelectedLayoutSegments } from "next/navigation";
 import { LanguageSwitcher } from "../LanguageSwitcher";
-import { HeaderNav } from "./HeaderNav";
+import { MainNav, MoviesNav, TVNav } from "./HeaderNav";
 import { IconSearch } from "@tabler/icons-react";
 import { appName, paths } from "@/config";
 import { useEffect, useRef } from "react";
@@ -14,17 +14,7 @@ export const Header = () => {
     const params = useParams();
     const locale = params.locale as Locale;
     const ref = useHeaderScroll();
-
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    useEffect(() => {
-        const header = ref.current;
-        if (header) {
-            header.classList.remove("header__header-up");
-            header.classList.remove("header__header-down");
-        }
-    }, [pathname, searchParams, ref]);
+    const active = useSelectedLayoutSegments();
 
     return (
         <header className="header" ref={ref}>
@@ -35,9 +25,19 @@ export const Header = () => {
                     </h1>
                 </Link>
 
-                <div className="header__navigation__lg">
-                    <HeaderNav />
-                </div>
+                <MainNav />
+                {
+                    active[0] === "tv" &&
+                    <div className="header__navigation__lg">
+                        <TVNav />
+                    </div>
+                }
+                {
+                    active[0] === "movies" &&
+                    <div className="header__navigation__lg">
+                        <MoviesNav />
+                    </div>
+                }
 
                 <Link className="button-search" href={paths.search()} locale={locale}>
                     <IconSearch />
@@ -45,10 +45,18 @@ export const Header = () => {
 
                 <LanguageSwitcher />
             </div>
-
-            <div className="header__navigation__sm">
-                <HeaderNav />
-            </div>
+            {
+                active[0] === "tv" &&
+                <div className="header__navigation__sm">
+                    <TVNav />
+                </div>
+            }
+            {
+                active[0] === "movies" &&
+                <div className="header__navigation__sm">
+                    <MoviesNav />
+                </div>
+            }
 
         </header>
     );
@@ -58,52 +66,41 @@ const useHeaderScroll = () => {
 
     const ref = useRef<HTMLElement>(null);
 
-    useEffect(() => {
-
-        const headerUp = () => {
-            const header = ref.current;
-            if (header) {
-                header.classList.remove("header__header-down");
-                header.classList.add("header__header-up");
-            }
-        };
-
-        const headerDown = () => {
-            const header = ref.current;
-            if (header) {
-                header.classList.remove("header__header-up");
-                header.classList.add("header__header-down");
-                header.style.top = header.clientHeight.toString();
-            }
-        };
-
-
-        document.body.onwheel = (e: WheelEvent) => {
-            if (document.body.scrollHeight > document.body.clientHeight) {
-                const delta = e.deltaY;
-
-                if (delta < 0) {
-                    headerDown();
-                } else {
-                    headerUp();
-                }
-            }
-        };
-
-        document.body.onkeydown = (e: KeyboardEvent) => {
-            if (document.body.scrollHeight > document.body.clientHeight) {
-                if (["arrowdown", "pagedown", "end"].includes(e.key.toLowerCase())) {
-                    headerUp();
-                }
-            }
+    const headerUp = () => {
+        const header = ref.current;
+        if (header) {
+            header.classList.remove("header__header-down");
+            header.classList.add("header__header-up");
         }
+    };
 
-        document.body.onkeyup = (e: KeyboardEvent) => {
-            if (document.body.scrollHeight > document.body.clientHeight) {
-                if (["arrowup", "pageup", "home"].includes(e.key.toLowerCase())) {
-                    headerDown();
-                }
+    const headerDown = () => {
+        const header = ref.current;
+        if (header) {
+            header.classList.remove("header__header-up");
+            header.classList.add("header__header-down");
+            header.style.top = header.clientHeight.toString();
+        }
+    };
+
+    useEffect(() => {
+        document.body.onscroll = () => {
+            const { y } = document.body.getBoundingClientRect();
+
+            if (y === 0) {
+                headerDown();
             }
+
+            const sct = setTimeout(() => {
+                const delta = document.body.getBoundingClientRect().y - y;
+                if (delta < 0) {
+                    headerUp();
+                    clearTimeout(sct);
+                } else if (delta > 0) {
+                    headerDown();
+                    clearTimeout(sct);
+                }
+            }, 50);
         }
     }, []);
 

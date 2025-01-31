@@ -17,14 +17,11 @@ export default async function Page({
     const {
         results,
         total_pages,
-        total_results,
     } = await searchPerson(locale, query, page);
-
-    console.log(query, results, total_pages, total_results);
 
     return (
         <>
-            <PersonResults results={results} />
+            <PersonResults results={results} locale={locale} />
             <Pagination locale={locale} page={Number(page)} query={query} searchType="person" totalPages={total_pages} />
         </>
     );
