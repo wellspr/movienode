@@ -2324,7 +2324,7 @@ $list-gap: 3rem;
     justify-content: center;
     align-items: center;
 
-    height: 100%;
+    flex-grow: 1;
 
     animation-name: rotate;
     animation-duration: 2s;
