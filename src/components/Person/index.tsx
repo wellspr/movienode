@@ -67,12 +67,21 @@ export const Person = ({ person, locale }: { person: PersonDetailsType, locale: 
                 <div className="person__profile__main">
                     <div className="person__profile__main__col">
                         <div className="person__profile__main__image">
-                            <Image
-                                src={baseImageUrl() + person.profile_path}
-                                alt={person.name}
-                                fill
-                                draggable={false}
-                            />
+                            {
+                                person.profile_path ?
+                                    <Image
+                                        src={baseImageUrl() + person.profile_path}
+                                        alt={person.name}
+                                        fill
+                                        draggable={false}
+                                    /> :
+                                    <Image
+                                        src={`https://ui-avatars.com/api/?name=${person.name}`}
+                                        alt={person.name}
+                                        fill
+                                        draggable={false}
+                                    />
+                            }
                         </div>
 
                         <div className="person__profile__main__dates">

@@ -378,7 +378,7 @@ ul {
                     object-fit: cover;
                 }
 
-                &__placeholder {
+                /* &__placeholder {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -395,7 +395,7 @@ ul {
                         font-size: 1.6rem;
                         text-align: center;
                     }
-                }
+                } */
             }
         }
 
@@ -1719,7 +1719,7 @@ $list-gap: 3rem;
         position: relative;
         transition: transform 0.2s ease-in-out;
 
-        &__placeholder {
+        /* &__placeholder {
             object-fit: cover;
             display: flex;
             flex-direction: column;
@@ -1729,7 +1729,16 @@ $list-gap: 3rem;
             text-align: center;
             padding: 1rem;
             border-radius: 0.6rem;
-        }
+            background-color: #777;
+            border-radius: 50%;
+            text-transform: uppercase;
+
+            svg {
+                width: 50%;
+                height: 50%;
+
+            }
+        } */
 
         img {
             object-fit: cover;
@@ -1777,7 +1786,6 @@ $list-gap: 3rem;
     @media (max-width: $breakpoint-xsm) {
         $card-width: calc(100vw - 9rem);
         $card-height: calc($card-width * $aspect-ratio);
-
         width: $card-width;
         height: $card-height;
 
@@ -1791,8 +1799,8 @@ $list-gap: 3rem;
 
             &__placeholder {
                 width: $card-width;
-                min-width: $card-width;
-                min-height: $card-height;
+                height: $card-width;
+                border-radius: 50%;                
             }
 
             img {
@@ -1805,9 +1813,9 @@ $list-gap: 3rem;
     @media (min-width: $breakpoint-xsm) and (max-width: $breakpoint-sm) {
         $card-width: calc((100vw - 9rem - $list-gap) / 2);
         $card-height: calc($card-width * $aspect-ratio);
-
         width: $card-width;
         height: $card-height;
+        font-size: 1.2rem;
 
         &--appended {
             min-width: $card-width;
@@ -1816,12 +1824,6 @@ $list-gap: 3rem;
         &__image {
             width: $card-width;
             height: $card-width;
-
-            &__placeholder {
-                width: $card-width;
-                min-width: $card-width;
-                min-height: $card-height;
-            }
 
             img {
                 max-width: $card-width;
@@ -1833,9 +1835,9 @@ $list-gap: 3rem;
     @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
         $card-width: calc((100vw - 9rem - 2 * $list-gap) / 3);
         $card-height: calc($card-width * $aspect-ratio);
-
         width: $card-width;
         height: $card-height;
+        font-size: 1.2rem;
 
         &--appended {
             min-width: $card-width;
@@ -1844,12 +1846,6 @@ $list-gap: 3rem;
         &__image {
             width: $card-width;
             height: $card-width;
-
-            &__placeholder {
-                width: $card-width;
-                min-width: $card-width;
-                min-height: $card-height;
-            }
 
             img {
                 max-width: $card-width;
@@ -1861,9 +1857,9 @@ $list-gap: 3rem;
     @media (min-width: $breakpoint-md) and (max-width: $breakpoint-lg) {
         $card-width: calc((100vw - 9rem - 3 * $list-gap) / 4);
         $card-height: calc($card-width * $aspect-ratio);
-
         width: $card-width;
         height: $card-height;
+        font-size: 1.4rem;
         
         &--appended {
             min-width: $card-width;
@@ -1872,12 +1868,6 @@ $list-gap: 3rem;
         &__image {
             width: $card-width;
             height: $card-width;
-
-            &__placeholder {
-                width: $card-width;
-                min-width: $card-width;
-                min-height: $card-height;
-            }
 
             img {
                 max-width: $card-width;
@@ -1889,9 +1879,9 @@ $list-gap: 3rem;
     @media (min-width: $breakpoint-lg) {
         $card-width: calc((100vw - 9rem - 4 * $list-gap) / 5);
         $card-height: calc($card-width * $aspect-ratio);
-
         width: $card-width;
         height: $card-height;
+        font-size: 1.6rem;
 
         &--appended {
             min-width: $card-width;
@@ -1900,12 +1890,6 @@ $list-gap: 3rem;
         &__image {
             width: $card-width;
             height: $card-width;
-
-            &__placeholder {
-                width: $card-width;
-                min-width: $card-width;
-                min-height: $card-height;
-            }
 
             img {
                 max-width: $card-width;
@@ -2252,7 +2236,7 @@ $list-gap: 3rem;
                             height: 15rem;
                         }
 
-                        &__placeholder {
+                        /* &__placeholder {
                             background-color: #333;
                             width: 100%;
                             height: 100%;
@@ -2263,7 +2247,7 @@ $list-gap: 3rem;
                             gap: 3rem;
                             text-align: center;
                             padding: 1rem;
-                        }
+                        } */
                     }
 
                     &__info {

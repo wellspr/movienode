@@ -2,7 +2,6 @@ import { Link } from "@/i18n/routing"
 import { Locale } from "@/i18n/types"
 import Image from "next/image"
 import { baseImageUrl } from "@/config"
-import { IconUser } from "@tabler/icons-react"
 import { PersonDetailsType, PersonType } from "@/types"
 
 export const Profile = ({
@@ -33,12 +32,12 @@ export const Profile = ({
                                 fill
                                 draggable={false}
                             /> :
-                            <div className={`${baseClassName}__list__item__image__placeholder`}>
-                                <div className={`${baseClassName}__list__item__image__placeholder__title`}>
-                                    {result.name}
-                                </div>
-                                <IconUser size={40} />
-                            </div>
+                            <Image
+                                src={`https://ui-avatars.com/api/?name=${result.name}`}
+                                alt={result.name}
+                                fill
+                                draggable={false}
+                            />
                     }
                 </div>
                 <div className={`${baseClassName}__list__item__info`}>

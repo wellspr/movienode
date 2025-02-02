@@ -55,10 +55,11 @@ const Cast = ({ cast }: { cast: MovieCast }) => {
                                             {
                                                 entry.profile_path ?
                                                     <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill draggable={false} /> :
-                                                    <div className="movie-credits__list__item__profile-pic-no-image">
-                                                        {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]}
-                                                        {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
-                                                    </div>
+                                                    <Image src={`https://ui-avatars.com/api/?name=${entry.name}`} alt={entry.name} fill draggable={false} />
+                                                    //<div className="movie-credits__list__item__profile-pic-no-image">
+                                                    //    {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]}
+                                                    //    {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
+                                                    //</div>
                                             }
                                         </div>
                                         <h3 className="movie-credits__list__item__name">{entry.name}</h3>
@@ -106,10 +107,11 @@ const Crew = ({ crew }: { crew: MovieCrew }) => {
                                             {
                                                 entry.profile_path ?
                                                     <Image src={baseImageUrl() + entry.profile_path} alt={entry.name} fill draggable={false} /> :
-                                                    <div className="movie-credits__list__item__profile-pic-no-image">
-                                                        {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]}
-                                                        {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
-                                                    </div>
+                                                    <Image src={`https://ui-avatars.com/api/?name=${entry.name}`} alt={entry.name} fill draggable={false} />
+                                                    //<div className="movie-credits__list__item__profile-pic-no-image">
+                                                    //    {entry.name.split(' ')[0] && entry.name.split(' ')[0][0]}
+                                                    //    {entry.name.split(' ')[1] && entry.name.split(' ')[1][0]}
+                                                    //</div>
                                             }
                                         </div>
                                         <h3 className="movie-credits__list__item__name">{entry.name}</h3>

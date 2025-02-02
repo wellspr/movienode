@@ -1,7 +1,6 @@
 import { baseImageUrl, paths } from "@/config";
 import { Link } from "@/i18n/routing";
 import { PersonType } from "@/types";
-import { IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 
 export const Card = ({ person }: { person: PersonType }) => {
@@ -19,10 +18,12 @@ export const Card = ({ person }: { person: PersonType }) => {
                                 fill
                                 draggable={false}
                             /> :
-                            <div className={`person-card__image__placeholder`}>
-                                {person.name}
-                                <IconUser size={40} />
-                            </div>
+                            <Image 
+                                src={`https://ui-avatars.com/api/?name=${person.name}`}
+                                alt={person.name}
+                                fill
+                                draggable={false}
+                            />
                     }
                 </div>
 
