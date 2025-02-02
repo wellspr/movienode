@@ -84,7 +84,7 @@ const useHeaderScroll = () => {
     };
 
     useEffect(() => {
-        document.body.onscroll = () => {
+        const onScroll = () => {
             const { y } = document.body.getBoundingClientRect();
 
             if (y === 0) {
@@ -101,6 +101,11 @@ const useHeaderScroll = () => {
                     clearTimeout(sct);
                 }
             }, 50);
+        };
+        window.addEventListener("scroll", onScroll);
+
+        return () => {
+            window.removeEventListener("scroll", onScroll);
         }
     }, []);
 
