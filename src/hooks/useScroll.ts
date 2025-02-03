@@ -36,13 +36,11 @@ export const useScroll = (config?: Config) => {
     const [buttonRightDisabled, setButtonRightDisabled] = useState<boolean>(false);
 
     const updateMarkers = useCallback((container: HTMLUListElement | null) => {
-        const date = Date.now();
         if (container) {
             const total = container.scrollWidth / container.clientWidth;
             const position = (container.scrollLeft + container.clientWidth) / container.clientWidth;
             setTotalScrollPages(Math.ceil(total));
             setCurrentScrollPage(Math.ceil(position));
-            console.log("Time: ",  Date.now() - date);
         };
     }, []);
 

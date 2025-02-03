@@ -2412,11 +2412,26 @@ $list-gap: 3rem;
 
 .movies,
 .people,
-.tv {
+.tv,
+.user-profile {
     padding: 0 3rem;
 
     &__genres-list {
         margin: 2rem 0;
+    }
+}
+
+.user-profile {
+
+    &__heading {
+        font-size: 2.4rem;
+        margin-bottom: 2rem;
+    }
+    
+    &__image {
+        img {
+            border-radius: 50%;
+        }
     }
 }
 
