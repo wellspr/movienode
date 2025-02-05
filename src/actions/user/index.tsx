@@ -1,5 +1,9 @@
 "use server";
 
+import * as db from "@/db";
+
+import { cookies } from "next/headers";
+
 type SessionResponse = {
     success: boolean
     session_id: string
@@ -22,7 +26,20 @@ export type UserDetails = {
     username: string
 }
 
-export const getUserDetails = async (accountId: number, sessionId: string) => {
+export const getAuthenticationDetails = async () => {
+    const cookieStore = await cookies();
+    const accountId = cookieStore.get('accountId')?.value;
+
+    const session = await db.prisma.session.findFirst({
+        where: {
+            accountId: String(accountId)
+        }
+    });
+
+    return session;
+};
+
+export const getUserDetails = async (accountId: string, sessionId: string) => {
 
     const url = `https://api.themoviedb.org/3/account/${accountId}?session_id=${sessionId}`;
 
@@ -34,10 +51,12 @@ export const getUserDetails = async (accountId: number, sessionId: string) => {
         },
     });
 
-    const data = await response.json() as UserDetails;
+    const data = await response.json();
+
+    console.log(data);
 
     return data as UserDetails;
-}
+};
 
 export const getGravatarDetails = async (hash: string) => {
     const response = await fetch(`https://gravatar.com/${hash}.json`);
@@ -60,8 +79,6 @@ export const createSession = async (accessToken: string) => {
     });
 
     const data = await response.json() as SessionResponse;
-
-    console.log(data);
 
     return data;
 };

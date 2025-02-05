@@ -1,6 +1,7 @@
 import { Footer } from "@/components/Layout/Footer";
 import { Header } from "@/components/Layout/Header";
 import { Main } from "@/components/Layout/Main";
+import { AuthContext } from "@/contexts/AuthContext";
 import { routing } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { NextIntlClientProvider } from "next-intl";
@@ -27,12 +28,14 @@ export default async function Layout({
 
 	return (
 		<NextIntlClientProvider messages={messages}>
-			<Header />
-			<Main>
-				{imagesModal}
-				{children}
-			</Main>
-			<Footer />
+			<AuthContext>
+				<Header />
+				<Main>
+					{imagesModal}
+					{children}
+				</Main>
+				<Footer />
+			</AuthContext>
 		</NextIntlClientProvider>
 	);
 }

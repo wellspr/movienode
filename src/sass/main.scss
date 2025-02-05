@@ -1516,11 +1516,11 @@ $list-gap: 3rem;
             border: 0.1rem solid;
             padding: 0.8rem 1.4rem;
             border-radius: 0.4rem;
-            transition: all .2s ease-in-out;
+            transition: all 0.2s ease-in-out;
 
             &:hover {
                 background-color: #eee;
-                transition: all .2s ease-in-out;
+                transition: all 0.2s ease-in-out;
                 color: #111;
             }
         }
@@ -1800,7 +1800,7 @@ $list-gap: 3rem;
             &__placeholder {
                 width: $card-width;
                 height: $card-width;
-                border-radius: 50%;                
+                border-radius: 50%;
             }
 
             img {
@@ -1860,7 +1860,7 @@ $list-gap: 3rem;
         width: $card-width;
         height: $card-height;
         font-size: 1.4rem;
-        
+
         &--appended {
             min-width: $card-width;
         }
@@ -2085,7 +2085,7 @@ $list-gap: 3rem;
         position: fixed;
         right: 0;
         height: 100%;
-        
+
         &__nav {
             display: flex;
             flex-direction: column;
@@ -2093,7 +2093,6 @@ $list-gap: 3rem;
             width: 100%;
         }
     }
-
 
     @media (max-width: $breakpoint-md) {
         flex-direction: column;
@@ -2412,8 +2411,7 @@ $list-gap: 3rem;
 
 .movies,
 .people,
-.tv,
-.user-profile {
+.tv {
     padding: 0 3rem;
 
     &__genres-list {
@@ -2422,15 +2420,53 @@ $list-gap: 3rem;
 }
 
 .user-profile {
+    padding: 0 3rem;
+
+    &__primary {
+        margin-bottom: 3rem;
+        display: flex;
+        gap: 5rem;
+
+        //&__user-info {}
+
+        //&__user-tmdb-data {}
+    }
+
+    &__logout-button {
+        padding: 1rem 0;
+    }
 
     &__heading {
         font-size: 2.4rem;
         margin-bottom: 2rem;
     }
-    
+
+    &__text {
+        font-size: 1.6rem;
+    }
+
     &__image {
         img {
             border-radius: 50%;
+        }
+    }
+
+    &__disconnected {
+
+        &__heading {
+            font-size: 2.2rem;
+        }
+
+        &__text {
+            font-size: 1.6rem;
+            margin-bottom: 3rem;
+        }
+
+        &__button {
+            border: .1rem solid;
+            padding: 1rem 2rem;
+            border-radius: .6rem;
+            cursor: pointer;
         }
     }
 }
@@ -2578,5 +2614,50 @@ summary {
             opacity: 1;
             transition: opacity 0.3s ease-in-out;
         }
+    }
+}
+
+.auth-widget {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 4rem;
+
+    a {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            border-radius: 50%;
+        }
+    }
+}
+
+.auth-login-button {
+    border: none;
+    background-color: transparent;
+    color: #eee;
+    cursor: pointer;
+}
+
+.logout-button {
+    display: block;
+    border: 0.1rem solid;
+    border-radius: 0.6rem;
+    padding: 1rem 2rem;
+    width: fit-content;
+    height: fit-content;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+        background-color: #aaa;
+        border-color: #aaa;
+        color: #111;
+        transition: all .2s ease-in-out;
     }
 }

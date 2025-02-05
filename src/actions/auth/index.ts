@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 const authURL = "https://api.themoviedb.org/4/auth";
 
@@ -12,7 +13,7 @@ type CreateTokenResponse = {
 }
 
 type CreateAccessTokenResponse = {
-    account_id: string
+    account_id: number
     access_token: string
     success: boolean //Defaults to true
     status_message: string  //
@@ -28,30 +29,32 @@ const options = {
     },
 };
 
-export const createRequestToken = async () => {
+export async function createRequestToken() {
     const url = authURL + "/request_token";
+    const requestBody = { "redirect_to": "http://localhost:3000/api/auth/access/approved" };
 
     const response = await fetch(url, {
-        body: JSON.stringify({ "redirect_to": "http://localhost:3000/auth/access/approved" }),
+        body: JSON.stringify(requestBody),
         ...options
     });
 
     const data = await response.json() as CreateTokenResponse;
-
     const requestToken = data.request_token;
 
-    return requestToken;
-};
-
-export const requestUserApproval = async (requestToken: string) => {
+    const cookieStore = await cookies();
+    cookieStore.set("token", requestToken);
 
     redirect(`https://www.themoviedb.org/auth/access?request_token=${requestToken}`);
-}
+};
 
-export const createAccessToken = async (requestToken: string) => {
-
+export async function createAccessToken() {
     const url = authURL + "/access_token";
-    const requestBody = { "request_token": requestToken };
+
+    const cookieStore = await cookies();
+    const requestToken = cookieStore.get("token");
+    
+    const requestBody = { "request_token": requestToken?.value };
+
     const response = await fetch(url, {
         body: JSON.stringify(requestBody),
         ...options,

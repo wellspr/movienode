@@ -1,21 +1,8 @@
-"use client";
-
-import { createRequestToken, requestUserApproval } from "@/actions/auth";
-import { authStore } from "../authStore";
+import { createRequestToken } from "@/actions/auth";
 
 export const LoginButton = () => {
-
-    const authorizeUser = async () => {
-
-        const requestToken = await createRequestToken();
-
-        authStore.setItem("token", requestToken);
-
-        requestUserApproval(requestToken);
-    }
-
     return (
-        <button onClick={authorizeUser}>
+        <button className="auth-login-button" onClick={createRequestToken}>
             Enter
         </button>
     );

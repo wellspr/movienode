@@ -8,7 +8,7 @@ import { MainNav, MoviesNav, TVNav } from "./HeaderNav";
 import { IconSearch } from "@tabler/icons-react";
 import { appName, paths } from "@/config";
 import { useEffect, useRef } from "react";
-
+import { AuthWidget } from "@/app/[locale]/(auth)/components/AuthWidget";
 
 export const Header = () => {
     const params = useParams();
@@ -44,6 +44,8 @@ export const Header = () => {
                 </Link>
 
                 <LanguageSwitcher />
+
+                <AuthWidget locale={locale} />
             </div>
             {
                 active[0] === "tv" &&
@@ -57,7 +59,6 @@ export const Header = () => {
                     <MoviesNav />
                 </div>
             }
-
         </header>
     );
 };

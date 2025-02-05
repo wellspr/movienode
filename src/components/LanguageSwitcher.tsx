@@ -1,3 +1,5 @@
+"use client";
+
 import { flags, locales, regions } from "@/i18n/config";
 import { usePathname } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
