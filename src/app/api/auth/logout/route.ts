@@ -2,6 +2,7 @@ import { getAuthenticationDetails } from "@/actions/user";
 import { getLocale } from "next-intl/server";
 import { NextRequest, NextResponse } from "next/server";
 import * as db from "@/db";
+import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
 
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
 
         const currentSession = await db.prisma.session.findFirst({
             where: {
-                sessionId
+                sessionId, 
             }
         });
     
@@ -38,6 +39,11 @@ export async function GET(request: NextRequest) {
                 }
             });
         }
+
+        const cookieStore = await cookies();
+
+        cookieStore.delete('accessToken');
+        cookieStore.delete('sessionId');
         
         const url = request.nextUrl;
     

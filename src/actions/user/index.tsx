@@ -29,10 +29,12 @@ export type UserDetails = {
 export const getAuthenticationDetails = async () => {
     const cookieStore = await cookies();
     const accountId = cookieStore.get('accountId')?.value;
+    const accessToken = cookieStore.get('accessToken')?.value;
 
     const session = await db.prisma.session.findFirst({
         where: {
-            accountId: String(accountId)
+            accountId,
+            accessToken
         }
     });
 
@@ -52,8 +54,6 @@ export const getUserDetails = async (accountId: string, sessionId: string) => {
     });
 
     const data = await response.json();
-
-    console.log(data);
 
     return data as UserDetails;
 };

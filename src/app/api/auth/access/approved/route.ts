@@ -31,6 +31,20 @@ export async function GET(request: NextRequest) {
         sameSite: true,
     });
 
+    cookieStore.set({
+        name: "accessToken",
+        value: access_token,
+        secure: true,
+        sameSite: true,
+    });
+
+    cookieStore.set({
+        name: "sessionId",
+        value: session_id,
+        secure: true,
+        sameSite: true,
+    });
+
     cookieStore.delete('token');
     
     const url = request.nextUrl;
