@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     };
 
     /* Save session to DB */
-    db.createSession(data);
+    await db.createSession(data);
     
     const cookieStore = await cookies();
     
