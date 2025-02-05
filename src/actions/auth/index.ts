@@ -29,9 +29,18 @@ const options = {
     },
 };
 
+const env = process.env.NODE_ENV;
+console.log(env);
+
+let baseURL = "http://localhost:3000";
+
+if (env === "production") {
+    baseURL = "https://movienode-hub.vercel.app";
+}
+
 export async function createRequestToken() {
     const url = authURL + "/request_token";
-    const requestBody = { "redirect_to": "http://localhost:3000/api/auth/access/approved" };
+    const requestBody = { "redirect_to": `${baseURL}/api/auth/access/approved` };
 
     const response = await fetch(url, {
         body: JSON.stringify(requestBody),
