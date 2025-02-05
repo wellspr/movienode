@@ -9,7 +9,7 @@ type AuthContextType = {
 }
 
 const defaultValue: AuthContextType = {
-    setUser: () => {},
+    setUser: () => { },
     user: null,
 };
 
@@ -21,19 +21,25 @@ export const AuthContext = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         console.log("Auth Widget Effect...");
+         
         getAuthenticationDetails()
             .then(r => {
                 console.log(r);
+                
                 if (r) {
                     const { accountId, sessionId } = r;
 
-                    getUserDetails(accountId, sessionId)
-                        .then(r => {
-                            console.log("USER: ", r);
-                            if (r) {
-                                setUser(r);
-                            }
-                        })
+                    if (accountId && sessionId) {
+                        getUserDetails(accountId, sessionId)
+                            .then(r => {
+                                console.log("USER: ", r);
+                                if (r.id) {
+                                    setUser(r);
+                                } else {
+                                    setUser(null);
+                                }
+                            })
+                    }
                 }
             })
     }, []);
