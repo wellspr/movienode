@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
             {
                 protocol: 'https',
                 hostname: 'image.tmdb.org',
+            },
+            {
+                protocol: 'https',
+                hostname: 'gravatar.com',
+                pathname: '/avatar'
             }
         ],
         localPatterns: [

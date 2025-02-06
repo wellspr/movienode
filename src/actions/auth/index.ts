@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { baseURL } from "@/config";
 
 const authURL = "https://api.themoviedb.org/4/auth";
 
@@ -29,18 +30,12 @@ const options = {
     },
 };
 
-const env = process.env.NODE_ENV;
-console.log(env);
-
-let baseURL = "http://localhost:3000";
-
-if (env === "production") {
-    baseURL = "https://movienode-hub.vercel.app";
-}
-
 export async function createRequestToken() {
+    /* Here is the start of the authorization process */
     const url = authURL + "/request_token";
-    const requestBody = { "redirect_to": `${baseURL}/api/auth/access/approved` };
+
+    /* Redirect to this url after the user approve the access */
+    const requestBody = { "redirect_to": `${baseURL()}/api/auth/access/approved` };
 
     const response = await fetch(url, {
         body: JSON.stringify(requestBody),
@@ -50,6 +45,7 @@ export async function createRequestToken() {
     const data = await response.json() as CreateTokenResponse;
     const requestToken = data.request_token;
 
+    /* Save the request token as a cookie to be accessed by 'createAccessToken' */
     const cookieStore = await cookies();
     cookieStore.set("token", requestToken);
 
@@ -57,8 +53,10 @@ export async function createRequestToken() {
 };
 
 export async function createAccessToken() {
+    /* After redirected to '/api/auth/access/approved' get the 'accessToken' and */
     const url = authURL + "/access_token";
 
+    /* Access the request token to be sent along with the request */
     const cookieStore = await cookies();
     const requestToken = cookieStore.get("token");
     

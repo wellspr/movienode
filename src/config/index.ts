@@ -1,3 +1,16 @@
+export const baseURL = () => {
+    const env = process.env.NODE_ENV;
+    
+    if (env === "production") {
+        const url = process.env.PRODUCTION_URL;
+        if (url) {
+            return url;
+        }
+    }
+    
+    return "http://localhost:3000";
+};
+
 export const baseImageUrl = (width?: number) => {
     if (!width) {
         return "https://image.tmdb.org/t/p/original";
@@ -18,7 +31,7 @@ export const paths = {
     search: () => "/search",
     movie_recommendations: (movie_id: string) => `/movies/${movie_id}/recommendations`,
     movie_similar: (movie_id: string) => `/movies/${movie_id}/similar`,
-}
+};
 
 export const navLinks = {
     movies: [

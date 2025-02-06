@@ -31,14 +31,19 @@ export const getAuthenticationDetails = async () => {
     const accountId = cookieStore.get('accountId')?.value;
     const accessToken = cookieStore.get('accessToken')?.value;
 
-    const session = await db.prisma.session.findFirst({
-        where: {
-            accountId,
-            accessToken
-        }
-    });
+    if (accountId && accessToken) {
 
-    return session;
+        const session = await db.prisma.session.findFirst({
+            where: {
+                accountId,
+                accessToken
+            }
+        });
+        
+        return session;
+    }
+
+    return null;
 };
 
 export const getUserDetails = async (accountId: string, sessionId: string) => {
@@ -52,16 +57,24 @@ export const getUserDetails = async (accountId: string, sessionId: string) => {
             Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
         },
     });
+    
+    if (response.ok) {
+        const data = await response.json();
+        return data as UserDetails;
+    }
 
-    const data = await response.json();
-
-    return data as UserDetails;
+    return null;
 };
 
 export const getGravatarDetails = async (hash: string) => {
     const response = await fetch(`https://gravatar.com/${hash}.json`);
-    const data = await response.json();
-    return data;
+
+    if (response.ok) {
+        const data = await response.json();
+        return data;
+    }
+
+    return null;
 };
 
 export const createSession = async (accessToken: string) => {

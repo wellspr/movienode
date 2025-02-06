@@ -24,7 +24,7 @@ export const AuthContext = ({ children }: { children: React.ReactNode }) => {
          
         getAuthenticationDetails()
             .then(r => {
-                console.log(r);
+                console.log("Auth details: ", r);
                 
                 if (r) {
                     const { accountId, sessionId } = r;
@@ -33,7 +33,7 @@ export const AuthContext = ({ children }: { children: React.ReactNode }) => {
                         getUserDetails(accountId, sessionId)
                             .then(r => {
                                 console.log("USER: ", r);
-                                if (r.id) {
+                                if (r && r.id) {
                                     setUser(r);
                                 } else {
                                     setUser(null);

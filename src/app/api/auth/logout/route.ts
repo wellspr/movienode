@@ -44,6 +44,7 @@ export async function GET(request: NextRequest) {
 
         cookieStore.delete('accessToken');
         cookieStore.delete('sessionId');
+        cookieStore.delete('accountId');
         
         const url = request.nextUrl;
     
