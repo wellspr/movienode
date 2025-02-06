@@ -11,6 +11,19 @@ export const baseURL = () => {
     return "http://localhost:3000";
 };
 
+export const domain = () => {
+    const env = process.env.NODE_ENV;
+
+    if (env === "production") {
+        const domain = process.env.PRODUCTION_DOMAIN;
+        if (domain) {
+            return domain;
+        }
+    }
+
+    return "localhost";
+};
+
 export const baseImageUrl = (width?: number) => {
     if (!width) {
         return "https://image.tmdb.org/t/p/original";
