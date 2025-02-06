@@ -24,27 +24,9 @@ export async function GET(request: NextRequest) {
     
     const cookieStore = await cookies();
     
-    cookieStore.set({
-        name: "accountId",
-        value: String(account_id),
-        secure: true,
-        sameSite: true,
-    });
-
-    cookieStore.set({
-        name: "accessToken",
-        value: access_token,
-        secure: true,
-        sameSite: true,
-    });
-
-    cookieStore.set({
-        name: "sessionId",
-        value: session_id,
-        secure: true,
-        sameSite: true,
-    });
-
+    cookieStore.set("accountId",String(account_id));
+    cookieStore.set("accessToken", access_token);
+    cookieStore.set("sessionId", session_id);
     cookieStore.delete('token');
     
     const url = request.nextUrl;
