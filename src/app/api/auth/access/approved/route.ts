@@ -12,49 +12,57 @@ export async function GET(request: NextRequest) {
 
     const { access_token, account_id } = await createAccessToken();
 
-    const { session_id } = await createSession(access_token);
+    if (access_token && account_id) {
 
-    const data = {
-        accessToken: access_token,
-        accountId: String(account_id),
-        sessionId: session_id,
-    };
+        const { session_id } = await createSession(access_token);
 
-    /* Save session to DB */
-    await db.createSession(data);
+        if (session_id) {
     
-    const cookieStore = await cookies();
+            const data = {
+                accessToken: access_token,
+                accountId: String(account_id),
+                sessionId: session_id,
+            };
     
-    cookieStore.set({
-        name: "accountId",
-        value: String(account_id),
-        secure: true,
-        sameSite: 'lax',
-        domain: domain(),
-        expires: new Date(Date.now() + 3600000),
-        
-    });
-
-    cookieStore.set({
-        name: "accessToken",
-        value: access_token,
-        secure: true,
-        sameSite: 'lax',
-        domain: domain(),
-        expires: new Date(Date.now() + 3600000),
-    });
-
-    cookieStore.set({
-        name: "sessionId",
-        value: session_id,
-        secure: true,
-        sameSite: 'lax',
-        domain: domain(),
-        expires: new Date(Date.now() + 3600000),
-    });
-
-    cookieStore.delete('token');
+            /* Save session to DB */
+            const newSession = await db.createSession(data);
     
+            console.log("New Session: ", newSession);
+    
+            const cookieStore = await cookies();
+    
+            cookieStore.set({
+                name: "accountId",
+                value: String(account_id),
+                secure: true,
+                sameSite: 'lax',
+                domain: domain(),
+                expires: new Date(Date.now() + 3600000),
+    
+            });
+    
+            cookieStore.set({
+                name: "accessToken",
+                value: access_token,
+                secure: true,
+                sameSite: 'lax',
+                domain: domain(),
+                expires: new Date(Date.now() + 3600000),
+            });
+    
+            cookieStore.set({
+                name: "sessionId",
+                value: session_id,
+                secure: true,
+                sameSite: 'lax',
+                domain: domain(),
+                expires: new Date(Date.now() + 3600000),
+            });
+    
+            cookieStore.delete('token');
+        }
+    }
+
     const url = request.nextUrl;
 
     const redirectURL = `${url.origin}/${locale}/user/profile`;

@@ -3,10 +3,10 @@ import { getAuthenticationDetails, getUserDetails } from "@/actions/user";
 import { createRequestToken } from "@/actions/auth";
 
 export default async function Page() {
-    
+
     const session = await getAuthenticationDetails();
 
-    if (!session)
+    if (!session) {
         return (
             <div className="user-profile user-profile__disconnected">
                 <h2 className="user-profile__disconnected__heading">Login</h2>
@@ -18,6 +18,7 @@ export default async function Page() {
                 </button>
             </div>
         ); /* In fact, redirect to login or to a guest page... */
+    }
 
     const { accountId, sessionId } = session;
 
