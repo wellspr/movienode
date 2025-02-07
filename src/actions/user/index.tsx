@@ -1,7 +1,6 @@
 "use server";
 
-import * as db from "@/db";
-
+import * as db from "@/actions/db";
 import { cookies } from "next/headers";
 
 type SessionResponse = {
@@ -32,16 +31,7 @@ export const getAuthenticationDetails = async () => {
     const accessToken = cookieStore.get('accessToken')?.value;
 
     if (accountId && accessToken) {
-
-        const session = await db.prisma.session.findFirst({
-            where: {
-                accountId,
-                accessToken
-            }
-        });
-
-        await db.prisma.$disconnect();
-        
+        const session = db.getSession(accountId, accessToken);
         return session;
     }
 
@@ -59,7 +49,7 @@ export const getUserDetails = async (accountId: string, sessionId: string) => {
             Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
         },
     });
-    
+
     if (response.ok) {
         const data = await response.json();
         return data as UserDetails;
@@ -79,7 +69,7 @@ export const getGravatarDetails = async (hash: string) => {
     return null;
 };
 
-export const createSession = async (accessToken: string) => {
+export const createSession = async (accessToken: string, accountId: string) => {
 
     const url = `https://api.themoviedb.org/3/authentication/session/convert/4`;
 
@@ -95,8 +85,46 @@ export const createSession = async (accessToken: string) => {
 
     if (response.ok) {
         const data = await response.json() as SessionResponse;
+
+        const sessionData = {
+            accessToken,
+            accountId,
+            sessionId: data.session_id,
+        };
+
+        const newSession = await db.createSession(sessionData);
+
+        console.log("New Session: ", newSession);
+
         return data;
     }
 
     return null;
+};
+
+export const destroySession = async () => {
+
+    const logoutURL = "https://api.themoviedb.org/3/authentication/session";
+
+    const session = await getAuthenticationDetails();
+
+    if (session) {
+        const { sessionId, accessToken } = session;
+
+        await fetch(logoutURL, {
+            method: "DELETE",
+            headers: {
+                accept: 'application/json',
+                'content-type': 'application/json',
+                Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+            },
+            body: JSON.stringify({ 'session_id': sessionId }),
+        });
+
+        await db.deleteSession(sessionId, accessToken);
+
+        const cookieStore = await cookies();
+        cookieStore.delete('accessToken');
+        cookieStore.delete('accountId');
+    }
 };

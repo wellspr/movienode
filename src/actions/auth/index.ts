@@ -14,7 +14,7 @@ type CreateTokenResponse = {
 }
 
 type CreateAccessTokenResponse = {
-    account_id: number
+    account_id: string
     access_token: string
     success: boolean //Defaults to true
     status_message: string  //

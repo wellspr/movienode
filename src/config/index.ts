@@ -1,27 +1,11 @@
 export const baseURL = () => {
-    const env = process.env.NODE_ENV;
-    
-    if (env === "production") {
-        const url = process.env.PRODUCTION_URL;
-        if (url) {
-            return url;
-        }
-    }
-    
-    return "http://localhost:3000";
+    const url = process.env.URL;
+    return url;
 };
 
 export const domain = () => {
-    const env = process.env.NODE_ENV;
-
-    if (env === "production") {
-        const domain = process.env.PRODUCTION_DOMAIN;
-        if (domain) {
-            return domain;
-        }
-    }
-
-    return "localhost";
+    const domain = process.env.DOMAIN;
+    return domain;
 };
 
 export const baseImageUrl = (width?: number) => {

@@ -1,9 +1,23 @@
-import Link from "next/link";
+"use client";
+
+import { destroySession } from "@/actions/user";
+import { useAuth } from "@/contexts/AuthContext";
+import { useCallback } from "react";
 
 export const LogoutButton = () => {
+
+    const { setUser } = useAuth();
+
+    const logoutUser = useCallback(() => {
+        destroySession()
+            .then(() => {
+                setUser(null);
+            })
+    }, [setUser]);
+
     return (
-        <Link className="logout-button" href={"/api/auth/logout"}>
+        <button className="logout-button" onClick={logoutUser}>
             Disconnect from TMDB
-        </Link>
+        </button>
     );
 };
