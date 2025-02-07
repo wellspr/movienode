@@ -39,6 +39,8 @@ export const getAuthenticationDetails = async () => {
                 accessToken
             }
         });
+
+        await db.prisma.$disconnect();
         
         return session;
     }

@@ -12,28 +12,12 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
-model User {
-  id        Int      @id @default(autoincrement())
-  accountId String
-  email     String   @unique
-  name      String?
-  profile   Profile?
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model Session {
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
   accountId   String
   sessionId   String
   accessToken String

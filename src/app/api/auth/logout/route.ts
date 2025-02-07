@@ -40,6 +40,8 @@ export async function GET(request: NextRequest) {
             });
         }
 
+        await db.prisma.$disconnect();
+
         const cookieStore = await cookies();
 
         cookieStore.delete('accessToken');

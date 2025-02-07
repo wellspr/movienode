@@ -7,5 +7,7 @@ export const createSession = async (data: Omit<Session, "id">) => {
         data
     });
 
+    await prisma.$disconnect();
+
     return session;
 };
