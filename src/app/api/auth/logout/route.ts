@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
     if (session) {
 
-        const { sessionId } = session;
+        const { sessionId, accessToken } = session;
 
         await fetch(logoutURL, {
             method: "DELETE",
@@ -27,8 +27,9 @@ export async function GET(request: NextRequest) {
         });
 
         const currentSession = await db.prisma.session.findFirst({
-            where: {
+            where: { 
                 sessionId, 
+                accessToken
             }
         });
     

@@ -93,7 +93,10 @@ export const createSession = async (accessToken: string) => {
         body: JSON.stringify({ 'access_token': accessToken }),
     });
 
-    const data = await response.json() as SessionResponse;
+    if (response.ok) {
+        const data = await response.json() as SessionResponse;
+        return data;
+    }
 
-    return data;
+    return null;
 };

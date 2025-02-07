@@ -14,9 +14,11 @@ export async function GET(request: NextRequest) {
 
     if (access_token && account_id) {
 
-        const { session_id } = await createSession(access_token);
+        const session = await createSession(access_token);
 
-        if (session_id) {
+        if (session?.success) {
+
+            const { session_id } = session;
     
             const data = {
                 accessToken: access_token,
@@ -29,6 +31,7 @@ export async function GET(request: NextRequest) {
     
             console.log("New Session: ", newSession);
     
+            
             const cookieStore = await cookies();
     
             cookieStore.set({
@@ -49,16 +52,7 @@ export async function GET(request: NextRequest) {
                 domain: domain(),
                 expires: new Date(Date.now() + 3600000),
             });
-    
-            cookieStore.set({
-                name: "sessionId",
-                value: session_id,
-                secure: true,
-                sameSite: 'lax',
-                domain: domain(),
-                expires: new Date(Date.now() + 3600000),
-            });
-    
+        
             cookieStore.delete('token');
         }
     }
