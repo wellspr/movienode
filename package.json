@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "sass": "sass --watch --style=compressed src/sass/main.scss:src/styles/index.css",
-    "postinstall": "prisma generate && prisma db pull"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@next/third-parties": "^15.1.3",
