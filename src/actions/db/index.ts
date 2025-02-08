@@ -11,12 +11,9 @@ export const createSession = async (data: Omit<Session, "id">) => {
     return session;
 };
 
-export const getSession = async (accountId: string, accessToken: string) => {
+export const getSession = async (id: string) => {
     const session = await prisma.session.findFirst({
-        where: {
-            accountId,
-            accessToken
-        }
+        where: { id }
     });
 
     await prisma.$disconnect();
@@ -24,21 +21,10 @@ export const getSession = async (accountId: string, accessToken: string) => {
     return session;
 };
 
-export const deleteSession = async (sessionId: string, accessToken: string) => {
-    const currentSession = await prisma.session.findFirst({
-        where: {
-            sessionId,
-            accessToken
-        }
+export const deleteSession = async (id: string) => {
+    await prisma.session.delete({
+        where: { id }
     });
-
-    if (currentSession) {
-        await prisma.session.delete({
-            where: {
-                id: currentSession.id
-            }
-        });
-    }
 
     await prisma.$disconnect();
 };

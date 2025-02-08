@@ -1,8 +1,8 @@
 import { getLocale } from "next-intl/server";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { createAccessToken } from "@/actions/auth";
 import { createSession } from "@/actions/user";
+import { setSessionCookie } from "@/actions/cookies";
 
 export async function GET(request: NextRequest) {
 
@@ -13,11 +13,9 @@ export async function GET(request: NextRequest) {
     if (access_token && account_id) {
         const session = await createSession(access_token, account_id);
 
-        if (session?.success) {   
-            const cookieStore = await cookies();    
-            cookieStore.set("accountId", account_id);
-            cookieStore.set("accessToken", access_token);
-            cookieStore.delete('token');
+        if (session) {
+            const sessionCookie = { id: session.id };
+            await setSessionCookie(sessionCookie);
         }
     }
 

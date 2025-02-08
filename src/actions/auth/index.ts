@@ -1,8 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { baseURL } from "@/config";
+import { getRequestToken, setRequestToken } from "../cookies";
 
 const authURL = "https://api.themoviedb.org/4/auth";
 
@@ -46,8 +46,7 @@ export async function createRequestToken() {
     const requestToken = data.request_token;
 
     /* Save the request token as a cookie to be accessed by 'createAccessToken' */
-    const cookieStore = await cookies();
-    cookieStore.set("token", requestToken);
+    await setRequestToken(requestToken);
 
     redirect(`https://www.themoviedb.org/auth/access?request_token=${requestToken}`);
 };
@@ -57,10 +56,9 @@ export async function createAccessToken() {
     const url = authURL + "/access_token";
 
     /* Access the request token to be sent along with the request */
-    const cookieStore = await cookies();
-    const requestToken = cookieStore.get("token");
+    const requestToken = await getRequestToken();
     
-    const requestBody = { "request_token": requestToken?.value };
+    const requestBody = { "request_token": requestToken };
 
     const response = await fetch(url, {
         body: JSON.stringify(requestBody),

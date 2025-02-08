@@ -20,19 +20,14 @@ export const AuthContext = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserDetails | null>(null);
 
     useEffect(() => {
-        console.log("Auth Widget Effect...");
-         
         getAuthenticationDetails()
             .then(r => {
-                console.log("Auth details: ", r);
-                
                 if (r) {
                     const { accountId, sessionId } = r;
 
                     if (accountId && sessionId) {
                         getUserDetails(accountId, sessionId)
                             .then(r => {
-                                console.log("USER: ", r);
                                 if (r && r.id) {
                                     setUser(r);
                                 } else {

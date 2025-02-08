@@ -1,7 +1,7 @@
 "use server";
 
 import * as db from "@/actions/db";
-import { cookies } from "next/headers";
+import { deleteSessionCookie, getSessionCookie } from "../cookies";
 
 type SessionResponse = {
     success: boolean
@@ -26,12 +26,10 @@ export type UserDetails = {
 }
 
 export const getAuthenticationDetails = async () => {
-    const cookieStore = await cookies();
-    const accountId = cookieStore.get('accountId')?.value;
-    const accessToken = cookieStore.get('accessToken')?.value;
+    const sessionCookie = await getSessionCookie();
 
-    if (accountId && accessToken) {
-        const session = db.getSession(accountId, accessToken);
+    if (sessionCookie) {
+        const session = db.getSession(sessionCookie.id);
         return session;
     }
 
@@ -92,11 +90,9 @@ export const createSession = async (accessToken: string, accountId: string) => {
             sessionId: data.session_id,
         };
 
-        const newSession = await db.createSession(sessionData);
-
-        console.log("New Session: ", newSession);
-
-        return data;
+        const session = await db.createSession(sessionData);
+        
+        return session;
     }
 
     return null;
@@ -109,7 +105,7 @@ export const destroySession = async () => {
     const session = await getAuthenticationDetails();
 
     if (session) {
-        const { sessionId, accessToken } = session;
+        const { id, sessionId } = session;
 
         await fetch(logoutURL, {
             method: "DELETE",
@@ -121,10 +117,8 @@ export const destroySession = async () => {
             body: JSON.stringify({ 'session_id': sessionId }),
         });
 
-        await db.deleteSession(sessionId, accessToken);
+        await db.deleteSession(id);
 
-        const cookieStore = await cookies();
-        cookieStore.delete('accessToken');
-        cookieStore.delete('accountId');
+        await deleteSessionCookie();
     }
 };
