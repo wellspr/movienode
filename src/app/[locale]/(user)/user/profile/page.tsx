@@ -1,10 +1,11 @@
 import { UserProfile } from "../../components/UserProfile";
-import { getAuthenticationDetails, getUserDetails } from "@/actions/user";
+import { getUserDetails } from "@/actions/user";
 import { createRequestToken } from "@/actions/auth";
+import { getSession } from "@/actions/session";
 
 export default async function Page() {
 
-    const session = await getAuthenticationDetails();
+    const session = await getSession();
 
     if (!session) {
         return (

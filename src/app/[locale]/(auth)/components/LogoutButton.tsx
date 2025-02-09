@@ -1,6 +1,6 @@
 "use client";
 
-import { destroySession } from "@/actions/user";
+import { destroySession } from "@/actions/session";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCallback } from "react";
 

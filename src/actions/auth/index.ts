@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { baseURL } from "@/config";
-import { getRequestToken, setRequestToken } from "../cookies";
+import { cookies } from "next/headers";
 
 const authURL = "https://api.themoviedb.org/4/auth";
 
@@ -71,4 +71,17 @@ export async function createAccessToken() {
         account_id: data.account_id,
         access_token: data.access_token
     };
+};
+
+/* Functions to manage request token cookie */
+export const setRequestToken = async (token: string) => {
+    const cookieStore = await cookies();
+    cookieStore.set("token", token);
+};
+
+export const getRequestToken = async () => {
+    const cookieStore = await cookies();
+    const requestToken = cookieStore.get("token")?.value;
+    cookieStore.delete('token');
+    return requestToken;
 };

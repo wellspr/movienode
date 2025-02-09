@@ -52,3 +52,9 @@ export const navLinks = {
 };
 
 export const appName = "MovieNode";
+
+/* Session duration in miliseconds */
+export const sessionMaxAge =
+    process.env.NODE_ENV === 'development' ?
+        1000 * 60 * 15 :
+        1000 * 60 * 60 * 24 * 7

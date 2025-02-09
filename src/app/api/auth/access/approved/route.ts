@@ -1,8 +1,8 @@
 import { getLocale } from "next-intl/server";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, userAgent } from "next/server";
 import { createAccessToken } from "@/actions/auth";
-import { createSession } from "@/actions/user";
-import { setSessionCookie } from "@/actions/cookies";
+import { createSession } from "@/actions/session";
+
 
 export async function GET(request: NextRequest) {
 
@@ -10,14 +10,7 @@ export async function GET(request: NextRequest) {
 
     const { access_token, account_id } = await createAccessToken();
 
-    if (access_token && account_id) {
-        const session = await createSession(access_token, account_id);
-
-        if (session) {
-            const sessionCookie = { id: session.id };
-            await setSessionCookie(sessionCookie);
-        }
-    }
+    await createSession({accessToken: access_token, accountId: account_id, userAgent: userAgent(request)});
 
     const url = request.nextUrl;
 

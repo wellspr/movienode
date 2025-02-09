@@ -1,10 +1,10 @@
 import { recommendedMovies } from "@/actions/lists";
-import { getAuthenticationDetails } from "@/actions/user";
+import { getSession } from "@/actions/session";
 import { Locale } from "@/i18n/types";
 
 export default async function Page({ params }: { params: Promise<{ locale: Locale, page?: string }> }) {
 
-    const session = await getAuthenticationDetails();
+    const session = await getSession();
 
     const { locale, page } = await params;
 

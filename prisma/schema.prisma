@@ -17,8 +17,12 @@ datasource db {
 }
 
 model Session {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  accountId   String
-  sessionId   String
-  accessToken String
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  accountId       String
+  sessionId       String
+  accessToken     String
+  userAgentString String
+  date            DateTime
+  expireDate      DateTime
+  sessionMaxAge   Int //Session duration in miliseconds
 }

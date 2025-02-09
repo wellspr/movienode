@@ -1,6 +1,7 @@
 "use client";
 
-import { getAuthenticationDetails, getUserDetails, UserDetails } from "@/actions/user";
+import { getSession } from "@/actions/session";
+import { getUserDetails, UserDetails } from "@/actions/user";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type AuthContextType = {
@@ -20,7 +21,7 @@ export const AuthContext = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserDetails | null>(null);
 
     useEffect(() => {
-        getAuthenticationDetails()
+        getSession()
             .then(r => {
                 if (r) {
                     const { accountId, sessionId } = r;
