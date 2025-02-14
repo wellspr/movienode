@@ -1,4 +1,4 @@
-import { getMovieCredits, getMovieDetails, getMovieRecommendations, getReleaseDates, getSimilarMovies, getWatchProviders } from "@/actions";
+import { getMovieCredits, getMovieDetails, getMovieRecommendations, getReleaseDates, getSimilarMovies, getWatchProviders } from "@/actions/content/movies";
 import { Movie } from "@/components/Movie";
 import { Locale } from "@/i18n/types";
 

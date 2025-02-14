@@ -1,4 +1,4 @@
-import { getMovieDetails, getSimilarMovies } from "@/actions";
+import { getMovieDetails, getSimilarMovies } from "@/actions/content/movies";
 import { Header } from "@/components/Movie/Similar/Header";
 import { MoviesListPagination } from "@/components/MoviesListPagination";
 import { baseImageUrl, paths } from "@/config";

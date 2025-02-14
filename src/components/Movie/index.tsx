@@ -23,6 +23,8 @@ import { MovieImages } from "./Images/MovieImages";
 import { Collection } from "./Collection";
 import { SpokenLanguages } from "./SpokenLanguages";
 import { OriginalTitle } from "./OriginalTitle";
+import { AddToWatchlist } from "./AddToWatchlist";
+import { AddToFavorites } from "./AddToFavorites";
 
 
 export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Locale }) => {
@@ -51,7 +53,7 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
                         <Homepage className="movie-info" movie={movie} />
                         <Certification locale={locale} movie={movie} />
                         {
-                            movie.adult && <p>Adult { movie.adult }</p>
+                            movie.adult && <p>Adult {movie.adult}</p>
                         }
                         {
                             <div className="movie-info__row">
@@ -61,6 +63,11 @@ export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Loca
                             </div>
                         }
                         <Genres className="movie-info" movie={movie} />
+
+                        <div className="add-to-list">
+                            <AddToWatchlist id={movie.id} />
+                            <AddToFavorites id={movie.id} />
+                        </div>
                     </div>
                 </div>
             </section>

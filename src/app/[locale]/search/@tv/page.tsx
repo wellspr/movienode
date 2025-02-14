@@ -1,4 +1,4 @@
-import { searchTVSeries } from "@/actions";
+import { searchTVSeries } from "@/actions/content/search";
 import { Pagination } from "@/components/Search";
 import { TVSeriesResults } from "@/components/Search/Results";
 import { Locale } from "@/i18n/types";

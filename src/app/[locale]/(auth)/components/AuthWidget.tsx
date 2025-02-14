@@ -5,10 +5,25 @@ import { LoginButton } from "./LoginButton";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { getSession } from "@/actions/session";
 
 export const AuthWidget = ({ locale }: { locale: Locale }) => {
 
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
+
+    useEffect(() => {
+        console.log('Focus!');
+        const onFocus = () => {
+            getSession().then(session => {
+                if (!session) {
+                    setUser(null);
+                }
+            })
+        };
+
+        window.onfocus = onFocus;
+    }, [setUser]);
 
     if (!user) {
         return (

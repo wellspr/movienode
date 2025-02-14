@@ -17,7 +17,7 @@ export type ListsType = {
         runtime: number
         sort_by: number
         updated_at: string
-    }
+    }[]
     total_pages: number
     total_results: number
 }
@@ -39,7 +39,7 @@ export type FavoriteMoviesType = {
         video: boolean
         vote_average: number
         vote_count: number
-    }
+    }[]
     total_pages: number
     total_results: number
 }
@@ -61,7 +61,7 @@ export type FavoriteTVShowsType = {
         name: string
         vote_average: number
         vote_count: number
-    }
+    }[]
     total_pages: number
     total_results: number
 }
@@ -87,7 +87,7 @@ export type RatedMoviesType = {
             created_at: string
             value: number
         }
-    }
+    }[]
     total_pages: number
     total_results: number
 }
@@ -113,7 +113,7 @@ export type RatedTVShowsType = {
             created_at: string
             value: number
         }
-    }
+    }[]
     total_pages: number
     total_results: number
 }
@@ -124,20 +124,20 @@ export type RecommendedMoviesType = {
     results: {
         adult: boolean
         backdrop_path: string
+        genre_ids: number[]
         id: number
-        title: string
+        media_type: string
         original_language: string
         original_title: string
         overview: string
         poster_path: string
-        media_type: string
-        genre_ids: number[]
         popularity: number
         release_date: string
+        title: string
         video: boolean
         vote_average: number
         vote_count: number
-    }
+    }[]
     total_pages: number
     total_results: number
 }
@@ -160,7 +160,7 @@ export type RecommendedTVShowsType = {
         vote_average: number
         vote_count: number
         origin_country: string[]
-    }
+    }[]
     total_pages: number
     total_results: number
 }
@@ -183,7 +183,7 @@ export type WatchlistMoviesType = {
         video: boolean
         vote_average: number
         vote_count: number
-    }
+    }[]
     total_pages: number
     total_results: number
 }
@@ -206,7 +206,19 @@ export type WatchlistTVShowsType = {
         vote_average: number
         vote_count: number
         origin_country: string[]
-    }
+    }[]
     total_pages: number
     total_results: number
+}
+
+export type FavoritePayloadType = {
+    media_id: number,
+    media_type: string,
+    favorite: boolean
+}
+
+export type WatchListPayloadType = {
+    media_id: number,
+    media_type: string,
+    watchlist: boolean
 }

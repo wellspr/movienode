@@ -1,4 +1,4 @@
-import { getMovies, getTrendingMovies } from "@/actions";
+import { getMovies, getTrendingMovies } from "@/actions/content/movies";
 import { MoviesList } from "@/components/MoviesList";
 import { MoviesListPagination } from "@/components/MoviesListPagination";
 import { Locale } from "@/i18n/types";

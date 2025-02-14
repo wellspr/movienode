@@ -14,7 +14,13 @@ export const TVSeriesList = ({ results, category }: { results: TVSeriesType[], c
 
     const t = useTranslations("Homepage.tv");
 
-    const href = navLinks.tv.find(tv => tv.translation === category)?.url as string;
+    let href = "";
+
+    if (navLinks.tv.map(tv => tv.translation).includes(category)) {
+        href = navLinks.tv.find(tv => tv.translation === category)?.url as string;
+    } else {
+        href = `/user/${category}/tv`;
+    }
 
     return (
         <div className="banner">

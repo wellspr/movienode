@@ -23,6 +23,8 @@ import { SpokenLanguages } from "./SpokenLanguages";
 import { OriginalTitle } from "./OriginalTitle";
 import { SeasonsInfo } from "./Seasons/SeasonsInfo";
 import { SeasonsList } from "./Seasons/SeasonsList";
+import { AddToWatchlist } from "./AddToWatchlist";
+import { AddToFavorites } from "./AddToFavorites";
 
 
 export const TVSeries = ({ series, locale }: { series: TVSeriesDetailsType, locale: Locale }) => {
@@ -59,6 +61,11 @@ export const TVSeries = ({ series, locale }: { series: TVSeriesDetailsType, loca
                         <Genres className="movie-info" series={series} />
 
                         <SeasonsInfo series={series} />
+
+                        <div className="add-to-list">
+                            <AddToWatchlist id={series.id} />
+                            <AddToFavorites id={series.id} />
+                        </div>
                     </div>
                 </div>
             </section>

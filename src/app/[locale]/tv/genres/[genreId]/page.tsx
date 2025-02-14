@@ -1,4 +1,5 @@
-import { discoverTVSeries, getTVSeriesGenre, getTVSeriesGenreList } from "@/actions";
+import { getTVSeriesGenre, getTVSeriesGenreList } from "@/actions/content/tv_series";
+import { discoverTVSeries } from "@/actions/content/discover";
 import { TVSeriesGenresList } from "@/components/Genres/TVSeriesGenresList";
 import { MoviesListPagination } from "@/components/MoviesListPagination";
 import { TVSeriesResults } from "@/components/Search/Results";

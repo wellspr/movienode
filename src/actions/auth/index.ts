@@ -30,7 +30,7 @@ const options = {
     },
 };
 
-export async function createRequestToken() {
+export async function createRequestToken(returnTo: string) {
     /* Here is the start of the authorization process */
     const url = authURL + "/request_token";
 
@@ -47,6 +47,12 @@ export async function createRequestToken() {
 
     /* Save the request token as a cookie to be accessed by 'createAccessToken' */
     await setRequestToken(requestToken);
+
+    /* Save the the current path to redirect back to in the '/auth/access/approved' */
+    const cookiestore = await cookies();
+    if (!cookiestore.has('returningPath')) {
+        cookiestore.set('returningPath', returnTo); 
+    }
 
     redirect(`https://www.themoviedb.org/auth/access?request_token=${requestToken}`);
 };

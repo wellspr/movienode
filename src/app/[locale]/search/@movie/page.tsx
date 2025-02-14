@@ -1,4 +1,4 @@
-import { searchMovie } from "@/actions";
+import { searchMovie } from "@/actions/content/search";
 import { Pagination, MovieResults } from "@/components/Search";
 import { Locale } from "@/i18n/types";
 

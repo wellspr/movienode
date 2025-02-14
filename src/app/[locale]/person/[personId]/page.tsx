@@ -1,4 +1,4 @@
-import { getPersonDetails } from "@/actions";
+import { getPersonDetails } from "@/actions/content/person";
 import { Person } from "@/components/Person";
 import { Locale } from "@/i18n/types";
 

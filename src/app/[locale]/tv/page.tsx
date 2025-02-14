@@ -1,4 +1,4 @@
-import { getTVSeriesGenreList } from "@/actions";
+import { getTVSeriesGenreList } from "@/actions/content/tv_series";
 import { TVSeriesGenresList } from "@/components/Genres/TVSeriesGenresList";
 import { Locale } from "@/i18n/types";
 import { TVSeriesBannerServerComponent } from "@/serverComponents/TVSeriesBannerServerComponent";
@@ -14,8 +14,6 @@ export default async function Page({
 
     return (
         <div className="tv">
-            {/* <h2>TV Series</h2> */}
-
             <div className="tv__genres-list">
                 <TVSeriesGenresList genres={genres} locale={locale} />
             </div>

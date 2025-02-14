@@ -1,4 +1,4 @@
-import { getTVSeries } from "@/actions";
+import { getTVSeries } from "@/actions/content/tv_series";
 import { Banner } from "@/components/TVSeries/Banner";
 import { Locale } from "@/i18n/types";
 import { TVSeriesCategoryType } from "@/types";

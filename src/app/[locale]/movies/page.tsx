@@ -1,4 +1,4 @@
-import { getMovieGenreList } from "@/actions";
+import { getMovieGenreList } from "@/actions/content/movies";
 import { MoviesGenresList } from "@/components/Genres/MoviesGenresList";
 import { Locale } from "@/i18n/types";
 import { MoviesBannerServerComponent } from "@/serverComponents/MoviesBannerServerComponent";
@@ -14,8 +14,6 @@ export default async function Page({
 
     return (
         <div className="movies">
-            {/* <h2>Movies</h2> */}
-
             <div className="movies__genres-list">
                 <MoviesGenresList genres={genres} locale={locale} />
             </div>

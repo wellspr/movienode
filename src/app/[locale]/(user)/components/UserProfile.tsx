@@ -1,8 +1,9 @@
 import { UserDetails } from "@/actions/user";
 import { LogoutButton } from "../../(auth)/components/LogoutButton";
 import Image from "next/image";
+import { ListsType } from "@/actions/user/lists/types";
 
-export const UserProfile = ({ user }: { user: UserDetails | null }) => {
+export const UserProfile = ({ user, lists }: { user: UserDetails | null, lists: ListsType }) => {
 
     if (!user) return null;
 
@@ -28,6 +29,23 @@ export const UserProfile = ({ user }: { user: UserDetails | null }) => {
                 </div>
                 <div className="user-profile__primary__user-tmdb-data">
                     TMDB
+
+                    {
+                        lists.results.length > 0 &&
+                        <div className="user-lists-section">
+                            {
+                                lists.results.map(list => {
+                                    return (
+                                        <div className="user-lists__list" key={list.id}>
+                                            <div className="user-lists__list__item">
+                                                {list.name}
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+                    }
                 </div>
             </div>
 

@@ -1,4 +1,4 @@
-import { getSimilarTVSeries, getTVSeriesCredits, getTVSeriesDetails, getTVSeriesRecommendations, getTVSeriesWatchProviders } from "@/actions";
+import { getSimilarTVSeries, getTVSeriesCredits, getTVSeriesDetails, getTVSeriesRecommendations, getTVSeriesWatchProviders } from "@/actions/content/tv_series";
 import { TVSeries } from "@/components/TVSeries";
 import { Locale } from "@/i18n/types";
 

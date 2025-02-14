@@ -1,4 +1,4 @@
-import { discoverMovie } from "@/actions";
+import { discoverMovie } from "@/actions/content/discover";
 import { Locale } from "@/i18n/types";
 import { FilteringType } from "@/types";
 

@@ -146,6 +146,9 @@ ul {
         color: #eee;
         font-weight: bold;
         cursor: default;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 
@@ -192,7 +195,7 @@ ul {
     transition: all 0.3s ease-in-out;
     background-color: rgba(17, 17, 17, 0.85);
 
-    $height: 12rem;
+    $height: 6rem;
     height: $height;
 
     position: fixed;
@@ -208,47 +211,29 @@ ul {
         transform: translateY(-$height);
     }
 
-    @media screen and (min-width: $breakpoint-md) {
-        $height: 6rem;
-        height: $height;
-
-        &__header-down {
-            transform: translateY(0);
-        }
-
-        &__header-up {
-            transform: translateY(-$height);
-        }
-    }
-
-    //background-color: #111;
-
-    @media screen and (max-width: $breakpoint-md) {
-        padding: 1rem;
-    }
-
     &__navigation {
-        &__lg {
-            flex-grow: 1;
-            @media screen and (max-width: $breakpoint-md) {
-                display: none;
-            }
-        }
-
-        &__sm {
-            width: 100%;
-            @media screen and (min-width: $breakpoint-md) {
-                display: none;
-            }
+        &__dropdown {
+            position: absolute;
+            left: auto;
+            top: 5rem;
+            background-color: #222;
+            padding: 2rem;
+            border-radius: .6rem;
         }
     }
 
     &__top {
         width: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         gap: 3rem;
+    }
+
+    &__tools {
+        display: flex;
+        align-items: center;
+        gap: 1rem;        
     }
 
     &__link {
@@ -266,21 +251,34 @@ ul {
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 3rem;
+    align-items: center;
+    height: 100%;
+
+    a {
+        height: 100%;
+        padding: 0 2rem;
+    }
 
     @media screen and (max-width: $breakpoint-md) {
         a {
             font-size: 1.4rem;
         }
-        justify-content: space-around;
-        gap: 1rem;
     }
 }
 
 .main-nav {
     width: auto;
+    height: 100%;
     display: flex;
-    flex-grow: 1;
+}
+
+.media-menu {
+    display: flex;
+    
+    @media (max-width: $breakpoint-sm) {
+        flex-direction: column;
+        gap: 2rem;
+    }
 }
 
 .language-switcher {
@@ -318,18 +316,18 @@ ul {
 
 .main {
     flex-grow: 1;
-    padding-top: 12rem;
+    padding-top: 6rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    @media screen and (min-width: $breakpoint-md) {
+    /* @media screen and (min-width: $breakpoint-md) {
         padding-top: 8rem;
     }
 
     @media screen and (max-width: $breakpoint-md) {
         //margin: 1rem;
-    }
+    } */
 }
 
 .movies,
@@ -516,13 +514,14 @@ ul {
 
     &__hero {
         display: flex;
-        padding: 3rem;
+        padding: 1rem 3rem 2rem;
         width: 100%;
         max-width: 100%;
 
         @media screen and (max-width: $breakpoint-md) {
             flex-direction: column;
             gap: 3rem;
+            padding-top: 2rem;
         }
     }
 }
@@ -546,7 +545,8 @@ ul {
 .movie-poster {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 2rem;
 
     &__wrapper {
         display: block;
@@ -2363,7 +2363,7 @@ $list-gap: 3rem;
             }
         }
 
-        @media screen and (max-width: $breakpoint-md) {
+        @media screen and (max-width: $breakpoint-sm) {
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -2452,7 +2452,6 @@ $list-gap: 3rem;
     }
 
     &__disconnected {
-
         &__heading {
             font-size: 2.2rem;
         }
@@ -2463,9 +2462,9 @@ $list-gap: 3rem;
         }
 
         &__button {
-            border: .1rem solid;
+            border: 0.1rem solid;
             padding: 1rem 2rem;
-            border-radius: .6rem;
+            border-radius: 0.6rem;
             cursor: pointer;
         }
     }
@@ -2652,12 +2651,84 @@ summary {
     padding: 1rem 2rem;
     width: fit-content;
     height: fit-content;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
         background-color: #aaa;
         border-color: #aaa;
         color: #111;
-        transition: all .2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+    }
+}
+
+.add-to-list {
+    display: flex;
+    gap: 1rem;
+
+    margin: 0;
+    margin-top: 3rem;
+}
+
+.button {
+    &__add-to-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.6rem;
+        color: #eee;
+        background-color: #222;
+        border: 0.1rem solid;
+
+        &:hover {
+            background-color: #333;
+        }
+
+        height: 5rem;
+    }
+
+    &__icon {
+        &--watchlist {
+            svg {
+                fill: rgb(255, 255, 50);
+                color: rgb(255, 255, 50);
+            }
+        }
+
+        &--favorites {
+            svg {
+                fill: rgb(212, 3, 3);
+                color: rgb(212, 3, 3);
+            }
+        }
+    }
+
+    &__loader {
+        svg {
+            background-color: transparent;
+            color: #eee;
+        }
+    }
+}
+
+.user-recommendations {
+    margin: 0 3rem;
+}
+
+.no-session {
+    margin: 3rem;
+
+    &__text {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+
+    &__button {
+        background-color: #222;
+        border: .1rem solid;
+        color: #eee;
+
+        &:hover {
+            background-color: #333;
+        }
     }
 }

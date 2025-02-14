@@ -1,4 +1,4 @@
-import { getMovieDetails } from "@/actions";
+import { getMovieDetails } from "@/actions/content/movies";
 import { DetailsImages } from "@/components/DetailsImages";
 import { Locale } from "@/i18n/types";
 

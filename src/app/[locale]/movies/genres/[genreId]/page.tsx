@@ -1,4 +1,5 @@
-import { discoverMovie, getMovieGenre, getMovieGenreList } from "@/actions";
+import { discoverMovie } from "@/actions/content/discover";
+import { getMovieGenre, getMovieGenreList } from "@/actions/content/movies";
 import { MoviesGenresList } from "@/components/Genres/MoviesGenresList";
 import { MoviesListPagination } from "@/components/MoviesListPagination";
 import { MovieResults } from "@/components/Search/Results";

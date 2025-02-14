@@ -1,4 +1,4 @@
-import { getPopularPeople, getTrendingPeople } from "@/actions";
+import { getPopularPeople, getTrendingPeople } from "@/actions/content/person";
 import { MoviesListPagination } from "@/components/MoviesListPagination";
 import { PeopleList } from "@/components/PeopleList";
 import { Locale } from "@/i18n/types";

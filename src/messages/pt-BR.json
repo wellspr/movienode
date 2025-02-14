@@ -5,14 +5,20 @@
       "now_playing": "Agora nos cinemas",
       "top_rated": "Mais bem avaliados",
       "upcoming": "Em breve",
-      "trending": "Filmes em alta"
+      "trending": "Filmes em alta",
+      "recommendations": "Filmes Recomendados para você",
+      "favorites": "Seus filmes favoritos",
+      "watchlist": "Da sua lista"
     },
     "tv": {
       "popular": "Séries mais populares",
       "on_the_air": "Séries no ar",
       "top_rated": "Séries mais bem avaliadas",
       "airing_today": "Séries estreando",
-      "trending": "Séries em alta"
+      "trending": "Séries em alta",
+      "recommendations": "Séries Recomendadas para você",
+      "favorites": "Suas séries favoritas ",
+      "watchlist": "Da sua lista"
     },
     "people": {
       "popular": "Pessoas populares",
@@ -68,14 +74,20 @@
       "now_playing": "Nos Cinemas",
       "top_rated": "Melhor Avaliado",
       "upcoming": "Em breve",
-      "trending": "Em alta"
+      "trending": "Em alta",
+      "recommendations": "Recomendados para você",
+      "favorites": "Seus favoritos",
+      "watchlist": "Da sua lista"
     },
     "tv": {
       "popular": "Popular",
       "on_the_air": "No ar",
       "top_rated": "Melhor avaliado",
       "airing_today": "Estreando",
-      "trending": "Em alta"
+      "trending": "Em alta",
+      "recommendations": "Recomendados para você",
+      "favorites": "Suas favoritas",
+      "watchlist": "Da sua lista"
     },
     "main": {
       "movies": "Filmes",

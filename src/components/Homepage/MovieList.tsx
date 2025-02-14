@@ -14,7 +14,13 @@ export const MovieList = ({ results, category }: { results: MovieType[], categor
 
     const t = useTranslations("Homepage.movies");
 
-    const href = navLinks.movies.find(movie => movie.translation === category)?.url as string;
+    let href = "";
+
+    if (navLinks.movies.map(movie => movie.translation).includes(category)) {
+        href = navLinks.movies.find(movie => movie.translation === category)?.url as string;
+    } else {
+        href = `/user/${category}/movie`;
+    }
 
     return (
         <div className="banner">

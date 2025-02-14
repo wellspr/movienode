@@ -2,19 +2,58 @@
 
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
-import { useParams, useSelectedLayoutSegments } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { LanguageSwitcher } from "../LanguageSwitcher";
 import { MainNav, MoviesNav, TVNav } from "./HeaderNav";
 import { IconSearch } from "@tabler/icons-react";
 import { appName, paths } from "@/config";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AuthWidget } from "@/app/[locale]/(auth)/components/AuthWidget";
 
 export const Header = () => {
     const params = useParams();
     const locale = params.locale as Locale;
     const ref = useHeaderScroll();
-    const active = useSelectedLayoutSegments();
+    const path = usePathname();
+
+    const [mediaMenu, setMediaMenu] = useState<string | undefined>(undefined);
+
+    const onEnterLink = useCallback((link: string) => {
+        setMediaMenu(link);
+    }, []);
+
+    const mainNavRef = useRef<HTMLElement>(null);
+    const tvPopoverRef = useRef<HTMLDivElement>(null);
+    const moviesPopoverRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const onMouseOver = (e: MouseEvent) => {
+            const currentMainNavRef = mainNavRef.current;
+            const currentTvRef = tvPopoverRef.current;
+            const currentMoviesRef = moviesPopoverRef.current;
+            const node = e.target as Node;
+
+            if (
+                currentTvRef?.contains(node) ||
+                currentMoviesRef?.contains(node) ||
+                currentMainNavRef?.contains(node)
+            ) {
+                return null;
+            }
+
+            setMediaMenu(undefined);
+        };
+
+        document.body.addEventListener("mouseover", onMouseOver);
+
+        return () => {
+            document.body.removeEventListener("mouseover", onMouseOver);
+        }
+    }, []);
+
+    useEffect(() => {
+        setMediaMenu(undefined);
+    }, [path]);
 
     return (
         <header className="header" ref={ref}>
@@ -25,37 +64,30 @@ export const Header = () => {
                     </h1>
                 </Link>
 
-                <MainNav />
-                {
-                    active[0] === "tv" &&
-                    <div className="header__navigation__lg">
-                        <TVNav />
-                    </div>
-                }
-                {
-                    active[0] === "movies" &&
-                    <div className="header__navigation__lg">
-                        <MoviesNav />
-                    </div>
-                }
+                <MainNav
+                    ref={mainNavRef}
+                    onMouseEnterLink={onEnterLink}
+                />
 
-                <Link className="button-search" href={paths.search()} locale={locale}>
-                    <IconSearch />
-                </Link>
+                <div className="header__tools">
+                    <Link className="button-search" href={paths.search()} locale={locale}>
+                        <IconSearch />
+                    </Link>
 
-                <LanguageSwitcher />
+                    <LanguageSwitcher />
 
-                <AuthWidget locale={locale} />
+                    <AuthWidget locale={locale} />
+                </div>
             </div>
             {
-                active[0] === "tv" &&
-                <div className="header__navigation__sm">
+                (mediaMenu && mediaMenu.toLowerCase() === 'tv') &&
+                <div className="header__navigation__dropdown" ref={tvPopoverRef}>
                     <TVNav />
                 </div>
             }
             {
-                active[0] === "movies" &&
-                <div className="header__navigation__sm">
+                (mediaMenu && mediaMenu.toLowerCase() === "movies") &&
+                <div className="header__navigation__dropdown" ref={moviesPopoverRef}>
                     <MoviesNav />
                 </div>
             }

@@ -1,4 +1,4 @@
-import { getMovieDetails, getMovieRecommendations } from "@/actions";
+import { getMovieDetails, getMovieRecommendations } from "@/actions/content/movies";
 import { Header } from "@/components/Movie/Recommendations/Header";
 import { MoviesListPagination } from "@/components/MoviesListPagination";
 import { baseImageUrl, paths } from "@/config";

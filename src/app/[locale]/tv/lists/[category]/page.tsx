@@ -1,4 +1,4 @@
-import { getTrendingTVSeries, getTVSeries } from "@/actions";
+import { getTrendingTVSeries, getTVSeries } from "@/actions/content/tv_series";
 import { MoviesListPagination } from "@/components/MoviesListPagination";
 import { TVSeriesList } from "@/components/TVSeriesList";
 import { Locale } from "@/i18n/types";

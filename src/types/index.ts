@@ -184,7 +184,10 @@ export type MovieCategoryType =
     "top_rated" |
     "upcoming" |
     "now_playing" |
-    "trending"
+    "trending" | 
+    "recommendations" |
+    "favorites" |
+    "watchlist"
 
 export type MovieRecommendationsType = {
     page: number
@@ -680,7 +683,10 @@ export type TVSeriesCategoryType =
     "on_the_air" |
     "popular" |
     "top_rated" |
-    "trending"
+    "trending" |
+    "recommendations" |
+    "favorites" |
+    "watchlist"
 
 export type TVSeriesCreditsType = {
     cast: {
@@ -865,6 +871,7 @@ export type TVEpisodesType = {
     vote_count: number
 }
 
+export type BannerType = 'movie' | 'tv' | 'person'
 
 export type RegionsType =
     'AD' |

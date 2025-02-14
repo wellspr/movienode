@@ -1,4 +1,4 @@
-import { searchPerson } from "@/actions";
+import { searchPerson } from "@/actions/content/search";
 import { Pagination, PersonResults } from "@/components/Search";
 import { Locale } from "@/i18n/types";
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { getCollection } from "@/actions";
+import { getCollection } from "@/actions/content/collections";
 import { baseImageUrl, paths } from "@/config";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";

@@ -1,4 +1,4 @@
-import { getMovies } from "@/actions";
+import { getMovies } from "@/actions/content/movies";
 import { Banner } from "@/components/Movie/Banner";
 import { Locale } from "@/i18n/types";
 import { MovieCategoryType } from "@/types";

@@ -1,4 +1,4 @@
-import { getTVSeriesEpisodeDetails } from "@/actions";
+import { getTVSeriesEpisodeDetails } from "@/actions/content/tv_series";
 import { Locale } from "@/i18n/types";
 
 export default async function Page({

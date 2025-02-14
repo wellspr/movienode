@@ -5,14 +5,20 @@
       "now_playing": "Now Playing Movies",
       "top_rated": "Top Rated Movies",
       "upcoming": "Upcoming Movies",
-      "trending": "Trending Movies"
+      "trending": "Trending Movies",
+      "recommendations": "Recommended Movies for you",
+      "favorites": "Your favorites",
+      "watchlist": "In your watchlist"
     },
     "tv": {
       "popular": "Popular Series",
       "on_the_air": "Series on the air",
       "top_rated": "Top rated Series",
       "airing_today": "Series Airing today",
-      "trending": "Trending Series"
+      "trending": "Trending Series",
+      "recommendations": "Recommended TV Series for you",
+      "favorites": "Your favorites",
+      "watchlist": "In your watchlist"
     },
     "people": {
       "popular": "Polular people",
@@ -68,14 +74,20 @@
       "now_playing": "Now Playing",
       "top_rated": "Top Rated",
       "upcoming": "Upcoming",
-      "trending":"Trending"
+      "trending":"Trending",
+      "recommendations": "Recommendations",
+      "favorites": "Your favorites",
+      "watchlist": "In your watchlist"
     },
     "tv": {
       "popular": "Popular",
       "on_the_air": "On the air",
       "top_rated": "Top rated",
       "airing_today": "Airing today",
-      "trending":"Trending"
+      "trending":"Trending",
+      "recommendations": "Recommendations",
+      "favorites": "Your favorites",
+      "watchlist": "In your watchlist"
     },
     "main": {
       "movies": "Movies",

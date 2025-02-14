@@ -1,4 +1,4 @@
-import { getTVSeriesDetails } from "@/actions";
+import { getTVSeriesDetails } from "@/actions/content/tv_series";
 import { DetailsImages } from "@/components/DetailsImages";
 import { Locale } from "@/i18n/types";
 
