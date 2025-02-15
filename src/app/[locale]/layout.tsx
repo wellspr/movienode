@@ -11,11 +11,13 @@ import { notFound } from "next/navigation";
 export default async function Layout({
 	params,
 	imagesModal,
+	menuModal,
 	children,
 }: {
 	params: Promise<{ locale: Locale }>
-	imagesModal: React.ReactNode,
-	children: React.ReactNode,
+	imagesModal: React.ReactNode
+	menuModal: React.ReactNode
+	children: React.ReactNode
 }) {
 
 	const { locale } = await params;
@@ -31,6 +33,7 @@ export default async function Layout({
 			<AuthContext>
 				<Header />
 				<Main>
+					{menuModal}
 					{imagesModal}
 					{children}
 				</Main>
