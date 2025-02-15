@@ -2022,13 +2022,20 @@ $list-gap: 3rem;
     margin: 3rem;
 
     &__form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
         &__group {
             display: flex;
             align-items: center;
             border-radius: 0.6rem;
+            width: 100%;
+            max-width: 76.8rem;
 
             &__radio-input {
-                width: 100%;
+                max-width: 100%;
                 display: flex;
                 justify-content: space-evenly;
                 align-items: center;
@@ -2042,6 +2049,7 @@ $list-gap: 3rem;
             }
 
             &__input {
+                width: 100%;
                 flex-grow: 1;
                 font-size: 2.1rem;
                 padding: 1rem;
