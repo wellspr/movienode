@@ -121,6 +121,14 @@ export const Person = ({ person, locale }: { person: PersonDetailsType, locale: 
                                     person.movie_credits && person.movie_credits.cast.map((entry, index) => {
                                         return (
                                             <li key={entry.id + "-" + index} className="person__profile__work__list__item">
+                                                <h4 className="person__profile__work__list__item__info__title--sm">
+                                                    <span>{entry.title}</span>
+                                                    {" "}
+                                                    {
+                                                        entry.release_date &&
+                                                        <span>({entry.release_date.split('-')[0]})</span>
+                                                    }
+                                                </h4>
                                                 <div className="person__profile__work__list__item__image-wrapper person__profile__work__list__item__image-wrapper--cast">
                                                     <div className="person__profile__work__list__item__image person__profile__work__list__item__image--cast">
                                                         {

@@ -728,9 +728,20 @@ ul {
     }
 
     &__link {
-        font-size: 1.4rem;
         margin-bottom: 2rem;
         text-decoration: underline;
+        
+        &__text {
+            font-size: 1.4rem;
+            width: fit-content;
+            display: inline-flex;
+            gap: .4rem;
+        }
+
+        svg {
+            width: 1.8rem;
+            height: 1.8rem;
+        }
     }
 
     &__status {
@@ -1023,6 +1034,8 @@ ul {
                 justify-content: center;
 
                 lite-youtube {
+                    width: 860;
+
                     @media (max-width: $breakpoint-xsm) {
                         width: 320;                        
                     }
@@ -1033,8 +1046,6 @@ ul {
                     @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
                         width: 600;
                     }
-
-                    width: 860;
                 }
             }
         }
@@ -1581,6 +1592,10 @@ $list-gap: 3rem;
             &__title {
                 font-size: 1.4rem;
                 text-align: start;
+
+                @media (max-width: $breakpoint-xsm) {
+                    font-size: 1.2rem;
+                }
             }
 
             &__overview {
@@ -1603,7 +1618,7 @@ $list-gap: 3rem;
             justify-self: flex-end;
             color: inherit;
             border: 0.1rem solid;
-            padding: 0.8rem 1.4rem;
+            padding: 0.8rem 1.6rem;
             border-radius: 0.4rem;
             transition: all 0.2s ease-in-out;
 
@@ -1611,6 +1626,11 @@ $list-gap: 3rem;
                 background-color: #eee;
                 transition: all 0.2s ease-in-out;
                 color: #111;
+            }
+
+            @media (max-width: $breakpoint-xsm) {
+                font-size: 1.2rem;
+                padding: .4rem .8rem;
             }
         }
     }
@@ -2187,7 +2207,37 @@ $list-gap: 3rem;
         }
     }
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $breakpoint-xsm) {
+
+        flex-direction: column;
+        gap: 2rem;
+        &__main {
+            width: 100%;
+        }
+
+        &__aside {
+            width: 100%;
+            position: relative;
+            order: 0;
+        }
+    }
+
+    @media (min-width: $breakpoint-xsm) and (max-width: $breakpoint-sm) {
+
+        flex-direction: column;
+        gap: 2rem;
+        &__main {
+            width: 100%;
+        }
+
+        &__aside {
+            width: 100%;
+            position: relative;
+            order: 0;
+        }
+    }
+
+    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
         flex-direction: column;
 
         &__main {
@@ -2235,7 +2285,22 @@ $list-gap: 3rem;
                 }
             }
 
-            @media (max-width: $breakpoint-md) {
+            @media (max-width: $breakpoint-sm) {
+                flex-direction: column;
+                width: 100%;
+                gap: 2rem;
+
+                &__col {
+                    width: 100%;
+                }
+
+                &__image {
+                    width: 20rem;
+                    height: 20rem;
+                }
+            }
+
+            @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
                 gap: 5rem;
 
                 &__image {
@@ -2271,11 +2336,13 @@ $list-gap: 3rem;
                 &__item {
                     display: flex;
                     gap: 2rem;
+                    width: 100%;
 
                     &__image-wrapper {
                         display: flex;
                         justify-content: center;
                         align-items: flex-start;
+                        width: 100%;
 
                         &--cast {
                             width: 20rem;
@@ -2289,6 +2356,7 @@ $list-gap: 3rem;
                     &__image {
                         position: relative;
                         user-select: none;
+                        width: 100%;
 
                         img {
                             object-fit: contain;
@@ -2321,10 +2389,19 @@ $list-gap: 3rem;
                     &__info {
                         &__title {
                             font-size: 1.8rem;
+
+                            &--sm {
+                                display: none;
+                            }
+
+                            @media (max-width: $breakpoint-sm) {
+                                display: none;
+                            }
                         }
 
                         &__character {
                             font-size: 1.4rem;
+                            font-weight: bold;
                         }
 
                         &__overview {
@@ -2337,6 +2414,45 @@ $list-gap: 3rem;
 
                         &__link {
                             margin-top: 1rem;
+                        }
+                    }
+
+                    @media (max-width: $breakpoint-sm) {
+                        flex-direction: column;
+
+                        .person__profile__work__list__item__info__title--sm {
+                            display: block;
+                        }
+
+                        &__image-wrapper {
+    
+                            &--cast {
+                                width: 10rem;
+                            }
+    
+                            &--crew {
+                                width: 10rem;
+                            }
+                        }
+    
+                        &__image {
+                            position: relative;
+                            user-select: none;
+                            width: 100%;
+    
+                            img {
+                                object-fit: contain;
+                            }
+    
+                            &--cast {
+                                width: 20rem;
+                                height: 15rem;
+                            }
+    
+                            &--crew {
+                                width: 20rem;
+                                height: 15rem;
+                            }
                         }
                     }
                 }
@@ -2813,6 +2929,10 @@ summary {
     &__text {
         font-size: 1.6rem;
         margin-bottom: 1rem;
+
+        @media (max-width: $breakpoint-xsm) {
+            font-size: 1.4rem;
+        }
     }
 
     &__button {

@@ -9,7 +9,11 @@ export const Homepage = ({ movie, className }: { movie: MovieDetailsType, classN
                 className={className ? `link ${className}__link` : "link"}
                 href={movie.homepage}
                 target="_blank">
-                {movie.homepage} <IconExternalLink />
+                <span className={`${className}__link__text`}>
+                    Movie Homepage
+                    <IconExternalLink />
+                    </span>
+                
             </Link>
         );
     }
