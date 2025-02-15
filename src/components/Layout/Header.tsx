@@ -5,7 +5,7 @@ import { Locale } from "@/i18n/types";
 import { useParams, usePathname } from "next/navigation";
 import { LanguageSwitcher } from "../LanguageSwitcher";
 import { MainNav, MoviesNav, TVNav } from "./HeaderNav";
-import { IconSearch } from "@tabler/icons-react";
+import { IconMenu2, IconSearch, IconWorld } from "@tabler/icons-react";
 import { appName, paths } from "@/config";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AuthWidget } from "@/app/[locale]/(auth)/components/AuthWidget";
@@ -58,6 +58,10 @@ export const Header = () => {
     return (
         <header className="header" ref={ref}>
             <div className="header__top">
+                <Link href={`/menu`} className="header__icon-menu">
+                    <IconMenu2 />
+                </Link>
+
                 <Link className="header__link" href={paths.home()} locale={locale}>
                     <h1 className="header__link__text app-title">
                         {appName}
@@ -74,7 +78,7 @@ export const Header = () => {
                         <IconSearch />
                     </Link>
 
-                    <LanguageSwitcher />
+                    <Language />
 
                     <AuthWidget locale={locale} />
                 </div>
@@ -94,6 +98,51 @@ export const Header = () => {
         </header>
     );
 };
+
+
+const Language = () => {
+
+    const iconRef = useRef<HTMLDivElement>(null);
+    const switcherRef = useRef<HTMLDivElement>(null);
+
+    const [show, setShow] = useState<boolean>(false);
+
+    useEffect(() => {
+        const onMouseOver = (e: MouseEvent) => {
+            const node = e.target as Node;
+
+            const currentIconRef = iconRef.current;
+            const currentSwitcherRef = switcherRef.current;
+
+            if (currentIconRef?.contains(node) || currentSwitcherRef?.contains(node)) {
+                return null;
+            }
+
+            setShow(false);
+        }
+
+        document.body.addEventListener("mouseover", onMouseOver);
+
+        return () => {
+            document.body.removeEventListener("mouseover", onMouseOver);
+        }
+    }, []);
+
+    return (
+        <div className="language">
+            <div className="language__icon" ref={iconRef}
+                onMouseOver={() => setShow(true)}>
+                <IconWorld />
+            </div>
+            {
+                show &&
+                <div className="language__switcher" ref={switcherRef}>
+                    <LanguageSwitcher />
+                </div>
+            }
+        </div>
+    );
+}
 
 const useHeaderScroll = () => {
 

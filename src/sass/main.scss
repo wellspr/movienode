@@ -186,6 +186,7 @@ ul {
 
 .header {
     width: 100%;
+    max-width: 100%;
     padding: 1rem 3rem;
     display: flex;
     flex-direction: column;
@@ -236,12 +237,27 @@ ul {
         gap: 1rem;        
     }
 
+    &__icon-menu {
+        display: none;
+
+        @media (max-width: $breakpoint-sm) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+    }
+
     &__link {
         &__text {
-            font-size: 2.6rem;
+            font-size: 2rem;
 
-            @media screen and (max-width: $breakpoint-md) {
-                font-size: 1.8rem;
+            @media (max-width: $breakpoint-sm) {
+                font-size: 1.4rem;
+            }
+
+            @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
+                font-size: 1.6rem;
             }
         }
     }
@@ -270,6 +286,40 @@ ul {
     width: auto;
     height: 100%;
     display: flex;
+
+    @media (max-width: $breakpoint-sm) {
+        display: none;
+    }
+}
+
+.app-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    background-color: #222;
+    padding: 1rem;
+
+    &__button-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+    }
+
+    &__nav {
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+
+        font-size: 2rem;
+    }
 }
 
 .media-menu {
@@ -278,6 +328,26 @@ ul {
     @media (max-width: $breakpoint-sm) {
         flex-direction: column;
         gap: 2rem;
+    }
+}
+
+.language {
+
+    position: relative;
+
+    &__icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__switcher {
+        position: absolute;
+        top: 2.2rem;
+        left: -1rem;
+        width: 8rem;
+        //border: .1rem solid;
+        padding: 1rem;
     }
 }
 
@@ -948,6 +1018,21 @@ ul {
                 width: 100%;
                 display: flex;
                 justify-content: center;
+
+                lite-youtube {
+                    @media (max-width: $breakpoint-xsm) {
+                        width: 320;                        
+                    }
+                    @media (min-width: $breakpoint-xsm) and (max-width: $breakpoint-sm) {
+                        width: 410;
+                    }
+
+                    @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
+                        width: 600;
+                    }
+
+                    width: 860;
+                }
             }
         }
     }
@@ -1566,7 +1651,9 @@ $list-gap: 3rem;
         }
     }
 
-    @media (min-width: $breakpoint-xsm) and (max-width: $breakpoint-sm) {
+    @media 
+    //(min-width: $breakpoint-xsm) and 
+    (max-width: $breakpoint-sm) {
         $aspect-ratio: calc(24 / 16);
         $card-width: calc((100vw - 9rem - $list-gap) / 2);
         $card-height: calc($card-width * $aspect-ratio);
@@ -1810,11 +1897,13 @@ $list-gap: 3rem;
         }
     }
 
-    @media (min-width: $breakpoint-xsm) and (max-width: $breakpoint-sm) {
+    @media 
+    //(min-width: $breakpoint-xsm) and 
+    (max-width: $breakpoint-sm) {
         $card-width: calc((100vw - 9rem - $list-gap) / 2);
         $card-height: calc($card-width * $aspect-ratio);
         width: $card-width;
-        height: $card-height;
+        height: calc($card-height * 1.5);
         font-size: 1.2rem;
 
         &--appended {
