@@ -4,9 +4,9 @@ import { addToWatchlist, isItemInWatchList } from "@/actions/user";
 import { IconBookmark } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
-import { ButtonLoader } from "../ButtonLoader";
 import { WatchListPayloadType } from "@/actions/user/lists/types";
 import { usePathname } from "@/i18n/routing";
+import { ButtonAddToList } from "../ButtonAddToList";
 
 export const AddToWatchlist = ({ id }: { id: number }) => {
 
@@ -27,16 +27,11 @@ export const AddToWatchlist = ({ id }: { id: number }) => {
         }, [status.pending]);
 
         return (
-            <button type="submit" className={`button button__add-to-list`}>
-                Add to watchlist
-                {
-                    status.pending ?
-                        <ButtonLoader size={25} /> :
-                        <div className={isIn ? "button__icon--watchlist" : ""}>
-                            <IconBookmark size={25} />
-                        </div>
-                }
-            </button>
+            <ButtonAddToList label="Add to watchlist" pending={status.pending} size={25}>
+                <div className={isIn ? "button__icon button__icon--watchlist" : "button__icon"}>
+                    <IconBookmark size={25} />
+                </div>
+            </ButtonAddToList>
         );
     };
 
@@ -49,10 +44,8 @@ export const AddToWatchlist = ({ id }: { id: number }) => {
     const addMovieToWatchlist = addToWatchlist.bind(null, payload, pathname);
 
     return (
-        <div>
-            <form action={addMovieToWatchlist}>
-                <AddToWatchlistButton />
-            </form>
-        </div>
+        <form action={addMovieToWatchlist}>
+            <AddToWatchlistButton />
+        </form>
     );
 };

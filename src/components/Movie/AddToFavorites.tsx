@@ -4,9 +4,9 @@ import { addFavorite, isItemInFavorites } from "@/actions/user";
 import { IconHeart } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
-import { ButtonLoader } from "../ButtonLoader";
 import { FavoritePayloadType } from "@/actions/user/lists/types";
 import { usePathname } from "@/i18n/routing";
+import { ButtonAddToList } from "../ButtonAddToList";
 
 export const AddToFavorites = ({ id }: { id: number }) => {
 
@@ -27,16 +27,11 @@ export const AddToFavorites = ({ id }: { id: number }) => {
         }, [status.pending]);
 
         return (
-            <button type="submit" className={`button button__add-to-list`}>
-                Add to favorites
-                {
-                    status.pending ?
-                        <ButtonLoader size={25} /> :
-                        <div className={isIn ? "button__icon--favorites" : ""}>
-                            <IconHeart size={25} />
-                        </div>
-                }
-            </button>
+            <ButtonAddToList label="Add to favorites" pending={status.pending} size={25}>
+                <div className={isIn ? "button__icon button__icon--favorites" : "button__icon"}>
+                    <IconHeart size={25} />
+                </div>
+            </ButtonAddToList>
         );
     };
 
@@ -49,10 +44,8 @@ export const AddToFavorites = ({ id }: { id: number }) => {
     const addMovieToFavorites = addFavorite.bind(null, payload, pathname);
 
     return (
-        <div>
-            <form action={addMovieToFavorites}>
-                <AddToFavoritesButton />
-            </form>
-        </div>
+        <form action={addMovieToFavorites}>
+            <AddToFavoritesButton />
+        </form>
     );
 };

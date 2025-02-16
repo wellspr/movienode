@@ -2909,6 +2909,11 @@ summary {
     }
 
     &__icon {
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
         &--watchlist {
             svg {
                 fill: rgb(255, 255, 50);
