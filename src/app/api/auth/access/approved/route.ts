@@ -11,7 +11,11 @@ export async function GET(request: NextRequest) {
 
     const { access_token, account_id } = await createAccessToken();
 
-    await createSession({ accessToken: access_token, accountId: account_id, userAgent: userAgent(request) });
+    await createSession({
+        accessToken: access_token,
+        accountId: account_id,
+        userAgent: userAgent(request)
+    });
 
     const cookieStore = await cookies();
     const returningPath = cookieStore.get('returningPath')?.value; /* this starts with a slash */

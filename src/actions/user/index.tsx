@@ -63,11 +63,10 @@ export const addFavorite = async (payload: FavoritePayloadType, pathname: string
     const session = await getSession();
 
     const locale = await getLocale();
-
-    const cookieSession = await cookies();
-    cookieSession.set('returningPath', pathname);
-
+    
     if (!session) {
+        const cookieSession = await cookies();
+        cookieSession.set('returningPath', pathname);
         return redirect(baseURL() + `/${locale}/auth/login`);
     };
 
@@ -99,10 +98,9 @@ export const addToWatchlist = async (payload: WatchListPayloadType, pathname: st
 
     const locale = await getLocale();
 
-    const cookieSession = await cookies();
-    cookieSession.set('returningPath', pathname);
-
     if (!session) {
+        const cookieSession = await cookies();
+        cookieSession.set('returningPath', pathname);
         return redirect(baseURL() + `/${locale}/auth/login`);
     };
 
