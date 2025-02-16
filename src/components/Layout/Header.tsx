@@ -166,6 +166,11 @@ const useHeaderScroll = () => {
     };
 
     useEffect(() => {
+        headerDown();
+    });
+
+    useEffect(() => {
+
         const onScroll = () => {
             const { y } = document.body.getBoundingClientRect();
 
