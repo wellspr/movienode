@@ -31,9 +31,9 @@ export const AddToFavorites = ({ id }: { id: number }) => {
                 Add to favorites
                 {
                     status.pending ?
-                        <ButtonLoader /> :
+                        <ButtonLoader size={25} /> :
                         <div className={isIn ? "button__icon--favorites" : ""}>
-                            <IconHeart />
+                            <IconHeart size={25} />
                         </div>
                 }
             </button>

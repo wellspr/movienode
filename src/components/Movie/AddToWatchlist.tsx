@@ -31,9 +31,9 @@ export const AddToWatchlist = ({ id }: { id: number }) => {
                 Add to watchlist
                 {
                     status.pending ?
-                        <ButtonLoader /> :
+                        <ButtonLoader size={25} /> :
                         <div className={isIn ? "button__icon--watchlist" : ""}>
-                            <IconBookmark />
+                            <IconBookmark size={25} />
                         </div>
                 }
             </button>
