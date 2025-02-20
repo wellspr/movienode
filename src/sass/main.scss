@@ -1036,17 +1036,17 @@ ul {
                 justify-content: center;
 
                 lite-youtube {
-                    width: 860;
+                    width: 86rem;
 
                     @media (max-width: $breakpoint-xsm) {
-                        width: 320;
+                        width: 32rem;
                     }
                     @media (min-width: $breakpoint-xsm) and (max-width: $breakpoint-sm) {
-                        width: 410;
+                        width: 41rem;
                     }
 
                     @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
-                        width: 600;
+                        width: 60rem;
                     }
                 }
             }
