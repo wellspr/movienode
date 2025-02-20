@@ -15,25 +15,7 @@ export const List = ({ results, scroll, appendItem }: { results: MovieType[], sc
 
     const params = useParams();
     const locale = params.locale as Locale;
-    /* 
-        const handleMouseOver = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-            const target = e.target as Element;
-    
-            const container = containerRef.current;
-    
-            if (container && container.lastChild?.contains(target)) {
-                container.lastElementChild?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
-            } else {
-                container?.childNodes.forEach(node => {
-                    const el = node as Element;
-                    if (el.contains(target)) {
-                        el.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
-                    }
-                })
-            }
-    
-        }, [containerRef]);
-     */
+
     return (
         <div className={`horizontal-list-container`}>
             <Scroller>
