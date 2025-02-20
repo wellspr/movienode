@@ -1035,7 +1035,54 @@ ul {
                 display: flex;
                 justify-content: center;
 
-                lite-youtube {
+                @media (max-width: $breakpoint-xsm) {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+
+                    &--sm,
+                    &--md,
+                    &--lg {
+                        display: none;
+                    }
+                }
+                @media (min-width: $breakpoint-xsm) and (max-width: $breakpoint-sm) {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+
+                    &--xsm,
+                    &--md,
+                    &--lg {
+                        display: none;
+                    }
+                }
+
+                @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+
+                    &--xsm,
+                    &--sm,
+                    &--lg {
+                        display: none;
+                    }
+                }
+
+                @media (min-width: $breakpoint-md) {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+
+                    &--xsm,
+                    &--sm,
+                    &--md {
+                        display: none;
+                    }
+                }
+
+                /* lite-youtube {
                     width: 86rem;
 
                     @media (max-width: $breakpoint-xsm) {
@@ -1048,7 +1095,7 @@ ul {
                     @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
                         width: 60rem;
                     }
-                }
+                } */
             }
         }
     }
@@ -2909,11 +2956,10 @@ summary {
     }
 
     &__icon {
-        
         display: flex;
         justify-content: center;
         align-items: center;
-        
+
         &--watchlist {
             svg {
                 fill: rgb(255, 255, 50);
