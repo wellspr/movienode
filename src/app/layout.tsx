@@ -2,6 +2,7 @@
 import "@/sass/main.scss";
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
     title: "MovieNode",
@@ -20,6 +21,7 @@ export default async function RootLayout({
         <html lang={locale}>
             <body>
                 {children}
+                <Analytics />
             </body>
         </html>
     );
