@@ -1,4 +1,5 @@
-import "@/styles/index.css";
+//import "@/styles/index.css";
+import "@/sass/main.scss";
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
