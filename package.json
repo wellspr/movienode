@@ -15,6 +15,7 @@
     "@prisma/client": "^6.3.0",
     "@tabler/icons-react": "^3.26.0",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "jose": "^5.9.6",
     "localforage": "^1.10.0",
     "next": "^15.1.3",
