@@ -42,3 +42,4 @@ next-env.d.ts
 
 Notes.md
 TODO.md
+/generated/prisma
