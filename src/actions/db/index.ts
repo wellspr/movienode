@@ -1,67 +1,42 @@
 "use server";
 
-import { Session, PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { Session } from "@prisma/client";
+import prisma from "@/lib/prisma";
 
 export async function createSession(data: Omit<Session, "id">) {
-    const session = await prisma.session.create({
-        data
+    return await prisma.session.create({
+        data,
     });
-
-    await prisma.$disconnect();
-
-    return session;
 }
 
 export async function getSession(id: string) {
-    const session = await prisma.session.findFirst({
-        where: { id }
+    return await prisma.session.findUnique({
+        where: { id },
     });
-
-    await prisma.$disconnect();
-
-    return session;
 }
 
 export async function deleteSession(id: string) {
     await prisma.session.delete({
-        where: { id }
+        where: { id },
     });
-
-    await prisma.$disconnect();
 }
 
 export async function checkExpiredSessions() {
-    const sessions = await prisma.session.findMany();
-
-    if (sessions.length === 0) {
-        return null
-    };
-
-    const expiredSessions = sessions
-        .filter(session => {
-            const expireDate = session.expireDate.getTime();
-            const now = Date.now();
-            return expireDate < now;
-        })
-        .map(session => session.id);
-
-
-    if (expiredSessions.length > 0) {
-        console.log('deleting expired items: ', expiredSessions);
-
-        try {
-            const response = await prisma.session.deleteMany({
-                where: {
-                    id: {
-                        in: expiredSessions
-                    }
-                }
-            });
-
-            console.log("Deleted ", response.count, "items");
-        } catch (err) {
-            console.log(err);
+    try {
+        const deletedSessions = await prisma.session.deleteMany({
+            where: {
+                expireDate: {
+                    lt: new Date(),
+                },
+            },
+        });
+        if (deletedSessions.count > 0) {
+            console.log("Deleted ", deletedSessions.count, "items");
         }
+    } catch (error) {
+        console.log(
+            "An error ocurred while deleting expired sessions: ",
+            error,
+        );
     }
 }
