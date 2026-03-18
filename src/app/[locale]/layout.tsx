@@ -14,13 +14,13 @@ export default async function Layout({
 	menuModal,
 	children,
 }: {
-	params: Promise<{ locale: Locale }>
+	params: Promise<{ locale: string }>
 	imagesModal: React.ReactNode
 	menuModal: React.ReactNode
 	children: React.ReactNode
 }) {
 
-	const { locale } = await params;
+	const { locale } = (await params) as { locale: Locale };
 
 	if (!routing.locales.includes(locale)) {
 		notFound();
