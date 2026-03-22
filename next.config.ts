@@ -1,12 +1,14 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
-const withNextIntl = createNextIntlPlugin();
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
     /* config options here */
+    //turbopack: {},
+    serverExternalPackages: ["@prisma/client", "prisma"],
     images: {
-        unoptimized: false,
+        unoptimized: true,
         remotePatterns: [
             {
                 protocol: "https",
@@ -16,6 +18,11 @@ const nextConfig: NextConfig = {
                 protocol: "https",
                 hostname: "gravatar.com",
                 pathname: "/avatar",
+            },
+            {
+                protocol: "https",
+                hostname: "ui-avatars.com",
+                pathname: "/api",
             },
         ],
         localPatterns: [
@@ -53,7 +60,7 @@ const nextConfig: NextConfig = {
                     },
                 ],
             },
-            {
+            /* {
                 source: "/_next/image(.*)", // Caso você decida tirar o unoptimized futuramente
                 headers: [
                     {
@@ -61,7 +68,7 @@ const nextConfig: NextConfig = {
                         value: "public, max-age=31536000, immutable",
                     },
                 ],
-            },
+            }, */
         ];
     },
     async redirects() {

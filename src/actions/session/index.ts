@@ -22,7 +22,8 @@ export type UserDetails = {
     username: string
 }
 
-import { Session } from "@prisma/client";
+//import { Session } from "@prisma/client";
+import { Session } from "../../../generated/prisma/client";
 import { userAgent } from "next/server";
 import { deleteSessionCookie, getSessionCookie, SessionCookie, setSessionCookie } from "./cookies";
 import * as db from "@/actions/db";

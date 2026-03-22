@@ -1,6 +1,7 @@
 "use server";
 
-import { Session } from "@prisma/client";
+//import { Session } from "@prisma/client";
+import { Session } from "../../../generated/prisma/client";
 import prisma from "@/lib/prisma";
 
 export async function createSession(data: Omit<Session, "id">) {
