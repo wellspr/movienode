@@ -4,52 +4,115 @@ import { Locale } from "@/i18n/types";
 import { FilteringType } from "@/types";
 
 const options: RequestInit = {
-    method: 'GET',
-    cache: 'force-cache',
+    method: "GET",
+    cache: "force-cache",
     next: { revalidate: 3600 },
     headers: {
-        accept: 'application/json',
+        accept: "application/json",
         Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
     },
 };
 
 const baseURL = `https://api.themoviedb.org/3`;
 
-
-export const discoverMovie = async (locale: Locale, queryList: FilteringType, page?: string) => {
-
-    let url = `${baseURL}/discover/movie?language=${locale}`;
-
-    if (page) {
-        url = url + `&page=${page}`;
-    }
-
-    Object.entries(queryList).forEach(([key, value]) => {
-        url = url + `&${key}=${value}`;
+const createQueryString = (
+    queryParams: {
+        key: string;
+        value: string | number | boolean | undefined;
+    }[],
+) => {
+    const query = new URLSearchParams();
+    queryParams.forEach((entry) => {
+        query.set(entry.key, entry.value as string);
     });
 
-    const response = await fetch(url, options);
-
-    const results = await response.json();
-
-    return results;
+    return query.toString();
 };
 
-export const discoverTVSeries = async (locale: Locale, queryList: FilteringType, page?: string) => {
+export const discoverMovie = async (
+    locale: Locale,
+    queryList: FilteringType,
+    page?: string,
+) => {
+    try {
+        const queryArray = Object.entries(queryList).map(([key, value]) => {
+            return {
+                key: key,
+                value: value,
+            };
+        });
 
-	let url = `${baseURL}/discover/tv?language=${locale}`;
+        queryArray.push({
+            key: "language",
+            value: locale,
+        });
 
-	if (page) {
-		url = url + `&page=${page}`;
-	}
+        if (page) {
+            queryArray.push({
+                key: "page",
+                value: page,
+            });
+        }
 
-	Object.entries(queryList).forEach(([key, value]) => {
-		url = url + `&${key}=${value}`;
-	});
+        const queryString = createQueryString(queryArray);
 
-	const response = await fetch(url, options);
+        let url = `${baseURL}/discover/movie?${queryString}`;
 
-	const results = await response.json();
+        const response = await fetch(url, options);
 
-	return results;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const results = await response.json();
+
+        return results;
+    } catch (error) {
+        console.log("Error: ", error);
+        return null;
+    }
+};
+
+export const discoverTVSeries = async (
+    locale: Locale,
+    queryList: FilteringType,
+    page?: string,
+) => {
+    try {
+        const queryArray = Object.entries(queryList).map(([key, value]) => {
+            return {
+                key: key,
+                value: value,
+            };
+        });
+
+        queryArray.push({
+            key: "language",
+            value: locale,
+        });
+
+        if (page) {
+            queryArray.push({
+                key: "page",
+                value: page,
+            });
+        }
+
+        const queryString = createQueryString(queryArray);
+
+        let url = `${baseURL}/discover/tv?${queryString}`;
+
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const results = await response.json();
+
+        return results;
+    } catch (error) {
+        console.log("Error: ", error);
+        return null;
+    }
 };

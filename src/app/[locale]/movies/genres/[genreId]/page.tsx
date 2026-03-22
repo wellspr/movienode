@@ -18,17 +18,35 @@ export default async function Page({
 
     const genres = await getMovieGenreList(locale);
     const genre = await getMovieGenre(locale, genreId);
+
+    if (!genre) {
+        return (
+            <div className="search-by-genre">
+                <h2>No results</h2>
+            </div>
+        );
+    }
     
-    const { results, total_pages } = await discoverMovie(locale, {
+    const data = await discoverMovie(locale, {
         with_genres: String(genre.id)
     }, page);
+
+    if (!data) {
+        return (
+            <div className="search-by-genre">
+                <h2>No results</h2>
+            </div>
+        );
+    }
+
+    const { results, total_pages } = data;
 
     return (
         <div className="search-by-genre">
             <MoviesGenresList genres={genres} locale={locale} />
 
             <div className="search-by-genre__title">
-                <h2>{ genre.name }</h2>
+                <h2>{ genre?.name }</h2>
             </div>
 
             <MovieResults results={results} locale={locale} />

@@ -15,7 +15,7 @@ export default async function Page({
     const series = await getTVSeriesDetails(locale, seriesId);
     const season = await getTVSeriesSeasonDetails(locale, seriesId, season_number);
 
-    console.log(season);
+    if (!series || !season) return null;
     
     return (
         <div className="season">

@@ -15,12 +15,22 @@ export default async function Page({
     const page = (await searchParams).page || '1';
 	const { locale, category } = await params;
 
+    const data = category === "popular" ?
+    await getPopularPeople(locale, page) :
+    await getTrendingPeople(locale, page);
+
+    if (!data) {
+        return (
+            <div className="people">
+                <h2>No results</h2>
+            </div>
+        );
+    }
+    
     const {
         results,
         total_pages
-    } = category === "popular" ?
-    await getPopularPeople(locale, page) :
-    await getTrendingPeople(locale, page);
+    } = data;
 
     return (
         <div className="people">

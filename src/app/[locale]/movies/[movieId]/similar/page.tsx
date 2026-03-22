@@ -17,7 +17,17 @@ export default async function Page({
 
     const page = (await searchParams).page || '1';
 
-    const { results, total_pages, total_results } = await getSimilarMovies(locale, movieId, page);
+    const data = await getSimilarMovies(locale, movieId, page);
+
+    if (!data) {
+        return (
+            <div className="similar">
+                <h2>No similar movies yet</h2>
+            </div>
+        );
+    }
+    
+    const { results, total_pages, total_results } = data;
 
     const referenceMovie = await getMovieDetails(locale, movieId);
 

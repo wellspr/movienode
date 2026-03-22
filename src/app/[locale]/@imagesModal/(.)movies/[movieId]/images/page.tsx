@@ -12,6 +12,8 @@ export default async function Page({
 
     const movie = await getMovieDetails(locale, movieId);
 
+    if (!movie) return null;
+
     if (!movie.images) return null;
 
     return <DetailsImages images={movie.images} />;

@@ -17,7 +17,17 @@ export default async function Page({
 
     const page = (await searchParams).page || '1';
 
-    const { results, total_pages } = await getMovieRecommendations(locale, movieId, page);
+    const data = await getMovieRecommendations(locale, movieId, page);
+
+    if (!data) {
+        return (
+            <div className="recommendations">
+                <h2>No recommendations yet</h2>
+            </div>
+        );
+    }
+    
+    const { results, total_pages } = data;
 
     const referenceMovie = await getMovieDetails(locale, movieId);
 

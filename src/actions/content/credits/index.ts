@@ -17,11 +17,21 @@ const options: RequestInit = {
 const baseURL = `https://api.themoviedb.org/3`;
 
 export const getCreditDetails = async (locale: Locale, creditId: string) => {
-    const url = `${baseURL}/credit/${creditId}`;
 
-    const response = await fetch(url, options);
+    try {
+        const url = `${baseURL}/credit/${creditId}`;
+    
+        const response = await fetch(url, options);
 
-    const creditsDetails = await response.json();
-
-    return creditsDetails as CreditDetailsType;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    
+        const creditsDetails = await response.json();
+    
+        return creditsDetails as CreditDetailsType;
+    } catch (error) {
+        console.log("Error: ", error);
+        return null;
+    }
 };

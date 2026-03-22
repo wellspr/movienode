@@ -3,7 +3,7 @@ import { LogoutButton } from "../../(auth)/components/LogoutButton";
 import Image from "next/image";
 import { ListsType } from "@/actions/user/lists/types";
 
-export const UserProfile = ({ user, lists }: { user: UserDetails | null, lists: ListsType }) => {
+export const UserProfile = ({ user, lists }: { user: UserDetails | null, lists: ListsType | null }) => {
 
     if (!user) return null;
 
@@ -31,7 +31,7 @@ export const UserProfile = ({ user, lists }: { user: UserDetails | null, lists: 
                     TMDB
 
                     {
-                        lists.results.length > 0 &&
+                        lists && lists.results.length > 0 &&
                         <div className="user-lists-section">
                             {
                                 lists.results.map(list => {

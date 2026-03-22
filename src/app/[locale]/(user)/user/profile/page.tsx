@@ -27,11 +27,9 @@ export default async function Page() {
         ); /* In fact, redirect to login or to a guest page... */
     }
 
-    const { accountId, sessionId } = session;
+    const user = await getUserDetails();
 
-    const user = await getUserDetails(accountId, sessionId);
-
-    const lists = await getLists(accountId, locale);
+    const lists = await getLists(locale);
 
     return <UserProfile user={user} lists={lists} />;
 }

@@ -15,8 +15,10 @@ const gender: { [key: number]: string } = {
     3: "Non - binary",
 };
 
-export const Person = ({ person, locale }: { person: PersonDetailsType, locale: Locale }) => {
+export const Person = ({ person, locale }: { person: PersonDetailsType | null, locale: Locale }) => {
 
+    if (!person) return null;
+    
     return (
         <>
             <div className="person">

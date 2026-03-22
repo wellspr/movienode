@@ -12,7 +12,7 @@ export const AddToWatchlist = ({ id }: { id: number }) => {
 
     const [payload, setPayload] = useState<WatchListPayloadType>({ media_id: id, media_type: 'movie', watchlist: true });
 
-    const [isIn, setIsIn] = useState(false);
+    const [isIn, setIsIn] = useState<boolean | undefined>(false);
 
     const AddToWatchlistButton = () => {
 

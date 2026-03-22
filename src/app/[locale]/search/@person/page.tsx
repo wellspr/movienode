@@ -14,10 +14,21 @@ export default async function Page({
     const query = (await searchParams).query;
     const page = (await searchParams).page || '1';
 
+    const data = await searchPerson(locale, query, page);
+
+    if (!data) {
+        return (
+            <>
+                <PersonResults results={[]} locale={locale} />
+                <Pagination locale={locale} page={Number(page)} query={query} searchType="person" totalPages={0} />
+            </>
+        );
+    }
+
     const {
         results,
         total_pages,
-    } = await searchPerson(locale, query, page);
+    } = data;
 
     return (
         <>

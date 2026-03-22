@@ -20,6 +20,8 @@ export const Collection = async ({
     const collectionId = movie.belongs_to_collection.id;
     const collection = await getCollection(locale, collectionId);
 
+    if (!collection) return null;
+
     return (
         <div className="collection">
             <h4 className="collection__name">{movie.belongs_to_collection.name}</h4>

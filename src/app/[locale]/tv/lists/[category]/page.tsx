@@ -15,12 +15,22 @@ export default async function Page({
 	const page = (await searchParams).page || '1';
 	const { locale, category } = await params;
 
+	const data = category === "trending" ?
+	await getTrendingTVSeries(locale, page) :
+	await getTVSeries(locale, category, page);
+
+	if (!data) {
+		return (
+			<div className="tv">
+				<h2>No results</h2>
+			</div>
+		);
+	}
+
 	const {
 		results,
 		total_pages,
-	} = category === "trending" ?
-	await getTrendingTVSeries(locale, page) :
-	await getTVSeries(locale, category, page);
+	} = data;
 
 	return (
 		<div className="tv">

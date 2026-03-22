@@ -12,6 +12,8 @@ export default async function Page({
 
     const tvSeries = await getTVSeriesDetails(locale, seriesId);
 
+    if (!tvSeries) return null;
+
     if (!tvSeries.images) return null;
 
     return <DetailsImages images={tvSeries.images} />;

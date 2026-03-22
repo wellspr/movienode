@@ -3,52 +3,103 @@
 import { regions } from "@/i18n/config";
 import { Locale } from "@/i18n/types";
 
-import {
-	PersonDetailsType,
-	PeopleListType,
-	TrendingPeopleType,
-} from "@/types";
+import { PersonDetailsType, PeopleListType, TrendingPeopleType } from "@/types";
 
 const options: RequestInit = {
-	method: 'GET',
-    cache: 'force-cache',
+    method: "GET",
+    cache: "force-cache",
     next: { revalidate: 3600 },
-	headers: {
-		accept: 'application/json',
-		Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-	},
+    headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+    },
 };
 
 const baseURL = `https://api.themoviedb.org/3`;
 
+const createQueryString = (queryParams: { key: string; value: string }[]) => {
+    const query = new URLSearchParams();
+    queryParams.forEach((entry) => {
+        query.set(entry.key, entry.value);
+    });
+
+    return query.toString();
+};
 
 /* People */
 export const getPersonDetails = async (locale: Locale, personId: string) => {
-    const url = `${baseURL}/person/${personId}?language=${locale}&region=${regions[locale]}&append_to_response=images,movie_credits&include_image_language=${locale},null`;
+    try {
+        const query = createQueryString([
+            { key: "language", value: locale },
+            { key: "region", value: regions[locale] },
+            {
+                key: "append_to_response",
+                value: "images,movie_credits",
+            },
+            { key: "include_image_language", value: locale + ",null" },
+        ]);
 
-    const response = await fetch(url, options);
+        const url = `${baseURL}/person/${personId}?${query}`;
 
-    const personDetails = await response.json();
+        const response = await fetch(url, options);
 
-    return personDetails as PersonDetailsType;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const personDetails = await response.json();
+
+        return personDetails as PersonDetailsType;
+    } catch (error) {
+        console.log("Error: ", error);
+        return null;
+    }
 };
 
-export const getPopularPeople = async (locale: Locale, page: string = '1') => {
-    const url = `${baseURL}/person/popular?language=${locale}&page=${page}`;
+export const getPopularPeople = async (locale: Locale, page: string = "1") => {
+    try {
+        const query = createQueryString([
+            { key: "language", value: locale },
+            { key: "page", value: page },
+        ]);
 
-    const response = await fetch(url, options);
+        const url = `${baseURL}/person/popular?${query}`;
 
-    const results = await response.json();
+        const response = await fetch(url, options);
 
-    return results as PeopleListType;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const results = await response.json();
+
+        return results as PeopleListType;
+    } catch (error) {
+        console.log("Error: ", error);
+        return null;
+    }
 };
 
-export const getTrendingPeople = async (locale: Locale, page: string = '1') => {
-    const url = `${baseURL}/trending/person/week?language=${locale}&page=${page}`;
+export const getTrendingPeople = async (locale: Locale, page: string = "1") => {
+    try {
+        const query = createQueryString([
+            { key: "language", value: locale },
+            { key: "page", value: page },
+        ]);
 
-    const response = await fetch(url, options);
+        const url = `${baseURL}/trending/person/week?${query}`;
 
-    const results = await response.json();
+        const response = await fetch(url, options);
 
-    return results as TrendingPeopleType;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const results = await response.json();
+
+        return results as TrendingPeopleType;
+    } catch (error) {
+        console.log("Error: ", error);
+        return null;
+    }
 };

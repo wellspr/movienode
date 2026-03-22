@@ -12,7 +12,7 @@ export const AddToFavorites = ({ id }: { id: number }) => {
 
     const [payload, setPayload] = useState<FavoritePayloadType>({ media_id: id, media_type: 'movie', favorite: true });
 
-    const [isIn, setIsIn] = useState(false);
+    const [isIn, setIsIn] = useState<boolean | null | undefined>(false);
 
     const AddToFavoritesButton = () => {
 

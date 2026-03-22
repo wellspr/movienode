@@ -14,10 +14,21 @@ export default async function Page({
     const query = (await searchParams).query;
     const page = (await searchParams).page || '1';
 
+    const data = await searchMovie(locale, query, page);
+
+    if (!data) {
+        return (
+            <>
+                <MovieResults results={[]} locale={locale} />
+                <Pagination locale={locale} page={Number(page)} query={query} searchType="movie" totalPages={0} />
+            </>
+        );
+    }
+
     const {
         results,
         total_pages,
-    } = await searchMovie(locale, query, page);
+    } = data;
 
     return (
         <>

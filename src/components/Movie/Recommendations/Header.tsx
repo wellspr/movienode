@@ -6,9 +6,11 @@ import Image from "next/image";
 import { baseImageUrl } from "@/config";
 import { Link } from "@/i18n/routing";
 
-export const Header = ({ referenceMovie }: { referenceMovie: MovieDetailsType }) => {
+export const Header = ({ referenceMovie }: { referenceMovie: MovieDetailsType | null }) => {
 
     const t = useTranslations("Movie");
+
+    if (!referenceMovie) return null;
 
     return (
         <div className="recommendations__header">

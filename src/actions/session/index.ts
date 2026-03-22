@@ -52,7 +52,7 @@ export const createSession = async ({
     });
 
     if (!response.ok) {
-        return null;
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json() as SessionResponse;

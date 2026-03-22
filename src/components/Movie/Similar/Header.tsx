@@ -6,9 +6,11 @@ import { MovieDetailsType } from "@/types";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-export const Header = ({referenceMovie}: {referenceMovie: MovieDetailsType}) => {
+export const Header = ({referenceMovie}: {referenceMovie: MovieDetailsType | null}) => {
 
     const t = useTranslations("Movie");
+
+    if (!referenceMovie) return null;
 
     return (
         <div className="recommendations__header">

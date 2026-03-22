@@ -29,7 +29,6 @@ import { AddToFavorites } from "./AddToFavorites";
 
 export const Movie = ({ movie, locale }: { movie: MovieDetailsType, locale: Locale }) => {
 
-    console.log("Adult: ", movie.adult, movie.release_dates);
     return (
         <div className="movie">
             <section className="primary">

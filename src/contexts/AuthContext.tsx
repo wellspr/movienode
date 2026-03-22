@@ -1,43 +1,31 @@
 "use client";
 
-import { getSession } from "@/actions/session";
 import { getUserDetails, UserDetails } from "@/actions/user";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type AuthContextType = {
-    user: UserDetails | null,
-    setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>
-}
+    user: UserDetails | null;
+    setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
+};
 
 const defaultValue: AuthContextType = {
-    setUser: () => { },
+    setUser: () => {},
     user: null,
 };
 
 const Context = createContext(defaultValue);
 
 export const AuthContext = ({ children }: { children: React.ReactNode }) => {
-
     const [user, setUser] = useState<UserDetails | null>(null);
 
     useEffect(() => {
-        getSession()
-            .then(r => {
-                if (r) {
-                    const { accountId, sessionId } = r;
-
-                    if (accountId && sessionId) {
-                        getUserDetails(accountId, sessionId)
-                            .then(r => {
-                                if (r && r.id) {
-                                    setUser(r);
-                                } else {
-                                    setUser(null);
-                                }
-                            })
-                    }
-                }
-            })
+        getUserDetails().then((r) => {
+            if (r && r.id) {
+                setUser(r);
+            } else {
+                setUser(null);
+            }
+        });
     }, []);
 
     return (

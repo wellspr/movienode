@@ -5,7 +5,11 @@ import { TVSeriesCategoryType } from "@/types";
 
 export const TVSeriesBannerServerComponent = async ({ locale, category }: { locale: Locale, category: TVSeriesCategoryType }) => {
 
-    const { results } = await getTVSeries(locale, category);
+    const data = await getTVSeries(locale, category);
+
+    if (!data) return null;
+
+    const { results } = data;
 
     return (
         <Banner results={results} category={category} />

@@ -19,9 +19,27 @@ export default async function Page({
     const genres = await getTVSeriesGenreList(locale);
     const genre = await getTVSeriesGenre(locale, genreId);
 
-    const { results, total_pages } = await discoverTVSeries(locale, {
+    if (!genre) {
+        return (
+            <div className="search-by-genre">
+                <h2>No results</h2>
+            </div>
+        );
+    }
+
+    const data = await discoverTVSeries(locale, {
         with_genres: String(genre.id)
     }, page);
+
+    if (!data) {
+        return (
+            <div className="search-by-genre">
+                <h2>No results</h2>
+            </div>
+        );
+    }
+
+    const { results, total_pages } = data;
 
     return (
         <div className="search-by-genre">

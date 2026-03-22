@@ -24,10 +24,21 @@ export default async function Page({
         const { accountId } = session;
 
         if (media_type === 'movie') {
+
+            const data = await watchlistMovies(locale, page || '1');
+
+            if (!data) {
+                return (
+                    <div className="user-watchlist">
+                        <h2>No watchlist yet</h2>
+                    </div>
+                );
+            }
+
             const {
                 results,
                 total_pages
-            } = await watchlistMovies(accountId, locale, page || '1');
+            } = data;
 
             return (
                 <div className="user-watchlist">
@@ -38,10 +49,21 @@ export default async function Page({
         }
 
         if (media_type === 'tv') {
+
+            const data = await watchlistTVShows(locale, page || '1');
+
+            if (!data) {
+                return (
+                    <div className="user-watchlist">
+                        <h2>No watchlist yet</h2>
+                    </div>
+                );
+            }
+            
             const {
                 results,
                 total_pages
-            } = await watchlistTVShows(accountId, locale, page || '1')
+            } = data;
     
             return (
                 <div className="user-watchlist">

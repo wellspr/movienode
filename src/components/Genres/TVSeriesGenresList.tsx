@@ -5,7 +5,10 @@ import { Link } from "@/i18n/routing";
 import { Locale } from "@/i18n/types";
 import { GenresType } from "@/types";
 
-export const TVSeriesGenresList = ({ genres, locale }: { genres: GenresType, locale: Locale }) => {
+export const TVSeriesGenresList = ({ genres, locale }: { genres: GenresType | null, locale: Locale }) => {
+
+    if (!genres) return null;
+
     return (
         <div className="genres">
             <ul className="genres__list">

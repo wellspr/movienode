@@ -5,7 +5,11 @@ import { MovieCategoryType } from "@/types";
 
 export const MoviesBannerServerComponent = async ({ locale, category }: { locale: Locale, category: MovieCategoryType }) => {
 
-    const { results } = await getMovies(locale, category);
+    const data = await getMovies(locale, category);
+
+    if (!data) return null;
+    
+    const { results } = data;
 
     return (
         <Banner results={results} category={category} />

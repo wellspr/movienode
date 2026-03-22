@@ -1,6 +1,7 @@
 import { getMovieCredits, getMovieDetails, getMovieRecommendations, getReleaseDates, getSimilarMovies, getWatchProviders } from "@/actions/content/movies";
 import { Movie } from "@/components/Movie";
 import { Locale } from "@/i18n/types";
+import { MovieDetailsType } from "@/types";
 
 export const MovieServerComponent = async ({
     locale,
@@ -22,15 +23,17 @@ export const MovieServerComponent = async ({
 
     const releaseDates = await getReleaseDates(locale, movieId);
 
+
+    const movieData = {...movie as MovieDetailsType}
+
+    if (credits) movieData.credits = credits;
+    if (watchProviders) movieData.watch_providers = watchProviders;
+    if (recommendations) movieData.recommendations = recommendations;
+    if (similar) movieData.similar = similar;
+    if (releaseDates) movieData.release_dates = releaseDates;
+        
     return <Movie
-        movie={{
-            ...movie,
-            credits,
-            watch_providers: watchProviders,
-            recommendations,
-            similar,
-            release_dates: releaseDates,
-        }}
+        movie={movieData}
         locale={locale}
     />;
 };
