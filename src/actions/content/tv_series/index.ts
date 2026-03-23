@@ -16,169 +16,195 @@ import {
     TVSeasonsType,
     TVEpisodesType,
     TrendingTVSeriesType,
+    TVSeriesType,
 } from "@/types";
+import { TMDBIdValidator, TMDBRequest, withErrorHandling } from "../utils";
 
-const options: RequestInit = {
-    method: "GET",
-    cache: "force-cache",
-    next: { revalidate: 3600 },
-    headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-    },
-};
 
-const baseURL = `https://api.themoviedb.org/3`;
-
-const createQueryString = (queryParams: { key: string; value: string }[]) => {
-    const query = new URLSearchParams();
-    queryParams.forEach((entry) => {
-        query.set(entry.key, entry.value);
-    });
-
-    return query.toString();
-};
 
 /* TV Series */
+
+/**
+ * Retrieves a list of TV series based on the category.
+ * @param {Locale} locale - locale to retrieve the list in
+ * @param {TVSeriesCategoryType} category - category of TV series to retrieve
+ * @param {string} [page=1] - page number to retrieve
+ * @returns {Promise<{ results: TVSeriesType[], total_pages: number, total_results: number } | null>} - a promise that resolves with the list of TV series and pagination information or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getTVSeries = async (
     locale: Locale,
-    category: TVSeriesCategoryType,
+    category: TVSeriesCategoryType, /* TODO: add validation for category */
     page: string = "1",
-) => {
-    try {
-        const query = createQueryString([
-            { key: "page", value: page },
-            { key: "language", value: locale },
-            { key: "region", value: regions[locale] },
-        ]);
+): Promise<{
+    results: TVSeriesType[];
+    total_pages: number;
+    total_results: number;
+} | null> => {
 
-        const url = `${baseURL}/tv/${category}?${query}`;
+    const fn = async (): Promise<{
+        results: TVSeriesType[];
+        total_pages: number;
+        total_results: number;
+    }> => {
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "page", value: page },
+                { key: "language", value: locale },
+                { key: "region", value: regions[locale] },
+            ],
+            path: `/tv/${category}`,
+        });
 
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const { results, total_pages, total_results } = await response.json();
+        const tvSeries = await response.json();
 
         return {
-            results,
-            total_pages,
-            total_results,
+            results: tvSeries.results as TVSeriesType[],
+            total_pages: tvSeries.total_pages,
+            total_results: tvSeries.total_results,
         };
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
-export const getTVSeriesDetails = async (locale: Locale, seriesId: string) => {
-    try {
-        const query = createQueryString([
-            { key: "language", value: locale },
-            { key: "region", value: regions[locale] },
-            {
-                key: "append_to_response",
-                value: "images,videos,release_dates,translations",
-            },
-            { key: "include_image_language", value: locale + ",null" },
-        ]);
-        const url = `${baseURL}/tv/${seriesId}?language=${locale}&${query}`;
+/**
+ * Retrieves the details of a TV series.
+ * @param {Locale} locale - locale to retrieve the details in
+ * @param {string} seriesId - ID of the TV series
+ * @returns {Promise<TVSeriesDetailsType>} - a promise that resolves with the details of the TV series
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getTVSeriesDetails = async (
+    locale: Locale,
+    seriesId: string,
+): Promise<TVSeriesDetailsType | null> => {
+    const fn = async (): Promise<TVSeriesDetailsType> => {
+        const safeSeriesId = TMDBIdValidator(seriesId);
 
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "region", value: regions[locale] },
+                {
+                    key: "append_to_response",
+                    value: "images,videos,release_dates,translations",
+                },
+                { key: "include_image_language", value: locale + ",null" },
+            ],
+            path: `/tv/${safeSeriesId}`,
+        });
 
         const tvSeriesDetails = await response.json();
 
         return tvSeriesDetails as TVSeriesDetailsType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
+/**
+ * Retrieves the details of a TV series season.
+ * @param {Locale} locale - locale to retrieve the details in
+ * @param {string} seriesId - ID of the TV series
+ * @param {string} seasonNumber - number of the season to retrieve
+ * @returns {Promise<TVSeasonsType | null>} - a promise that resolves with the details of the TV series season or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getTVSeriesSeasonDetails = async (
     locale: Locale,
     seriesId: string,
     seasonNumber: string,
-) => {
-    try {
-        const query = createQueryString([
-            { key: "language", value: locale },
-            { key: "region", value: regions[locale] },
-            {
-                key: "append_to_response",
-                value: "images,videos,release_dates,translations",
-            },
-            { key: "include_image_language", value: locale + ",null" },
-        ]);
+): Promise<TVSeasonsType | null> => {
+    const fn = async (): Promise<TVSeasonsType> => {
+        const safeSeriesId = TMDBIdValidator(seriesId);
 
-        const url = `${baseURL}/tv/${seriesId}/season/${seasonNumber}?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "region", value: regions[locale] },
+                {
+                    key: "append_to_response",
+                    value: "images,videos,release_dates,translations",
+                },
+                { key: "include_image_language", value: locale + ",null" },
+            ],
+            path: `/tv/${safeSeriesId}/season/${seasonNumber}`,
+        });
 
         const season = await response.json();
 
         return season as TVSeasonsType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
+/**
+ * Retrieves the details of a TV series episode.
+ * @param {Locale} locale - locale to retrieve the details in
+ * @param {string} seriesId - ID of the TV series
+ * @param {string} seasonNumber - number of the season to retrieve
+ * @param {string} episodeNumber - number of the episode to retrieve
+ * @returns {Promise<TVEpisodesType | null>} - a promise that resolves with the details of the TV series episode or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getTVSeriesEpisodeDetails = async (
     locale: Locale,
     seriesId: string,
     seasonNumber: string,
     episodeNumber: string,
-) => {
-    try {
-        const query = createQueryString([
-            { key: "language", value: locale },
-            { key: "region", value: regions[locale] },
-            {
-                key: "append_to_response",
-                value: "images,videos,release_dates,translations",
-            },
-            { key: "include_image_language", value: locale + ",null" },
-        ]);
+): Promise<TVEpisodesType | null> => {
+    const fn = async (): Promise<TVEpisodesType> => {
+        const safeSeriesId = TMDBIdValidator(seriesId);
 
-        const url = `${baseURL}/tv/${seriesId}/season/${seasonNumber}/episode/${episodeNumber}?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "region", value: regions[locale] },
+                {
+                    key: "append_to_response",
+                    value: "images,videos,release_dates,translations",
+                },
+                { key: "include_image_language", value: locale + ",null" },
+            ],
+            path: `/tv/${safeSeriesId}/season/${seasonNumber}/episode/${episodeNumber}`,
+        });
 
         const episode = await response.json();
 
         return episode as TVEpisodesType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
-export const getTVSeriesCredits = async (locale: Locale, seriesId: string) => {
-    try {
-        const query = createQueryString([{ key: "language", value: locale }]);
+/**
+ * Retrieves the credits of a TV series.
+ * @param {Locale} locale - locale to retrieve the credits in
+ * @param {string} seriesId - ID of the TV series
+ * @returns {Promise<{ id: string; cast: TVSeriesCast; crew: TVSeriesCrew } | null>} - a promise that resolves with the credits of the TV series or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getTVSeriesCredits = async (
+    locale: Locale,
+    seriesId: string,
+): Promise<{ id: string; cast: TVSeriesCast; crew: TVSeriesCrew } | null> => {
+    const fn = async (): Promise<{
+        id: string;
+        cast: TVSeriesCast;
+        crew: TVSeriesCrew;
+    }> => {
+        const safeSeriesId = TMDBIdValidator(seriesId);
 
-        const url = `${baseURL}/tv/${seriesId}/credits?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [{ key: "language", value: locale }],
+            path: `/tv/${safeSeriesId}/credits`,
+        });
 
         const credits = await response.json();
 
@@ -187,90 +213,115 @@ export const getTVSeriesCredits = async (locale: Locale, seriesId: string) => {
             cast: TVSeriesCast;
             crew: TVSeriesCrew;
         };
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
+/**
+ * Retrieves the recommendations of a TV series.
+ * @param {Locale} locale - locale to retrieve the recommendations in
+ * @param {string} seriesId - ID of the TV series
+ * @param {string} page - page number of the recommendations to retrieve
+ * @returns {Promise<TVSeriesRecommendationsType | null>} - a promise that resolves with the recommendations of the TV series or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getTVSeriesRecommendations = async (
     locale: Locale,
     seriesId: string,
     page: string = "1",
-) => {
-    try {
-        const query = createQueryString([
-            { key: "page", value: page },
-            { key: "language", value: locale },
-        ]);
+): Promise<TVSeriesRecommendationsType | null> => {
+    const fn = async (): Promise<TVSeriesRecommendationsType> => {
+        const safeSeriesId = TMDBIdValidator(seriesId);
 
-        const url = `${baseURL}/tv/${seriesId}/recommendations?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "page", value: page },
+                { key: "language", value: locale },
+            ],
+            path: `/tv/${safeSeriesId}/recommendations`,
+        });
 
         const recommendations = await response.json();
 
         return recommendations as TVSeriesRecommendationsType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
+/**
+ * Retrieves a list of TV series that are similar to the given TV series.
+ * @param {Locale} locale - locale to retrieve the similar TV series in
+ * @param {string} seriesId - ID of the TV series
+ * @param {string} page - page number of the similar TV series to retrieve
+ * @returns {Promise<SimilarTVSeriesType | null>} - a promise that resolves with the list of similar TV series or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getSimilarTVSeries = async (
     locale: Locale,
     seriesId: string,
     page: string = "1",
-) => {
-    try {
-        const query = createQueryString([
-            { key: "page", value: page },
-            { key: "language", value: locale },
-        ]);
+): Promise<SimilarTVSeriesType | null> => {
+    const fn = async (): Promise<SimilarTVSeriesType> => {
+        const safeSeriesId = TMDBIdValidator(seriesId);
 
-        const url = `${baseURL}/tv/${seriesId}/similar?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "page", value: page },
+                { key: "language", value: locale },
+            ],
+            path: `/tv/${safeSeriesId}/similar`,
+        });
 
         const similar = await response.json();
 
         return similar as SimilarTVSeriesType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
-export const getTVSeriesGenreList = async (locale: Locale) => {
-    try {
-        const query = createQueryString([{ key: "language", value: locale }]);
-
-        const url = `${baseURL}/genre/tv/list?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+/**
+ * Retrieves a list of TV series genres.
+ * @param {Locale} locale - locale to retrieve the TV series genres in
+ * @returns {Promise<GenresType | null>} - a promise that resolves with the list of TV series genres or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getTVSeriesGenreList = async (
+    locale: Locale,
+): Promise<GenresType | null> => {
+    const fn = async (): Promise<GenresType> => {
+        const response = await TMDBRequest({
+            queryParams: [{ key: "language", value: locale }],
+            path: `/genre/tv/list`,
+        });
 
         const { genres } = await response.json();
 
         return genres as GenresType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
-export const getTVSeriesGenre = async (locale: Locale, id: string) => {
+/**
+ * Retrieves a TV series genre by its ID.
+ * @param {Locale} locale - locale to retrieve the genre in
+ * @param {string} genreId - ID of the genre to retrieve
+ * @returns {Promise<GenreType | null>} - a promise that resolves with the genre or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getTVSeriesGenre = async (
+    locale: Locale,
+    genreId: string,
+): Promise<GenreType | null> => {
     const genres = await getTVSeriesGenreList(locale);
 
     if (!genres) {
@@ -278,59 +329,69 @@ export const getTVSeriesGenre = async (locale: Locale, id: string) => {
     }
 
     const genre = genres.filter((genre) => {
-        return String(genre.id) === id;
+        return String(genre.id) === genreId;
     })[0];
 
     return genre as GenreType;
 };
 
+/**
+ * Retrieves the watch providers of a TV series.
+ * @param {Locale} locale - locale to retrieve the watch providers in
+ * @param {string} seriesId - ID of the TV series
+ * @returns {Promise<WatchProvidersType | null>} - a promise that resolves with the watch providers of the TV series or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getTVSeriesWatchProviders = async (
     locale: Locale,
     seriesId: string,
-) => {
-    try {
-        const query = createQueryString([{ key: "language", value: locale }]);
+): Promise<WatchProvidersType | null> => {
 
-        const url = `${baseURL}/tv/${seriesId}/watch/providers?${query}`;
+    const fn = async (): Promise<WatchProvidersType> => {
+        const safeSeriesId = TMDBIdValidator(seriesId);
 
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [{ key: "language", value: locale }],
+            path: `/tv/${safeSeriesId}/watch/providers`,
+        });
 
         const watchProviders = await response.json();
 
         return watchProviders as WatchProvidersType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    }; 
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
+/**
+ * Retrieves a list of trending TV series.
+ * @param {Locale} locale - locale to retrieve the trending TV series in
+ * @param {string} page - page number of the trending TV series to retrieve
+ * @returns {Promise<TrendingTVSeriesType | null>} - a promise that resolves with the list of trending TV series or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getTrendingTVSeries = async (
     locale: Locale,
     page: string = "1",
-) => {
-    try {
-        const query = createQueryString([
-            { key: "page", value: page },
-            { key: "language", value: locale },
-        ]);
-
-        const url = `${baseURL}/trending/tv/week?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+): Promise<TrendingTVSeriesType | null> => {
+    
+    const fn = async (): Promise<TrendingTVSeriesType> => {
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "page", value: page },
+                { key: "language", value: locale },
+            ],
+            path: `/trending/tv/week`,
+        });
 
         const results = await response.json();
 
         return results as TrendingTVSeriesType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };

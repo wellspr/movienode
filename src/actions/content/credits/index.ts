@@ -1,37 +1,31 @@
 "use server";
 
-import { Locale } from "@/i18n/types";
-
 import { CreditDetailsType } from "@/types";
+import { TMDBIdValidator, TMDBRequest, withErrorHandling } from "../utils";
 
-const options: RequestInit = {
-    method: 'GET',
-    cache: 'force-cache',
-    next: { revalidate: 3600 },
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-    },
-};
+/**
+ * Retrieves the details of a credit.
+ * @param {string} creditId - ID of the credit
+ * @returns {Promise<CreditDetailsType | null>} - a promise that resolves with the details of the credit or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getCreditDetails = async (
+    creditId: string,
+): Promise<CreditDetailsType | null> => {
+    const fn = async (): Promise<CreditDetailsType> => {
+        const safeCreditId = TMDBIdValidator(creditId);
 
-const baseURL = `https://api.themoviedb.org/3`;
+        const response = await TMDBRequest({
+            queryParams: [],
+            path: `/credit/${safeCreditId}`,
+        });
 
-export const getCreditDetails = async (locale: Locale, creditId: string) => {
+        const credit = await response.json();
 
-    try {
-        const url = `${baseURL}/credit/${creditId}`;
-    
-        const response = await fetch(url, options);
+        return credit as CreditDetailsType;
+    };
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-    
-        const creditsDetails = await response.json();
-    
-        return creditsDetails as CreditDetailsType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };

@@ -15,193 +15,220 @@ import {
     ReleaseDatesType,
     WatchProvidersType,
     TrendingMoviesType,
+    MovieType,
 } from "@/types";
-
-const options: RequestInit = {
-    method: "GET",
-    cache: "force-cache",
-    next: { revalidate: 3600 },
-    headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-    },
-};
-
-const baseURL = `https://api.themoviedb.org/3`;
-
-const createQueryString = (queryParams: { key: string; value: string }[]) => {
-    const query = new URLSearchParams();
-    queryParams.forEach((entry) => {
-        query.set(entry.key, entry.value);
-    });
-
-    return query.toString();
-};
+import { TMDBIdValidator, TMDBRequest, withErrorHandling } from "../utils";
 
 /* Movies */
+
+/**
+ * Retrieves a list of movies based on the category.
+ * @param {Locale} locale - locale to retrieve the list in
+ * @param {MovieCategoryType} category - category of movies to retrieve
+ * @param {string} [page=1] - page number to retrieve
+ * @returns {Promise<{ results: MovieType[], total_pages: number, total_results: number } | null>} - a promise that resolves with the list of movies and pagination information or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getMovies = async (
     locale: Locale,
-    category: MovieCategoryType,
+    category: MovieCategoryType, /* TODO: add validation for category */
     page: string = "1",
-) => {
-    try {
-        const query = createQueryString([
-            { key: "page", value: page },
-            { key: "language", value: locale },
-            { key: "region", value: regions[locale] },
-        ]);
+): Promise<{
+    results: MovieType[];
+    total_pages: number;
+    total_results: number;
+} | null> => {
+    const fn = async (): Promise<any> => {
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "page", value: page },
+                { key: "language", value: locale },
+                { key: "region", value: regions[locale] },
+            ],
+            path: `/movie/${category}`,
+        });
 
-        const url = `${baseURL}/movie/${category}?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const { results, total_pages, total_results } = await response.json();
+        const movies = await response.json();
 
         return {
-            results,
-            total_pages,
-            total_results,
+            results: movies.results as MovieType[],
+            total_pages: movies.total_pages,
+            total_results: movies.total_results,
         };
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
-export const getMovieDetails = async (locale: Locale, movieId: string) => {
-    try {
-        const query = createQueryString([
-            { key: "language", value: locale },
-            { key: "region", value: regions[locale] },
-            {
-                key: "append_to_response",
-                value: "images,videos,release_dates,translations",
-            },
-            {
-                key: "include_image_language",
-                value: locale + ",null",
-            },
-        ]);
+/**
+ * Retrieves the details of a movie.
+ * @param {Locale} locale - locale to retrieve the details in
+ * @param {string} movieId - ID of the movie
+ * @returns {Promise<MovieDetailsType | null>} - a promise that resolves with the details of the movie or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getMovieDetails = async (
+    locale: Locale,
+    movieId: string,
+): Promise<MovieDetailsType | null> => {
+    const fn = async (): Promise<MovieDetailsType> => {
+        const safeMovieId = TMDBIdValidator(movieId);
 
-        const url = `${baseURL}/movie/${movieId}?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "region", value: regions[locale] },
+                {
+                    key: "append_to_response",
+                    value: "images,videos,release_dates,translations",
+                },
+                {
+                    key: "include_image_language",
+                    value: locale + ",null",
+                },
+            ],
+            path: `/movie/${safeMovieId}`,
+        });
 
         const movieDetails = await response.json();
 
         return movieDetails as MovieDetailsType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
-export const getMovieCredits = async (locale: Locale, movieId: string) => {
-    try {
-        const query = createQueryString([{ key: "language", value: locale }]);
+/**
+ * Retrieves the credits of a movie.
+ * @param {Locale} locale - locale to retrieve the credits in
+ * @param {string} movieId - ID of the movie
+ * @returns {Promise<{ id: string; cast: MovieCast; crew: MovieCrew } | null>} - a promise that resolves with the credits of the movie or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getMovieCredits = async (
+    locale: Locale,
+    movieId: string,
+): Promise<{ id: string; cast: MovieCast; crew: MovieCrew } | null> => {
+    const fn = async (): Promise<any> => {
+        const safeMovieId = TMDBIdValidator(movieId);
 
-        const url = `${baseURL}/movie/${movieId}/credits?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "region", value: regions[locale] },
+            ],
+            path: `/movie/${safeMovieId}/credits`,
+        });
 
         const movieCredits = await response.json();
 
         return movieCredits as { id: string; cast: MovieCast; crew: MovieCrew };
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
+/**
+ * Retrieves a list of movies that are recommended based on the given movie.
+ * @param {Locale} locale - locale to retrieve the recommended movies in
+ * @param {string} movieId - ID of the movie
+ * @param {string} page - page number of the recommended movies to retrieve
+ * @returns {Promise<MovieRecommendationsType | null>} - a promise that resolves with the list of recommended movies or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getMovieRecommendations = async (
     locale: Locale,
     movieId: string,
     page: string = "1",
-) => {
-    try {
-        const query = createQueryString([
-            { key: "language", value: locale },
-            { key: "page", value: page },
-        ]);
+): Promise<MovieRecommendationsType | null> => {
+    const fn = async (): Promise<MovieRecommendationsType> => {
+        const safeMovieId = TMDBIdValidator(movieId);
 
-        const url = `${baseURL}/movie/${movieId}/recommendations?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "page", value: page },
+            ],
+            path: `/movie/${safeMovieId}/recommendations`,
+        });
 
         const movieRecommendations = await response.json();
 
         return movieRecommendations as MovieRecommendationsType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
+/**
+ * Retrieves a list of movies that are similar to the given movie.
+ * @param {Locale} locale - locale to retrieve the similar movies in
+ * @param {string} movieId - ID of the movie
+ * @param {string} page - page number of the similar movies to retrieve
+ * @returns {Promise<SimilarMoviesType | null>} - a promise that resolves with the list of similar movies or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
 export const getSimilarMovies = async (
     locale: Locale,
     movieId: string,
     page: string = "1",
-) => {
-    try {
-        const query = createQueryString([
-            { key: "language", value: locale },
-            { key: "page", value: page },
-        ]);
-        const url = `${baseURL}/movie/${movieId}/similar?${query}`;
+): Promise<SimilarMoviesType | null> => {
+    const fn = async (): Promise<SimilarMoviesType> => {
+        const safeMovieId = TMDBIdValidator(movieId);
 
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "page", value: page },
+            ],
+            path: `/movie/${safeMovieId}/similar`,
+        });
 
         const similarMovies = await response.json();
 
         return similarMovies as SimilarMoviesType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
-export const getMovieGenreList = async (locale: Locale) => {
-    try {
-        const query = createQueryString([{ key: "language", value: locale }]);
-
-        const url = `${baseURL}/genre/movie/list?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+/**
+ * Retrieves a list of movie genres.
+ * @param {Locale} locale - locale to retrieve the list in
+ * @returns {Promise<GenresType | null>} - a promise that resolves with the list of movie genres or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getMovieGenreList = async (
+    locale: Locale,
+): Promise<GenresType | null> => {
+    const fn = async (): Promise<GenresType> => {
+        const response = await TMDBRequest({
+            queryParams: [{ key: "language", value: locale }],
+            path: `/genre/movie/list`,
+        });
 
         const { genres } = await response.json();
 
         return genres as GenresType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
 export const getMovieGenre = async (locale: Locale, id: string) => {
+    /* TODO: add validation for id */
     const genres = await getMovieGenreList(locale);
 
     if (!genres) {
@@ -215,74 +242,96 @@ export const getMovieGenre = async (locale: Locale, id: string) => {
     return genre as GenreType;
 };
 
-export const getReleaseDates = async (locale: Locale, movieId: string) => {
-    try {
-        const query = createQueryString([
-            { key: "language", value: locale },
-            { key: "region", value: regions[locale] },
-        ]);
+/**
+ * Retrieves the release dates of a movie.
+ * @param {Locale} locale - locale to retrieve the release dates in
+ * @param {string} movieId - ID of the movie
+ * @returns {Promise<ReleaseDatesType | null>} - a promise that resolves with the release dates of the movie or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getReleaseDates = async (
+    locale: Locale,
+    movieId: string,
+): Promise<ReleaseDatesType | null> => {
+    const fn = async (): Promise<ReleaseDatesType> => {
+        const safeMovieId = TMDBIdValidator(movieId);
 
-        const url = `${baseURL}/movie/${movieId}/release_dates?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "region", value: regions[locale] },
+            ],
+            path: `/movie/${safeMovieId}/release_dates`,
+        });
 
         const releaseDates = await response.json();
 
         return releaseDates as ReleaseDatesType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
-export const getWatchProviders = async (locale: Locale, movieId: string) => {
-    try {
-        const query = createQueryString([
-            { key: "language", value: locale },
-            { key: "region", value: regions[locale] },
-        ]);
+/**
+ * Retrieves the watch providers of a movie.
+ * @param {Locale} locale - locale to retrieve the watch providers in
+ * @param {string} movieId - ID of the movie
+ * @returns {Promise<WatchProvidersType | null>} - a promise that resolves with the watch providers of the movie or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getWatchProviders = async (
+    locale: Locale,
+    movieId: string,
+): Promise<WatchProvidersType | null> => {
+    const fn = async (): Promise<WatchProvidersType> => {
+        const safeMovieId = TMDBIdValidator(movieId);
 
-        const url = `${baseURL}/movie/${movieId}/watch/providers?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "region", value: regions[locale] },
+            ],
+            path: `/movie/${safeMovieId}/watch/providers`,
+        });
 
         const watchProviders = await response.json();
 
         return watchProviders as WatchProvidersType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
 
-export const getTrendingMovies = async (locale: Locale, page: string = "1") => {
-    try {
-        const query = createQueryString([
-            { key: "language", value: locale },
-            { key: "page", value: page },
-        ]);
-
-        const url = `${baseURL}/trending/movie/week?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+/**
+ * Retrieves a list of trending movies.
+ * @param {Locale} locale - locale to retrieve the trending movies in
+ * @param {string} page - page number of the trending movies to retrieve
+ * @returns {Promise<TrendingMoviesType | null>} - a promise that resolves with the list of trending movies or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getTrendingMovies = async (
+    locale: Locale,
+    page: string = "1",
+): Promise<TrendingMoviesType | null> => {
+    const fn = async (): Promise<TrendingMoviesType> => {
+        const response = await TMDBRequest({
+            queryParams: [
+                { key: "language", value: locale },
+                { key: "page", value: page },
+            ],
+            path: `/trending/movie/week`,
+        });
 
         const results = await response.json();
 
         return results as TrendingMoviesType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };

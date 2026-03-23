@@ -2,45 +2,33 @@
 
 import { Locale } from "@/i18n/types";
 import { CollectionType } from "@/types";
+import { TMDBIdValidator, TMDBRequest, withErrorHandling } from "../utils";
 
-const options: RequestInit = {
-    method: "GET",
-    cache: "force-cache",
-    next: { revalidate: 3600 },
-    headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-    },
-};
+/**
+ * Retrieves the details of a collection.
+ * @param {Locale} locale - locale to retrieve the collection in
+ * @param {string} collectionId - ID of the collection
+ * @returns {Promise<CollectionType | null>} - a promise that resolves with the collection details or null if there is an error
+ * @throws {Error} - if there is an HTTP error
+ */
+export const getCollection = async (
+    locale: Locale,
+    collectionId: string,
+): Promise<CollectionType | null> => {
+    const fn = async (): Promise<CollectionType> => {
+        const safeCollectionId = TMDBIdValidator(collectionId);
 
-const baseURL = `https://api.themoviedb.org/3`;
-
-const createQueryString = (queryParams: { key: string; value: string }[]) => {
-    const query = new URLSearchParams();
-    queryParams.forEach((entry) => {
-        query.set(entry.key, entry.value);
-    });
-
-    return query.toString();
-};
-
-export const getCollection = async (locale: Locale, collectionId: string) => {
-    try {
-        const query = createQueryString([{ key: "language", value: locale }]);
-
-        const url = `${baseURL}/collection/${collectionId}?${query}`;
-
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await TMDBRequest({
+            queryParams: [{ key: "language", value: locale }],
+            path: `/collection/${safeCollectionId}`,
+        });
 
         const collection = await response.json();
 
         return collection as CollectionType;
-    } catch (error) {
-        console.log("Error: ", error);
-        return null;
-    }
+    };
+
+    const safeFn = withErrorHandling(fn);
+
+    return safeFn();
 };
