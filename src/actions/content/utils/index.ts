@@ -1,5 +1,5 @@
-import { TMDBError, TMDBIdSchema } from "@/schemas/tmdb";
-import { FilteringType } from "@/types";
+import { TMDBError, TMDBIdSchema, TMDBMovieCategorySchema, TMDBTVCategorySchema, TMDBPeopleCategorySchema, TMDBSeasonNumberSchema, TMDBEpisodeNumberSchema } from "@/schemas/tmdb";
+import { MovieCategoryType, PeopleCategoryType, TVSeriesCategoryType } from "@/types";
 
 const options: RequestInit = {
     method: "GET",
@@ -84,9 +84,9 @@ export const TMDBRequest = async ({
     path: string;
 }): Promise<Response> => {
     const query = createQueryString(queryParams);
-    const url = `${baseURL}${path}?${query}`;
+    const url = new URL(`${baseURL}${path}?${query}`);
 
-    const response = await fetch(url, options);
+    const response = await fetch(url.toString(), options);
 
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -103,6 +103,94 @@ export const TMDBRequest = async ({
  */
 export const TMDBIdValidator = (id: string): string => {
     const validation = TMDBIdSchema.safeParse(id);
+
+    if (!validation.success) {
+        const errorMessage = TMDBError(validation.error);
+        throw new Error(`Validation error: ${errorMessage}`);
+    }
+
+    return validation.data;
+};
+
+/**
+ * Validates a TMDB movie category.
+ * @param {MovieCategoryType} movieCategory - the TMDB movie category to validate
+ * @throws {Error} - if there is a validation error
+ * @returns {MovieCategoryType} - the validated TMDB movie category
+ */
+export const TMDBMovieCategoryValidator = (movieCategory: MovieCategoryType): MovieCategoryType => {
+    const validation = TMDBMovieCategorySchema.safeParse(movieCategory);
+
+    if (!validation.success) {
+        const errorMessage = TMDBError(validation.error);
+        throw new Error(`Validation error: ${errorMessage}`);
+    }
+
+    return validation.data as MovieCategoryType;
+};
+
+/**
+ * Validates a TMDB TV category.
+ * @param {TVSeriesCategoryType} tvCategory - the TMDB TV category to validate
+ * @throws {Error} - if there is a validation error
+ * @returns {TVSeriesCategoryType} - the validated TMDB TV category
+ */
+export const TMDBTVCategoryValidator = (tvCategory: TVSeriesCategoryType): TVSeriesCategoryType => {
+    const validation = TMDBTVCategorySchema.safeParse(tvCategory);
+
+    if (!validation.success) {
+        const errorMessage = TMDBError(validation.error);
+        throw new Error(`Validation error: ${errorMessage}`);
+    }
+
+    return validation.data as TVSeriesCategoryType;
+};
+
+/**
+ * Validates a TMDB people category.
+ * @throws {Error} - if there is a validation error
+ * @returns {PeopleCategoryType} - the validated TMDB people category
+ */
+export const TMDBPeopleCategoryValidator = (peopleCategory: PeopleCategoryType): PeopleCategoryType => {
+    const validation = TMDBPeopleCategorySchema.safeParse(peopleCategory);
+
+    if (!validation.success) {
+        const errorMessage = TMDBError(validation.error);
+        throw new Error(`Validation error: ${errorMessage}`);
+    }
+
+    return validation.data as PeopleCategoryType;
+};
+
+/**
+ * Validates a TMDB season number.
+ * @param {string} seasonNumber - the TMDB season number to validate
+ * @throws {Error} - if there is a validation error
+ * @returns {string} - the validated TMDB season number
+ */
+export const TMDBSeasonNumberValidator = (seasonNumber: string): string => {
+    const validation = TMDBSeasonNumberSchema.safeParse(seasonNumber);
+
+    if (!validation.success) {
+        const errorMessage = TMDBError(validation.error);
+        throw new Error(`Validation error: ${errorMessage}`);
+    }
+
+    return validation.data;
+};
+
+/**
+ * Validate episode number.
+ *
+ * The episode number should be a string in the form of a number
+ * (e.g. "1", "2", etc.).
+ *
+ * @param {string} episodeNumber - The episode number to validate.
+ * @returns {string} The validated episode number.
+ * @throws {Error} If the validation fails.
+ */
+export const TMDBEpisodeNumberValidator = (episodeNumber: string): string => {
+    const validation = TMDBEpisodeNumberSchema.safeParse(episodeNumber);
 
     if (!validation.success) {
         const errorMessage = TMDBError(validation.error);

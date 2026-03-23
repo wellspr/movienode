@@ -17,7 +17,7 @@ import {
     TrendingMoviesType,
     MovieType,
 } from "@/types";
-import { TMDBIdValidator, TMDBRequest, withErrorHandling } from "../utils";
+import { TMDBIdValidator, TMDBMovieCategoryValidator, TMDBRequest, withErrorHandling } from "../utils";
 
 /* Movies */
 
@@ -39,13 +39,16 @@ export const getMovies = async (
     total_results: number;
 } | null> => {
     const fn = async (): Promise<any> => {
+
+        const safeCategory = TMDBMovieCategoryValidator(category);
+
         const response = await TMDBRequest({
             queryParams: [
                 { key: "page", value: page },
                 { key: "language", value: locale },
                 { key: "region", value: regions[locale] },
             ],
-            path: `/movie/${category}`,
+            path: `/movie/${safeCategory}`,
         });
 
         const movies = await response.json();
@@ -229,6 +232,8 @@ export const getMovieGenreList = async (
 
 export const getMovieGenre = async (locale: Locale, id: string) => {
     /* TODO: add validation for id */
+    const safeId = TMDBIdValidator(id);
+
     const genres = await getMovieGenreList(locale);
 
     if (!genres) {
@@ -236,7 +241,7 @@ export const getMovieGenre = async (locale: Locale, id: string) => {
     }
 
     const genre = genres.filter((genre) => {
-        return String(genre.id) === id;
+        return String(genre.id) === safeId;
     })[0];
 
     return genre as GenreType;

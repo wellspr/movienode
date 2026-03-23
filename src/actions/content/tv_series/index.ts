@@ -18,9 +18,8 @@ import {
     TrendingTVSeriesType,
     TVSeriesType,
 } from "@/types";
-import { TMDBIdValidator, TMDBRequest, withErrorHandling } from "../utils";
 
-
+import { TMDBEpisodeNumberValidator, TMDBIdValidator, TMDBRequest, TMDBSeasonNumberValidator, TMDBTVCategoryValidator, withErrorHandling } from "../utils";
 
 /* TV Series */
 
@@ -40,20 +39,22 @@ export const getTVSeries = async (
     results: TVSeriesType[];
     total_pages: number;
     total_results: number;
-} | null> => {
-
+} | null> => { 
     const fn = async (): Promise<{
         results: TVSeriesType[];
         total_pages: number;
         total_results: number;
     }> => {
+
+        const safeCategory = TMDBTVCategoryValidator(category);
+
         const response = await TMDBRequest({
             queryParams: [
                 { key: "page", value: page },
                 { key: "language", value: locale },
                 { key: "region", value: regions[locale] },
             ],
-            path: `/tv/${category}`,
+            path: `/tv/${safeCategory}`,
         });
 
         const tvSeries = await response.json();
@@ -120,6 +121,7 @@ export const getTVSeriesSeasonDetails = async (
 ): Promise<TVSeasonsType | null> => {
     const fn = async (): Promise<TVSeasonsType> => {
         const safeSeriesId = TMDBIdValidator(seriesId);
+        const safeSeasonNumber = TMDBSeasonNumberValidator(seasonNumber);
 
         const response = await TMDBRequest({
             queryParams: [
@@ -131,7 +133,7 @@ export const getTVSeriesSeasonDetails = async (
                 },
                 { key: "include_image_language", value: locale + ",null" },
             ],
-            path: `/tv/${safeSeriesId}/season/${seasonNumber}`,
+            path: `/tv/${safeSeriesId}/season/${safeSeasonNumber}`,
         });
 
         const season = await response.json();
@@ -160,6 +162,8 @@ export const getTVSeriesEpisodeDetails = async (
 ): Promise<TVEpisodesType | null> => {
     const fn = async (): Promise<TVEpisodesType> => {
         const safeSeriesId = TMDBIdValidator(seriesId);
+        const safeSeasonNumber = TMDBSeasonNumberValidator(seasonNumber);
+        const safeEpisodeNumber = TMDBEpisodeNumberValidator(episodeNumber);
 
         const response = await TMDBRequest({
             queryParams: [
@@ -171,7 +175,7 @@ export const getTVSeriesEpisodeDetails = async (
                 },
                 { key: "include_image_language", value: locale + ",null" },
             ],
-            path: `/tv/${safeSeriesId}/season/${seasonNumber}/episode/${episodeNumber}`,
+            path: `/tv/${safeSeriesId}/season/${safeSeasonNumber}/episode/${safeEpisodeNumber}`,
         });
 
         const episode = await response.json();
@@ -322,6 +326,9 @@ export const getTVSeriesGenre = async (
     locale: Locale,
     genreId: string,
 ): Promise<GenreType | null> => {
+
+    const safeGenreId = TMDBIdValidator(genreId);
+
     const genres = await getTVSeriesGenreList(locale);
 
     if (!genres) {
@@ -329,7 +336,7 @@ export const getTVSeriesGenre = async (
     }
 
     const genre = genres.filter((genre) => {
-        return String(genre.id) === genreId;
+        return String(genre.id) === safeGenreId;
     })[0];
 
     return genre as GenreType;
